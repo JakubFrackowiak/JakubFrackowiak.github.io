@@ -6,10 +6,15 @@
     "prettier-check": "prettier --check '**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/material": "^5.12.3",
+    "firebase": "^9.21.0",
     "next": "12.2.3",
     "react": "^18",
     "react-dom": "^18",
     "react-is": "^17.0.2",
+    "reactfire": "^4.2.2",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
