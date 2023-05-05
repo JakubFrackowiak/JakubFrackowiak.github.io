@@ -1,76 +1,92 @@
-export const images = {
-  dogs: [
-    ["pies001a", "pies001b"],
-    ["pies002a", "pies002b"],
-    ["pies003a", "pies003b"],
-    ["pies004a", "pies004b"],
-    ["pies005a", "pies005b"],
-    ["pies006a", "pies006b"],
-    ["pies007a", "pies007b"],
-    ["pies008a", "pies008b"],
-    ["pies009a", "pies009b"],
-    ["pies010a", "pies010b"],
-    ["pies011a", "pies011b"],
-    ["pies012a", "pies012b"],
-  ],
-  cows: [
-    ["krowa001a", "krowa001b"],
-    ["krowa002a", "krowa002b"],
-    ["krowa003a", "krowa003b"],
-    ["krowa004a", "krowa004b"],
-    ["krowa005a", "krowa005b"],
-    ["krowa006a", "krowa006b"],
-    ["krowa007a", "krowa007b"],
-    ["krowa008a", "krowa008b"],
-    ["krowa009a", "krowa009b"],
-    ["krowa010a", "krowa010b"],
-    ["krowa011a", "krowa011b"],
-    ["krowa012a", "krowa012b"],
-  ],
-  pigs: [
-    ["swinia001a", "swinia001b"],
-    ["swinia002a", "swinia002b"],
-    ["swinia003a", "swinia003b"],
-    ["swinia004a", "swinia004b"],
-    ["swinia005a", "swinia005b"],
-    ["swinia006a", "swinia006b"],
-    ["swinia007a", "swinia007b"],
-    ["swinia008a", "swinia008b"],
-    ["swinia009a", "swinia009b"],
-    ["swinia010a", "swinia010b"],
-    ["swinia011a", "swinia011b"],
-    ["swinia012a", "swinia012b"],
-  ],
-  rabbits: [
-    ["krolik001a", "krolik001b"],
-    ["krolik002a", "krolik002b"],
-    ["krolik003a", "krolik003b"],
-    ["krolik004a", "krolik004b"],
-    ["krolik005a", "krolik005b"],
-    ["krolik006a", "krolik006b"],
-    ["krolik007a", "krolik007b"],
-    ["krolik008a", "krolik008b"],
-    ["krolik009a", "krolik009b"],
-    ["krolik010a", "krolik010b"],
-    ["krolik011a", "krolik011b"],
-    ["krolik012a", "krolik012b"],
-  ],
-  fillers: [
-    "KRfiller1",
-    "KRfiller2",
-    "KRfiller3",
-    "KRfiller4",
-    "Kfiller1",
-    "Kfiller2",
-    "Kfiller3",
-    "Kfiller4",
-    "Pfiller1",
-    "Pfiller2",
-    "Pfiller3",
-    "Pfiller4",
-    "Sfiller1",
-    "Sfiller2",
-    "Sfiller3",
-    "Sfiller4",
-  ],
+import { listAll, ref } from "firebase/storage"
+
+export const getImageNames = async (storage) => {
+  const animals = []
+  const categoriesRef = ref(storage, "")
+  const categoriesItems = await listAll(categoriesRef)
+  const categories = categoriesItems.prefixes
+    .map((category) => category.name)
+    .filter((category) => category !== "fillers")
+  await Promise.all(
+    categories.map(async (category) => {
+      const categoryRef = ref(storage, category)
+      const imageNameItems = await listAll(categoryRef)
+      const imageNames = imageNameItems.items.map((item) => item.name)
+      animals.push(imageNames)
+    })
+  )
+  const fillersRef = ref(storage, "fillers")
+  const fillersItems = await listAll(fillersRef)
+  const fillers = fillersItems.items.map((item) => item.name)
+  const animalsSliced = animals.map((animalArr) =>
+    animalArr.map((image) => image.split(".")[0].slice(0, -1))
+  )
+  const animalsSets = animalsSliced.map((animalArr) =>
+    animalArr.filter((v, i, a) => a.indexOf(v) === i)
+  )
+  const animalsPaired = animalsSets.map((animalArr) =>
+    animalArr.map((image) => [image + "a", image + "b"])
+  )
+  const images = { animals: animalsPaired, fillers }
+  return images
+}
+
+export const setRandomImages = async (
+  storage,
+  setFirstTaskImages,
+  setSecondTaskImages
+) => {
+  const { animals, fillers } = await getImageNames(storage)
+  const firstAnimalImages = animals.map((animal) => getRandomAnimals(animal, 6))
+  const firstFillerImages = getRandomFillers(fillers, 8)
+  const firstNewAnimals = animals.map((animalPairs, index) =>
+    animalPairs.map((animalPair) =>
+      animalPair.filter((a) => !firstAnimalImages[index].includes(a))
+    )
+  )
+  const firstNewFillers = fillers.filter(
+    (filler) => !firstFillerImages.includes(filler)
+  )
+  setFirstTaskImages(
+    [...firstAnimalImages.flat(2), ...firstFillerImages].sort(
+      () => Math.random() - 0.5
+    )
+  )
+  const secondAnimalImages = firstAnimalImages.map((animalPairs) =>
+    animalPairs.map((animalPair) => {
+      const lastChar = animalPair[animalPair.length - 1]
+      const newLastChar = lastChar === "a" ? "b" : "a"
+      return animalPair.slice(0, -1) + newLastChar
+    })
+  )
+  const secondNewAnimals = firstNewAnimals.map((animalPairs, index) =>
+    animalPairs
+      .map((animalPair) =>
+        animalPair.filter((a) => !secondAnimalImages[index].includes(a))
+      )
+      .filter((animalPairs) => animalPairs.length > 0)
+  )
+  const secondOddImages = secondNewAnimals.map((animal) =>
+    getRandomAnimals(animal, 6)
+  )
+  const secondFillerImages = getRandomFillers(firstNewFillers, 8)
+  setSecondTaskImages(
+    [
+      ...secondAnimalImages.flat(2),
+      ...secondOddImages.flat(2),
+      ...secondFillerImages,
+    ].sort(() => Math.random() - 0.5)
+  )
+}
+
+const getRandomAnimals = (animalArr: string[][], count: number): string[] => {
+  const shuffled = animalArr
+    .map((animal) => animal[Math.floor(Math.random() * 2)])
+    .sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, count)
+}
+
+const getRandomFillers = (fillerArr: string[], count: number): string[] => {
+  const shuffled = fillerArr.sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, count)
 }
