@@ -1,23 +1,23 @@
-import Head from "next/head";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import Head from "next/head"
+import { getAuth } from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
 import {
   AuthProvider,
   FirebaseAppProvider,
   FirestoreProvider,
   StorageProvider,
   useFirebaseApp,
-} from "reactfire";
-import { firebaseConfig } from "../firebase.config";
-import { getStorage } from "firebase/storage";
+} from "reactfire"
+import { firebaseConfig } from "../firebase.config"
+import { getStorage } from "firebase/storage"
 
-import { CssBaseline } from "@mui/material";
+import { CssBaseline } from "@mui/material"
 
 function FirebaseSDKProviders({ children }) {
-  const app = useFirebaseApp();
-  const auth = getAuth(app);
-  const firestore = getFirestore(app);
-  const storage = getStorage(app);
+  const app = useFirebaseApp()
+  const auth = getAuth(app)
+  const firestore = getFirestore(app)
+  const storage = getStorage(app)
 
   return (
     <AuthProvider sdk={auth}>
@@ -25,7 +25,7 @@ function FirebaseSDKProviders({ children }) {
         <StorageProvider sdk={storage}>{children}</StorageProvider>
       </FirestoreProvider>
     </AuthProvider>
-  );
+  )
 }
 
 function MyApp({ Component, pageProps }) {
@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }) {
         </FirebaseSDKProviders>
       </FirebaseAppProvider>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp
