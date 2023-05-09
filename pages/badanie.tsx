@@ -4,7 +4,7 @@ import { Container, Stack } from "@mui/material"
 export default function Badanie() {
   return (
     <Container>
-      <Stack height="80vh" alignItems="center" justifyContent="flex-end">
+      <Stack height="100vh" justifyContent="center" alignItems="center">
         <AnimalPairs />
       </Stack>
     </Container>
