@@ -33,8 +33,7 @@ export default function AnimalPairs() {
         <Box>
           <StorageImage
             storagePath={firstTaskImages[firstTaskIndex]}
-            width={200}
-            height={200}
+            style={{ width: "800px", height: "800px", objectFit: "contain" }}
             alt="animal image"
           />
         </Box>
