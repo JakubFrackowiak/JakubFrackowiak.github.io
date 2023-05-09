@@ -1,4 +1,5 @@
 import Head from "next/head"
+import "../styles/globals.css"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 import {
