@@ -6,6 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material"
+import { BeigeButton } from "components/BeigeButton"
 import Link from "next/link"
 
 export default function index() {
@@ -47,25 +48,7 @@ export default function index() {
           }}
         >
           <Link href="/badanie">
-            <Button
-              variant="contained"
-              disableElevation
-              sx={{
-                py: "1rem",
-                px: "2rem",
-                textTransform: "none",
-                bgcolor: "#f7faf2",
-                color: "grey.800",
-                borderRadius: "1.5rem",
-                "&:hover": {
-                  bgcolor: "#cbcaab",
-                },
-              }}
-            >
-              <Typography variant="h5" noWrap>
-                Rozpocznij badanie
-              </Typography>
-            </Button>
+            <BeigeButton>Rozpocznij badanie</BeigeButton>
           </Link>
         </Paper>
       </Stack>
