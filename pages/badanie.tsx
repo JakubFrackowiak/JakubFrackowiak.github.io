@@ -1,4 +1,5 @@
 import { FirstTask } from "components/FirstTask"
+import { SecondTask } from "components/SecondTask"
 import { Container, Stack } from "@mui/material"
 import { useState } from "react"
 
@@ -17,7 +18,7 @@ export default function Badanie() {
   }
 
   return (
-    <Container>
+    <Container maxWidth="md">
       <Stack height="100vh" justifyContent="center" alignItems="center">
         {renderTask()}
       </Stack>
