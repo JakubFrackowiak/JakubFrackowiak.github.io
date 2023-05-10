@@ -1,0 +1,156 @@
+import { Box, Button, Card, Typography } from "@mui/material"
+import { Stack } from "@mui/system"
+import { useEffect, useState } from "react"
+import { BeigeButton } from "./BeigeButton"
+
+export const SecondTask = ({ setCurrentTask }) => {
+  const [word, setWord] = useState("")
+  const [letters, setLetters] = useState([])
+  const [droppedLetters, setDroppedLetters] = useState([])
+  const [showWord, setShowWord] = useState(false)
+
+  const words = ["butelka"]
+
+  const pickAndScrambleWord = () => {
+    const randomIndex = Math.floor(Math.random() * words.length)
+    const randomWord = words[randomIndex]
+    const scrambled = randomWord.split("").sort(() => Math.random() - 0.5)
+    if (scrambled.join("") === randomWord) {
+      pickAndScrambleWord()
+      return
+    }
+    setWord(randomWord.toUpperCase())
+    setLetters(() =>
+      scrambled.map((letter, index) => ({
+        letter: letter.toUpperCase(),
+        index,
+      }))
+    )
+    setDroppedLetters(() => Array(scrambled.length).fill(null))
+  }
+
+  useEffect(() => {
+    pickAndScrambleWord()
+  }, [])
+
+  const handleSlotClick = (index) => {
+    if (!droppedLetters[index]) return
+    setDroppedLetters((prev) => {
+      const newState = [...prev]
+      const removedLetter = newState[index]
+      newState[index] = null
+      setLetters((prev) => {
+        const newState = [...prev]
+        newState[removedLetter.index] = removedLetter
+        return newState
+      })
+      return newState
+    })
+  }
+
+  const handleLetterClick = (index) => {
+    if (!letters[index]) return
+    const emptySlotIndex = droppedLetters.indexOf(null)
+    if (emptySlotIndex === -1) return
+    setDroppedLetters((prev) => {
+      const newState = [...prev]
+      newState[emptySlotIndex] = letters[index]
+      return newState
+    })
+    setLetters((prev) => {
+      const newState = [...prev]
+      newState[index] = null
+      return newState
+    })
+  }
+
+  const renderSlots = () => {
+    return letters.map((_, index) => (
+      <Card
+        sx={{
+          minWidth: "5rem",
+          height: "5rem",
+          cursor: droppedLetters[index] ? "pointer" : "default",
+        }}
+        key={index}
+        onClick={() => handleSlotClick(index)}
+      >
+        <Stack justifyContent="center" alignItems="center" height="100%">
+          <Typography
+            textAlign="center"
+            variant="h3"
+            sx={{ userSelect: "none" }}
+          >
+            {droppedLetters[index] ? droppedLetters[index].letter : null}
+          </Typography>
+        </Stack>
+      </Card>
+    ))
+  }
+
+  const renderLetters = () => {
+    return letters.map((letter, index) => (
+      <Card
+        sx={{
+          minWidth: "5rem",
+          height: "5rem",
+          cursor: letters[index] ? "pointer" : "default",
+        }}
+        key={index}
+        onClick={() => handleLetterClick(index)}
+      >
+        <Stack justifyContent="center" alignItems="center" height="100%">
+          <Typography
+            textAlign="center"
+            variant="h3"
+            sx={{ userSelect: "none" }}
+          >
+            {letter?.letter ? letter.letter : null}
+          </Typography>
+        </Stack>
+      </Card>
+    ))
+  }
+
+  const isSolved = () => {
+    const currentWord = droppedLetters.map((letter) => letter?.letter).join("")
+    return currentWord === word
+  }
+
+  return (
+    <Stack spacing={4} alignItems="center" width="100%">
+      <Stack
+        spacing={2}
+        alignItems="center"
+        width="100%"
+        sx={{ userSelect: "none" }}
+      >
+        <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+          {renderSlots()}
+        </Stack>
+        <Stack direction="row" width="100%" justifyContent="center" spacing={1}>
+          {renderLetters()}
+        </Stack>
+      </Stack>
+      <Stack>
+        {isSolved() ? (
+          <Stack alignItems="center">
+            <Box>Brawo!</Box>
+            <Button onClick={() => pickAndScrambleWord()} variant="contained">
+              Następne słowo
+            </Button>
+          </Stack>
+        ) : (
+          <BeigeButton onClick={() => setShowWord(!showWord)}>
+            {showWord ? "Ukryj słowo" : "Odkryj słowo"}
+          </BeigeButton>
+        )}
+        {showWord && !isSolved() ? (
+          <Stack justifyContent="center" alignItems="center" height="100%">
+            {word.toUpperCase()}
+          </Stack>
+        ) : null}
+      </Stack>
+    </Stack>
+  )
+}
