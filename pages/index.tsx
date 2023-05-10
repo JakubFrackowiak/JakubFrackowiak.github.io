@@ -62,8 +62,8 @@ export default function index() {
                 },
               }}
             >
-              <Typography variant="h5" whiteSpace="nowrap">
-                Get Notified
+              <Typography variant="h5" noWrap>
+                Rozpocznij badanie
               </Typography>
             </Button>
           </Link>
