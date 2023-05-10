@@ -28,14 +28,14 @@ export function FirstTask({ setCurrentTask }) {
   }, [])
 
   useEffect(() => {
-    if (firstTaskIndex === 3) {
+    if (firstTaskIndex === 1) {
       setCurrentTask(2)
     }
   }, [firstTaskIndex])
 
   return (
     <Stack direction="row" spacing={10}>
-      {firstTaskImages && firstTaskImages.length > 0 && firstTaskIndex < 3 ? (
+      {firstTaskImages && firstTaskImages.length > 0 ? (
         <Box>
           <StorageImage
             storagePath={firstTaskImages[firstTaskIndex]}
@@ -47,9 +47,7 @@ export function FirstTask({ setCurrentTask }) {
             alt="animal image"
           />
         </Box>
-      ) : (
-        <Typography>Ładowanie...</Typography>
-      )}
+      ) : null}
     </Stack>
   )
 }
