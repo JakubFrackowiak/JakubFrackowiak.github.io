@@ -1,7 +1,25 @@
-import { Box, Button, Card, Typography } from "@mui/material"
+import { Box, Button, Card, styled, Typography } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
 import { BeigeButton } from "./BeigeButton"
+
+const LetterText = styled(Typography)(({ theme }) => ({
+  textAlign: "center",
+  userSelect: "none",
+  fontSize: "4rem",
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "4rem",
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: "3rem",
+  },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "2rem",
+  },
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "0.5rem",
+  },
+}))
 
 export const SecondTask = ({ setCurrentTask }) => {
   const [word, setWord] = useState("")
@@ -65,51 +83,65 @@ export const SecondTask = ({ setCurrentTask }) => {
   }
 
   const renderSlots = () => {
-    return letters.map((_, index) => (
-      <Card
-        sx={{
-          minWidth: "5rem",
-          height: "5rem",
-          cursor: droppedLetters[index] ? "pointer" : "default",
-        }}
-        key={index}
-        onClick={() => handleSlotClick(index)}
+    return (
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        width="100%"
+        spacing={1}
       >
-        <Stack justifyContent="center" alignItems="center" height="100%">
-          <Typography
-            textAlign="center"
-            variant="h3"
-            sx={{ userSelect: "none" }}
+        {letters.map((_, index) => (
+          <Card
+            sx={{
+              width: "100%",
+              aspectRatio: "1/1",
+              cursor: droppedLetters[index] ? "pointer" : "default",
+            }}
+            key={index}
+            onClick={() => handleSlotClick(index)}
           >
-            {droppedLetters[index] ? droppedLetters[index].letter : null}
-          </Typography>
-        </Stack>
-      </Card>
-    ))
+            <Stack justifyContent="center" alignItems="center" height="100%">
+              <LetterText textAlign="center" sx={{ userSelect: "none" }}>
+                {droppedLetters[index] ? droppedLetters[index].letter : null}
+              </LetterText>
+            </Stack>
+          </Card>
+        ))}
+      </Stack>
+    )
   }
 
   const renderLetters = () => {
-    return letters.map((letter, index) => (
-      <Card
-        sx={{
-          minWidth: "5rem",
-          height: "5rem",
-          cursor: letters[index] ? "pointer" : "default",
-        }}
-        key={index}
-        onClick={() => handleLetterClick(index)}
+    return (
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        width="100%"
+        spacing={1}
       >
-        <Stack justifyContent="center" alignItems="center" height="100%">
-          <Typography
-            textAlign="center"
-            variant="h3"
-            sx={{ userSelect: "none" }}
+        {letters.map((letter, index) => (
+          <Card
+            sx={{
+              width: "100%",
+              aspectRatio: "1/1",
+              cursor: letters[index] ? "pointer" : "default",
+            }}
+            key={index}
+            onClick={() => handleLetterClick(index)}
           >
-            {letter?.letter ? letter.letter : null}
-          </Typography>
-        </Stack>
-      </Card>
-    ))
+            <Stack justifyContent="center" alignItems="center" height="100%">
+              <LetterText
+                textAlign="center"
+                variant="h3"
+                sx={{ userSelect: "none" }}
+              >
+                {letter?.letter ? letter.letter : null}
+              </LetterText>
+            </Stack>
+          </Card>
+        ))}
+      </Stack>
+    )
   }
 
   const isSolved = () => {
@@ -125,12 +157,8 @@ export const SecondTask = ({ setCurrentTask }) => {
         width="100%"
         sx={{ userSelect: "none" }}
       >
-        <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
-          {renderSlots()}
-        </Stack>
-        <Stack direction="row" width="100%" justifyContent="center" spacing={1}>
-          {renderLetters()}
-        </Stack>
+        {renderSlots()}
+        {renderLetters()}
       </Stack>
       <Stack>
         {isSolved() ? (
