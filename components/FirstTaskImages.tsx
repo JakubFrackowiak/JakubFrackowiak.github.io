@@ -20,7 +20,7 @@ export function FirstTaskImages({ setCurrentTask, firstTaskImages }) {
   }, [firstTaskURLs])
 
   useEffect(() => {
-    if (firstTaskIndex === 50) {
+    if (firstTaskIndex === firstTaskImages.length) {
       setCurrentTask(1)
     }
   }, [firstTaskIndex])
