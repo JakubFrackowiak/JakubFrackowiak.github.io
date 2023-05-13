@@ -34,16 +34,26 @@ export default function Badanie() {
     getImages()
   }, [])
 
-  const updateCell = () => {
+  const updateSheet = () => {
+    const imageData1 = firstTaskImages.reduce((obj, name, index) => {
+      const newName = name.replace(".jpg", "").split("/")[1]
+      obj[`zad1_zdj${index + 1}`] = newName
+      return obj
+    }, {})
+    const imageData2 = secondTaskImages.reduce((obj, name, index) => {
+      const newName = name.replace(".jpg", "").split("/")[1]
+      obj[`zad2_zdj${index + 1}`] = newName
+      return obj
+    }, {})
+    const data = {
+      id: id,
+      ...imageData1,
+      ...imageData2,
+    }
     axios
       .post(
         "https://sheet.best/api/sheets/5f6112d2-8995-4f53-881d-e0b592c4be97",
-        {
-          id: id,
-          zad1_zdj: firstTaskImages,
-          zad2_zdj: secondTaskImages,
-          zad2_odp: "odpowiedz",
-        }
+        data
       )
       .then((response) => {
         console.log(response)
@@ -89,7 +99,7 @@ export default function Badanie() {
           })}
         </Stepper>
         {renderTask()}
-        <Button onClick={() => updateCell()}>update cell</Button>
+        <Button onClick={() => updateSheet()}>update cell</Button>
       </Stack>
     </Container>
   )
