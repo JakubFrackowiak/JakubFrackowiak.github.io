@@ -1,7 +1,6 @@
-import { Box, Button, Card, styled, Typography } from "@mui/material"
+import { Card, styled, Typography, Snackbar, Alert } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
-import { BeigeButton } from "./BeigeButton"
 
 const LetterText = styled(Typography)(({ theme }) => ({
   textAlign: "center",
@@ -25,9 +24,11 @@ export const SecondTask = ({ setCurrentTask }) => {
   const [word, setWord] = useState("")
   const [letters, setLetters] = useState([])
   const [droppedLetters, setDroppedLetters] = useState([])
-  const [showWord, setShowWord] = useState(false)
+  const [level, setLevel] = useState(0)
+  const [toastOpen, setToastOpen] = useState(false)
+  const [isSolved, setIsSolved] = useState(false)
 
-  const words = ["butelka"]
+  const words = ["butelk"]
 
   const pickAndScrambleWord = () => {
     const randomIndex = Math.floor(Math.random() * words.length)
@@ -49,7 +50,29 @@ export const SecondTask = ({ setCurrentTask }) => {
 
   useEffect(() => {
     pickAndScrambleWord()
-  }, [])
+  }, [level])
+
+  useEffect(() => {
+    const droppedWord = droppedLetters.map((l) => l?.letter).join("")
+    if (droppedWord === word && droppedWord !== "" && word !== "") {
+      setIsSolved(true)
+    }
+  }, [droppedLetters])
+
+  useEffect(() => {
+    if (isSolved) {
+      setToastOpen(true)
+      const timeout = setTimeout(() => {
+        if (level >= 5) {
+          setCurrentTask(2)
+          return
+        }
+        setIsSolved(false)
+        setLevel((prev) => prev + 1)
+      }, 2000)
+      return () => clearTimeout(timeout)
+    }
+  }, [isSolved])
 
   const handleSlotClick = (index) => {
     if (!droppedLetters[index]) return
@@ -144,11 +167,6 @@ export const SecondTask = ({ setCurrentTask }) => {
     )
   }
 
-  const isSolved = () => {
-    const currentWord = droppedLetters.map((letter) => letter?.letter).join("")
-    return currentWord === word
-  }
-
   return (
     <Stack spacing={4} alignItems="center" width="100%">
       <Stack
@@ -160,25 +178,20 @@ export const SecondTask = ({ setCurrentTask }) => {
         {renderSlots()}
         {renderLetters()}
       </Stack>
-      <Stack>
-        {isSolved() ? (
-          <Stack alignItems="center">
-            <Box>Brawo!</Box>
-            <Button onClick={() => pickAndScrambleWord()} variant="contained">
-              Następne słowo
-            </Button>
-          </Stack>
-        ) : (
-          <BeigeButton onClick={() => setShowWord(!showWord)}>
-            {showWord ? "Ukryj słowo" : "Odkryj słowo"}
-          </BeigeButton>
-        )}
-        {showWord && !isSolved() ? (
-          <Stack justifyContent="center" alignItems="center" height="100%">
-            {word.toUpperCase()}
-          </Stack>
-        ) : null}
-      </Stack>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        autoHideDuration={2000}
+      >
+        <Alert
+          onClose={() => setToastOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Brawo!
+        </Alert>
+      </Snackbar>
     </Stack>
   )
 }
