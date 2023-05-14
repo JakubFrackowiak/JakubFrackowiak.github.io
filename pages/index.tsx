@@ -1,11 +1,4 @@
-import {
-  Button,
-  Container,
-  Divider,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Container, Divider, Paper, Stack, Typography } from "@mui/material"
 import { BeigeButton } from "components/BeigeButton"
 import { BeigePaper } from "components/BeigePaper"
 import Link from "next/link"

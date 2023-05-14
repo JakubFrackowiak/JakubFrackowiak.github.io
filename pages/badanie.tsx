@@ -1,5 +1,6 @@
 import { FirstTask } from "components/FirstTask"
 import { SecondTask } from "components/SecondTask"
+import { ThirdTask } from "components/ThirdTask"
 import {
   Button,
   Container,
@@ -15,7 +16,7 @@ import axios from "axios"
 import uniqid from "uniqid"
 
 export default function Badanie() {
-  const [currentTask, setCurrentTask] = useState(0)
+  const [currentTask, setCurrentTask] = useState(1)
   const [firstTaskImages, setFirstTaskImages] = useState([])
   const [secondTaskImages, setSecondTaskImages] = useState([])
   const [id, setId] = useState(uniqid())
@@ -34,7 +35,7 @@ export default function Badanie() {
     getImages()
   }, [])
 
-  const updateSheet = () => {
+  const updateSheet = async () => {
     const imageData1 = firstTaskImages.reduce((obj, name, index) => {
       const newName = name.replace(".jpg", "").split("/")[1]
       obj[`zad1_zdj${index + 1}`] = newName
@@ -52,8 +53,8 @@ export default function Badanie() {
     }
     axios
       .post(
-        "https://sheet.best/api/sheets/5f6112d2-8995-4f53-881d-e0b592c4be97",
-        data
+        "https://script.google.com/macros/s/AKfycbzzFQSoOLTJqApJciDfIDJoHVO6Br3c9Q42hFDR7g_d1zo9DSphAyieFQXSrBW9LXrCcg/exec",
+        JSON.stringify(data)
       )
       .then((response) => {
         console.log(response)
@@ -99,8 +100,8 @@ export default function Badanie() {
           })}
         </Stepper>
         {renderTask()}
-        <Button onClick={() => updateSheet()}>update cell</Button>
       </Stack>
+      <Button onClick={() => updateSheet()}>add</Button>
     </Container>
   )
 }
