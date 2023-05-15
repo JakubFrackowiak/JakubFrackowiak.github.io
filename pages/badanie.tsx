@@ -36,7 +36,7 @@ export default function Badanie() {
   }, [])
 
   const formatImages = (images, task) => {
-    const imageData = firstTaskImages.reduce((obj, name, index) => {
+    const imageData = images.reduce((obj, name, index) => {
       const newName = name.replace(".jpg", "").split("/")[1]
       obj[`zad${task}_zdj${index + 1}`] = newName
       return obj
