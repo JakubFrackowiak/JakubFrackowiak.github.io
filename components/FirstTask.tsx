@@ -1,7 +1,4 @@
 import { Stack } from "@mui/system"
-import { useState } from "react"
-
-import { BeigeButton } from "./BeigeButton"
 import { FirstTaskImages } from "./FirstTaskImages"
 
 export function FirstTask({
@@ -10,8 +7,6 @@ export function FirstTask({
   firstTaskIndex,
   setFirstTaskIndex,
 }) {
-  const [isReady, setIsReady] = useState(false)
-
   return (
     <Stack height="60vh" justifyContent="center">
       <FirstTaskImages

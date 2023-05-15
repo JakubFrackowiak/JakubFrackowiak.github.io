@@ -25,12 +25,6 @@ export function FirstTaskImages({
   }, [firstTaskURLs])
 
   useEffect(() => {
-    if (firstTaskIndex === firstTaskImages.length) {
-      setCurrentTask(1)
-    }
-  }, [firstTaskIndex])
-
-  useEffect(() => {
     const promises = firstTaskImages.map((imageName) => {
       const imageRef = ref(storage, imageName)
       return getDownloadURL(imageRef)
@@ -39,6 +33,12 @@ export function FirstTaskImages({
     Promise.all(promises).then((urls) => setFirstTaskURLs(urls))
     firstTaskURLs.map((url) => console.log(url))
   }, [firstTaskImages])
+
+  useEffect(() => {
+    if (firstTaskIndex === firstTaskURLs.length && firstTaskURLs.length > 0) {
+      setCurrentTask(1)
+    }
+  }, [firstTaskIndex])
 
   console.log(firstTaskURLs)
 
@@ -53,7 +53,7 @@ export function FirstTaskImages({
               height: "60vh",
               width: "100%",
               objectFit: "contain",
-              borderRadius: "0.8rem",
+              borderRadius: "0.5rem",
               display: index === firstTaskIndex ? "block" : "none",
             }}
             alt="animal image"

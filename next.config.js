@@ -7,4 +7,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ["firebasestorage.googleapis.com"],
+  },
 }

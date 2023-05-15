@@ -27,7 +27,7 @@ export const SecondTask = ({ setCurrentTask, level, setLevel }) => {
   const [toastOpen, setToastOpen] = useState(false)
   const [isSolved, setIsSolved] = useState(false)
 
-  const words = ["butelk"]
+  const words = ["hej"]
 
   const pickAndScrambleWord = () => {
     const randomIndex = Math.floor(Math.random() * words.length)

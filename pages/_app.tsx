@@ -12,7 +12,10 @@ import {
 import { firebaseConfig } from "../firebase.config"
 import { getStorage } from "firebase/storage"
 
-import { CssBaseline } from "@mui/material"
+import { createTheme, CssBaseline } from "@mui/material"
+import "@fontsource/plus-jakarta-sans"
+
+import { ThemeProvider } from "@mui/material/styles"
 
 function FirebaseSDKProviders({ children }) {
   const app = useFirebaseApp()
@@ -30,6 +33,15 @@ function FirebaseSDKProviders({ children }) {
 }
 
 function MyApp({ Component, pageProps }) {
+  const theme = createTheme({
+    components: {
+      MuiTypography: {
+        defaultProps: {
+          fontFamily: "Plus Jakarta Sans",
+        },
+      },
+    },
+  })
   return (
     <>
       <Head>
@@ -40,8 +52,10 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <FirebaseAppProvider firebaseConfig={firebaseConfig}>
         <FirebaseSDKProviders>
-          <CssBaseline />
-          <Component {...pageProps} />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
         </FirebaseSDKProviders>
       </FirebaseAppProvider>
     </>

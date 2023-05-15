@@ -1,7 +1,6 @@
-import { Step, StepLabel, Stepper } from "@mui/material"
-import { Photo, Extension, CheckBox, South } from "@mui/icons-material"
+import { Step, StepLabel, Stepper, Typography } from "@mui/material"
+import { Photo, Extension, CheckBox } from "@mui/icons-material"
 import BallotIcon from "@mui/icons-material/Ballot"
-import { useState } from "react"
 
 export function TaskStepper({
   currentTask,
@@ -10,6 +9,7 @@ export function TaskStepper({
   imagesLength,
 }) {
   const steps = ["Oglądaj zdjęcia", "Ułóż wyraz", "Opowiedz na pytania"]
+  const stepperIcons = [Photo, Extension, BallotIcon]
 
   const getLabel = (index) => {
     switch (index) {
@@ -32,20 +32,14 @@ export function TaskStepper({
       sx={{ width: "100%", justifySelf: "flex-start" }}
     >
       {steps.map((label, index) => {
-        const stepProps: { completed?: boolean } = {}
-        const stepperIcons = [Photo, Extension, BallotIcon]
-        const currentIcon = { icon: null }
-        if (index === currentTask) {
-          currentIcon.icon = South
-        } else if (index < currentTask) {
-          currentIcon.icon = CheckBox
-        } else {
-          currentIcon.icon = stepperIcons[index]
-        }
         return (
-          <Step key={label} {...stepProps}>
-            <StepLabel StepIconComponent={currentIcon.icon}>
-              {getLabel(index)}
+          <Step key={label} completed>
+            <StepLabel
+              StepIconComponent={
+                index < currentTask ? CheckBox : stepperIcons[index]
+              }
+            >
+              <Typography>{getLabel(index)}</Typography>
             </StepLabel>
           </Step>
         )

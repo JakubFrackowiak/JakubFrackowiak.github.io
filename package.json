@@ -8,6 +8,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
+    "@fontsource/dancing-script": "^4.5.11",
+    "@fontsource/plus-jakarta-sans": "^4.5.11",
+    "@material-ui/styles": "^4.11.5",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "axios": "^1.4.0",
