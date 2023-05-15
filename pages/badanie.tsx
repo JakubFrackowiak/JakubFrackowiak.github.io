@@ -13,7 +13,7 @@ import { useEffect, useState } from "react"
 import { getRandomImages } from "images"
 import { useStorage } from "reactfire"
 import axios from "axios"
-import uniqid from "uniqid"
+import { v4 as uuidv4 } from "uuid"
 
 export default function Badanie() {
   const [currentTask, setCurrentTask] = useState(2)
@@ -36,7 +36,7 @@ export default function Badanie() {
   }, [])
 
   useEffect(() => {
-    const surveyID = uniqid()
+    const surveyID = uuidv4()
     setId(surveyID)
   }, [])
 

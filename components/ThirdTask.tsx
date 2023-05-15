@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material"
+import { CopyID } from "./CopyID"
 
-export function ThirdTask({ setCurrentTask }) {
-  return <Stack></Stack>
+export function ThirdTask({ id }) {
+  return <CopyID id={id} />
 }
