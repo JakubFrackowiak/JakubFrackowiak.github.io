@@ -2,6 +2,7 @@ import { FirstTask } from "components/FirstTask"
 import { SecondTask } from "components/SecondTask"
 import { ThirdTask } from "components/ThirdTask"
 import {
+  Box,
   Button,
   Container,
   Stack,
@@ -14,13 +15,16 @@ import { getRandomImages } from "images"
 import { useStorage } from "reactfire"
 import axios from "axios"
 import { v4 as uuidv4 } from "uuid"
+import { TaskStepper } from "components/TaskStepper"
+import { BeigeButton } from "components/BeigeButton"
 
 export default function Badanie() {
-  const [currentTask, setCurrentTask] = useState(2)
+  const [currentTask, setCurrentTask] = useState(null)
   const [firstTaskImages, setFirstTaskImages] = useState([])
+  const [firstTaskIndex, setFirstTaskIndex] = useState(0)
   const [secondTaskImages, setSecondTaskImages] = useState([])
+  const [level, setLevel] = useState(1)
   const [id, setId] = useState()
-  const steps = ["Zadanie 1", "Zadanie 2", "Zadanie 3"]
 
   const storage = useStorage()
 
@@ -74,38 +78,46 @@ export default function Badanie() {
           <FirstTask
             setCurrentTask={setCurrentTask}
             firstTaskImages={firstTaskImages}
+            firstTaskIndex={firstTaskIndex}
+            setFirstTaskIndex={setFirstTaskIndex}
           />
         )
       case 1:
-        return <SecondTask setCurrentTask={setCurrentTask} />
+        return (
+          <SecondTask
+            setCurrentTask={setCurrentTask}
+            level={level}
+            setLevel={setLevel}
+          />
+        )
       case 2:
         return <ThirdTask id={id} />
+      default:
+        return (
+          <BeigeButton onClick={() => setCurrentTask(0)}>
+            Jestem gotów
+          </BeigeButton>
+        )
     }
   }
 
   return (
     <Container maxWidth="md">
-      <Stack
-        height="100vh"
-        justifyContent="center"
-        alignItems="center"
-        spacing={6}
-      >
-        <Stepper
-          activeStep={currentTask}
-          alternativeLabel
-          sx={{ width: "100%" }}
+      <Stack height="100vh" alignItems="center" spacing={6} py="15vh">
+        <TaskStepper
+          currentTask={currentTask}
+          firstTaskIndex={firstTaskIndex}
+          level={level}
+          imagesLength={firstTaskImages.length}
+        />
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          width="100%"
+          height="100%"
         >
-          {steps.map((label, index) => {
-            const stepProps: { completed?: boolean } = {}
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            )
-          })}
-        </Stepper>
-        {renderTask()}
+          {renderTask()}
+        </Stack>
       </Stack>
     </Container>
   )

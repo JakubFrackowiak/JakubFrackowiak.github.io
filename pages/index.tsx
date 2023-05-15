@@ -1,6 +1,12 @@
-import { Container, Divider, Paper, Stack, Typography } from "@mui/material"
+import {
+  Button,
+  Container,
+  Divider,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material"
 import { BeigeButton } from "components/BeigeButton"
-import { BeigePaper } from "components/BeigePaper"
 import Link from "next/link"
 
 export default function index() {
@@ -12,7 +18,17 @@ export default function index() {
       }}
     >
       <Stack alignItems="center" spacing={10}>
-        <BeigePaper height="20rem">
+        <Paper
+          variant="elevation"
+          elevation={24}
+          sx={{
+            bgcolor: "#f7faf2",
+            height: "20rem",
+            width: "100%",
+            p: "2rem",
+            borderRadius: "1.5rem",
+          }}
+        >
           <Stack height="100%" justifyContent="space-around">
             <Divider orientation="horizontal" />
             <Typography variant="h6" textAlign="justify" color="grey.800">
@@ -23,7 +39,7 @@ export default function index() {
             </Typography>
             <Divider orientation="horizontal" />
           </Stack>
-        </BeigePaper>
+        </Paper>
         <Paper
           variant="elevation"
           elevation={24}

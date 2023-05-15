@@ -20,11 +20,10 @@ const LetterText = styled(Typography)(({ theme }) => ({
   },
 }))
 
-export const SecondTask = ({ setCurrentTask }) => {
+export const SecondTask = ({ setCurrentTask, level, setLevel }) => {
   const [word, setWord] = useState("")
   const [letters, setLetters] = useState([])
   const [droppedLetters, setDroppedLetters] = useState([])
-  const [level, setLevel] = useState(0)
   const [toastOpen, setToastOpen] = useState(false)
   const [isSolved, setIsSolved] = useState(false)
 
