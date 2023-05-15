@@ -13,7 +13,7 @@ export function BeigeButton({ onClick = () => null, children }) {
         textTransform: "none",
         bgcolor: "#cbcaab",
         color: "grey.800",
-        borderRadius: "1.5rem",
+        borderRadius: "0.8rem",
         "&:hover": {
           bgcolor: "#c4a484",
         },
