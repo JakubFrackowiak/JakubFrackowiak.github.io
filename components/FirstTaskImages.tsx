@@ -3,10 +3,15 @@ import { getDownloadURL, ref } from "firebase/storage"
 import { useEffect, useState } from "react"
 import { useStorage } from "reactfire"
 import { BeigePaper } from "./BeigePaper"
+import { Img } from "react-image"
 
-export function FirstTaskImages({ setCurrentTask, firstTaskImages }) {
+export function FirstTaskImages({
+  setCurrentTask,
+  firstTaskImages,
+  firstTaskIndex,
+  setFirstTaskIndex,
+}) {
   const [firstTaskURLs, setFirstTaskURLs] = useState([])
-  const [firstTaskIndex, setFirstTaskIndex] = useState(0)
 
   const storage = useStorage()
 
@@ -32,21 +37,28 @@ export function FirstTaskImages({ setCurrentTask, firstTaskImages }) {
     })
 
     Promise.all(promises).then((urls) => setFirstTaskURLs(urls))
+    firstTaskURLs.map((url) => console.log(url))
   }, [firstTaskImages])
+
+  console.log(firstTaskURLs)
 
   return firstTaskURLs && firstTaskURLs.length > 0 ? (
     <Stack>
       <BeigePaper width="fit-content" height="60vh" p="0">
-        <img
-          src={firstTaskURLs[firstTaskIndex]}
-          style={{
-            height: "60vh",
-            width: "100%",
-            objectFit: "contain",
-            borderRadius: "1.5rem",
-          }}
-          alt="animal image"
-        />
+        {firstTaskURLs.map((url, index) => (
+          <Img
+            key={index}
+            src={url}
+            style={{
+              height: "60vh",
+              width: "100%",
+              objectFit: "contain",
+              borderRadius: "0.8rem",
+              display: index === firstTaskIndex ? "block" : "none",
+            }}
+            alt="animal image"
+          />
+        ))}
       </BeigePaper>
     </Stack>
   ) : (

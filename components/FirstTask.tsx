@@ -4,19 +4,22 @@ import { useState } from "react"
 import { BeigeButton } from "./BeigeButton"
 import { FirstTaskImages } from "./FirstTaskImages"
 
-export function FirstTask({ setCurrentTask, firstTaskImages }) {
+export function FirstTask({
+  setCurrentTask,
+  firstTaskImages,
+  firstTaskIndex,
+  setFirstTaskIndex,
+}) {
   const [isReady, setIsReady] = useState(false)
 
   return (
     <Stack height="60vh" justifyContent="center">
-      {isReady ? (
-        <FirstTaskImages
-          setCurrentTask={setCurrentTask}
-          firstTaskImages={firstTaskImages}
-        />
-      ) : (
-        <BeigeButton onClick={() => setIsReady(true)}>Jestem gotów</BeigeButton>
-      )}
+      <FirstTaskImages
+        setCurrentTask={setCurrentTask}
+        firstTaskImages={firstTaskImages}
+        firstTaskIndex={firstTaskIndex}
+        setFirstTaskIndex={setFirstTaskIndex}
+      />
     </Stack>
   )
 }
