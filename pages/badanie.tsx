@@ -35,17 +35,18 @@ export default function Badanie() {
     getImages()
   }, [])
 
+  const formatImages = (images, task) => {
+    const imageData = firstTaskImages.reduce((obj, name, index) => {
+      const newName = name.replace(".jpg", "").split("/")[1]
+      obj[`zad${task}_zdj${index + 1}`] = newName
+      return obj
+    }, {})
+    return imageData
+  }
+
   const updateSheet = async () => {
-    const imageData1 = firstTaskImages.reduce((obj, name, index) => {
-      const newName = name.replace(".jpg", "").split("/")[1]
-      obj[`zad1_zdj${index + 1}`] = newName
-      return obj
-    }, {})
-    const imageData2 = secondTaskImages.reduce((obj, name, index) => {
-      const newName = name.replace(".jpg", "").split("/")[1]
-      obj[`zad2_zdj${index + 1}`] = newName
-      return obj
-    }, {})
+    const imageData1 = formatImages(firstTaskImages, 1)
+    const imageData2 = formatImages(secondTaskImages, 2)
     const data = {
       id: id,
       ...imageData1,
