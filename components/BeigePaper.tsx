@@ -5,12 +5,12 @@ export function BeigePaper({
   height = "100%",
   width = "100%",
   p = "2rem",
-  borderRadius = "0.8rem",
+  borderRadius = "0.5rem",
 }) {
   return (
     <Paper
       variant="elevation"
-      elevation={24}
+      elevation={12}
       sx={{
         bgcolor: "#f7faf2",
         height: height,

@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material"
 import { BeigeButton } from "components/BeigeButton"
+import { BeigePaper } from "components/BeigePaper"
 import Link from "next/link"
 
 export default function index() {
@@ -18,17 +19,7 @@ export default function index() {
       }}
     >
       <Stack alignItems="center" spacing={10}>
-        <Paper
-          variant="elevation"
-          elevation={24}
-          sx={{
-            bgcolor: "#f7faf2",
-            height: "20rem",
-            width: "100%",
-            p: "2rem",
-            borderRadius: "1.5rem",
-          }}
-        >
+        <BeigePaper height="20rem">
           <Stack height="100%" justifyContent="space-around">
             <Divider orientation="horizontal" />
             <Typography variant="h6" textAlign="justify" color="grey.800">
@@ -39,18 +30,12 @@ export default function index() {
             </Typography>
             <Divider orientation="horizontal" />
           </Stack>
-        </Paper>
-        <Paper
-          variant="elevation"
-          elevation={24}
-          sx={{
-            borderRadius: "1.5rem",
-          }}
-        >
+        </BeigePaper>
+        <BeigePaper width="fit-content" p="0">
           <Link href="/badanie">
             <BeigeButton>Rozpocznij badanie</BeigeButton>
           </Link>
-        </Paper>
+        </BeigePaper>
       </Stack>
     </Container>
   )
