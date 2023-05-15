@@ -52,9 +52,11 @@ export function CopyID({ id }) {
             textAlign: "center",
             height: "50px",
             px: "1rem",
+            bgcolor: (theme) => theme.palette.grey[600],
+            color: "white",
           }}
         >
-          <Typography lineHeight="50px" variant="body1">
+          <Typography lineHeight="50px" variant="h6">
             Skopiowano!
           </Typography>
         </Card>
