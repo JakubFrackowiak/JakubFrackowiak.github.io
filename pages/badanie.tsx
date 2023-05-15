@@ -16,10 +16,10 @@ import axios from "axios"
 import uniqid from "uniqid"
 
 export default function Badanie() {
-  const [currentTask, setCurrentTask] = useState(1)
+  const [currentTask, setCurrentTask] = useState(2)
   const [firstTaskImages, setFirstTaskImages] = useState([])
   const [secondTaskImages, setSecondTaskImages] = useState([])
-  const [id, setId] = useState(uniqid())
+  const [id, setId] = useState()
   const steps = ["Zadanie 1", "Zadanie 2", "Zadanie 3"]
 
   const storage = useStorage()
@@ -33,6 +33,11 @@ export default function Badanie() {
 
   useEffect(() => {
     getImages()
+  }, [])
+
+  useEffect(() => {
+    const surveyID = uniqid()
+    setId(surveyID)
   }, [])
 
   const formatImages = (images, task) => {
@@ -74,7 +79,7 @@ export default function Badanie() {
       case 1:
         return <SecondTask setCurrentTask={setCurrentTask} />
       case 2:
-        return <ThirdTask setCurrentTask={setCurrentTask} />
+        return <ThirdTask id={id} />
     }
   }
 
@@ -102,7 +107,6 @@ export default function Badanie() {
         </Stepper>
         {renderTask()}
       </Stack>
-      <Button onClick={() => updateSheet()}>add</Button>
     </Container>
   )
 }
