@@ -1,12 +1,19 @@
 import { CircularProgress, Stack } from "@mui/material"
 import { getDownloadURL, ref } from "firebase/storage"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useStorage } from "reactfire"
 import { BeigePaper } from "./BeigePaper"
 import { Img } from "react-image"
+import { useSurveyStore } from "../storage/survey-store"
 
-export function ThirdTaskImages({ thirdTaskImages, thirdTaskIndex }) {
-  const [thirdTaskURLs, setThirdTaskURLs] = useState([])
+export function ThirdTaskImages() {
+  const { thirdTaskImages, thirdTaskIndex, thirdTaskURLs, setThirdTaskURLs } =
+    useSurveyStore((state) => ({
+      thirdTaskImages: state.thirdTaskImages,
+      thirdTaskIndex: state.thirdTaskIndex,
+      thirdTaskURLs: state.thirdTaskURLs,
+      setThirdTaskURLs: state.setThirdTaskURLs,
+    }))
 
   const storage = useStorage()
 
@@ -17,10 +24,7 @@ export function ThirdTaskImages({ thirdTaskImages, thirdTaskIndex }) {
     })
 
     Promise.all(promises).then((urls) => setThirdTaskURLs(urls))
-    thirdTaskURLs.map((url) => console.log(url))
   }, [thirdTaskImages])
-
-  console.log(thirdTaskURLs)
 
   return thirdTaskURLs && thirdTaskURLs.length > 0 ? (
     <Stack>
