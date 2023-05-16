@@ -1,6 +1,6 @@
 import { CircularProgress, Stack } from "@mui/material"
 import { getDownloadURL, ref } from "firebase/storage"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useStorage } from "reactfire"
 import { BeigePaper } from "./BeigePaper"
 import { Img } from "react-image"
