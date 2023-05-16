@@ -1,6 +1,7 @@
 import { Card, styled, Typography, Snackbar, Alert } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
+import { useSurveyStore } from "../surveyStore"
 
 const LetterText = styled(Typography)(({ theme }) => ({
   textAlign: "center",
@@ -20,12 +21,17 @@ const LetterText = styled(Typography)(({ theme }) => ({
   },
 }))
 
-export const SecondTask = ({ setCurrentTask, level, setLevel }) => {
+export const SecondTask = () => {
   const [word, setWord] = useState("")
   const [letters, setLetters] = useState([])
   const [droppedLetters, setDroppedLetters] = useState([])
   const [toastOpen, setToastOpen] = useState(false)
   const [isSolved, setIsSolved] = useState(false)
+  const { setCurrentTask, level, setLevel } = useSurveyStore((state) => ({
+    setCurrentTask: state.setCurrentTask,
+    level: state.level,
+    setLevel: state.setLevel,
+  }))
 
   const words = ["hej"]
 
@@ -67,7 +73,7 @@ export const SecondTask = ({ setCurrentTask, level, setLevel }) => {
           return
         }
         setIsSolved(false)
-        setLevel((prev) => prev + 1)
+        setLevel()
       }, 2000)
       return () => clearTimeout(timeout)
     }

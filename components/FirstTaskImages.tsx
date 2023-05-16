@@ -4,34 +4,47 @@ import { useEffect, useState } from "react"
 import { useStorage } from "reactfire"
 import { BeigePaper } from "./BeigePaper"
 import { Img } from "react-image"
+import { useSurveyStore } from "surveyStore"
 
-export function FirstTaskImages({
-  setCurrentTask,
-  firstTaskImages,
-  firstTaskIndex,
-  setFirstTaskIndex,
-}) {
-  const [firstTaskURLs, setFirstTaskURLs] = useState([])
+export function FirstTaskImages() {
+  const {
+    setCurrentTask,
+    firstTaskImages,
+    firstTaskIndex,
+    setFirstTaskIndex,
+    firstTaskURLs,
+    setFirstTaskURLs,
+  } = useSurveyStore((state) => ({
+    setCurrentTask: state.setCurrentTask,
+    firstTaskImages: state.firstTaskImages,
+    firstTaskIndex: state.firstTaskIndex,
+    setFirstTaskIndex: state.setFirstTaskIndex,
+    firstTaskURLs: state.firstTaskURLs,
+    setFirstTaskURLs: state.setFirstTaskURLs,
+    setId: state.setId,
+  }))
 
   const storage = useStorage()
 
   useEffect(() => {
     if (firstTaskURLs.length > 0) {
       const interval = setInterval(() => {
-        setFirstTaskIndex((firstTaskIndex) => firstTaskIndex + 1)
+        setFirstTaskIndex()
       }, 3000)
       return () => clearInterval(interval)
     }
   }, [firstTaskURLs])
 
   useEffect(() => {
-    const promises = firstTaskImages.map((imageName) => {
-      const imageRef = ref(storage, imageName)
-      return getDownloadURL(imageRef)
-    })
+    if (firstTaskImages.length > 0) {
+      const promises = firstTaskImages.map((imageName) => {
+        const imageRef = ref(storage, imageName)
+        return getDownloadURL(imageRef)
+      })
 
-    Promise.all(promises).then((urls) => setFirstTaskURLs(urls))
-    firstTaskURLs.map((url) => console.log(url))
+      Promise.all(promises).then((urls) => setFirstTaskURLs(urls))
+      firstTaskURLs.map((url) => console.log(url))
+    }
   }, [firstTaskImages])
 
   useEffect(() => {
@@ -40,7 +53,7 @@ export function FirstTaskImages({
     }
   }, [firstTaskIndex])
 
-  console.log(firstTaskURLs)
+  console.log("firstTaskURLs", firstTaskURLs)
 
   return firstTaskURLs && firstTaskURLs.length > 0 ? (
     <Stack>

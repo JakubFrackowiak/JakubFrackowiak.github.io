@@ -1,16 +1,7 @@
 import { FirstTask } from "components/FirstTask"
 import { SecondTask } from "components/SecondTask"
 import { ThirdTask } from "components/ThirdTask"
-import {
-  Box,
-  Button,
-  Container,
-  createTheme,
-  Stack,
-  Step,
-  StepLabel,
-  Stepper,
-} from "@mui/material"
+import { Container, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { getRandomImages } from "images"
 import { useStorage } from "reactfire"
@@ -18,14 +9,28 @@ import axios from "axios"
 import { v4 as uuidv4 } from "uuid"
 import { TaskStepper } from "components/TaskStepper"
 import { BeigeButton } from "components/BeigeButton"
+import { useSurveyStore } from "../surveyStore"
 
 export default function Badanie() {
-  const [currentTask, setCurrentTask] = useState(null)
-  const [firstTaskImages, setFirstTaskImages] = useState([])
-  const [firstTaskIndex, setFirstTaskIndex] = useState(0)
-  const [secondTaskImages, setSecondTaskImages] = useState([])
-  const [level, setLevel] = useState(1)
-  const [id, setId] = useState()
+  const {
+    currentTask,
+    setCurrentTask,
+    firstTaskImages,
+    setFirstTaskImages,
+    thirdTaskImages,
+    setThirdTaskImages,
+    id,
+    setId,
+  } = useSurveyStore((state) => ({
+    currentTask: state.currentTask,
+    setCurrentTask: state.setCurrentTask,
+    firstTaskImages: state.firstTaskImages,
+    setFirstTaskImages: state.setFirstTaskImages,
+    thirdTaskImages: state.thirdTaskImages,
+    setThirdTaskImages: state.setThirdTaskImages,
+    id: state.id,
+    setId: state.setId,
+  }))
 
   const storage = useStorage()
 
@@ -33,16 +38,20 @@ export default function Badanie() {
     const { firstTaskImages: firstImages, secondTaskImages: secondImages } =
       await getRandomImages(storage)
     setFirstTaskImages(firstImages)
-    setSecondTaskImages(secondImages)
+    setThirdTaskImages(secondImages)
   }
 
   useEffect(() => {
-    getImages()
+    if (firstTaskImages.length == 0 && thirdTaskImages.length == 0) {
+      getImages()
+    }
   }, [])
 
   useEffect(() => {
     const surveyID = uuidv4()
-    setId(surveyID)
+    if (id == null) {
+      setId(surveyID)
+    }
   }, [])
 
   const formatImages = (images, task) => {
@@ -55,12 +64,12 @@ export default function Badanie() {
   }
 
   const updateSheet = async () => {
-    const imageData1 = formatImages(firstTaskImages, 1)
-    const imageData2 = formatImages(secondTaskImages, 2)
+    const firstTaskImageData = formatImages(firstTaskImages, 1)
+    const thirdTaskImageData = formatImages(thirdTaskImages, 2)
     const data = {
       id: id,
-      ...imageData1,
-      ...imageData2,
+      ...firstTaskImageData,
+      ...thirdTaskImageData,
     }
     axios
       .post(
@@ -75,24 +84,11 @@ export default function Badanie() {
   const renderTask = () => {
     switch (currentTask) {
       case 0:
-        return (
-          <FirstTask
-            setCurrentTask={setCurrentTask}
-            firstTaskImages={firstTaskImages}
-            firstTaskIndex={firstTaskIndex}
-            setFirstTaskIndex={setFirstTaskIndex}
-          />
-        )
+        return <FirstTask />
       case 1:
-        return (
-          <SecondTask
-            setCurrentTask={setCurrentTask}
-            level={level}
-            setLevel={setLevel}
-          />
-        )
+        return <SecondTask />
       case 2:
-        return <ThirdTask id={id} />
+        return <ThirdTask />
       default:
         return (
           <BeigeButton onClick={() => setCurrentTask(0)}>
@@ -105,12 +101,7 @@ export default function Badanie() {
   return (
     <Container maxWidth="md">
       <Stack height="100vh" alignItems="center" spacing={6} py="15vh">
-        <TaskStepper
-          currentTask={currentTask}
-          firstTaskIndex={firstTaskIndex}
-          level={level}
-          imagesLength={firstTaskImages.length}
-        />
+        <TaskStepper />
         <Stack
           alignItems="center"
           justifyContent="center"

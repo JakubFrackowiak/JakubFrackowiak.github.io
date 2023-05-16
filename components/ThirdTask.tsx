@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material"
 import { CopyID } from "./CopyID"
 
-export function ThirdTask({ id }) {
+export function ThirdTask() {
   return (
     <Stack>
-      <CopyID id={id} />
+      <CopyID />
     </Stack>
   )
 }

@@ -1,13 +1,16 @@
 import { Step, StepLabel, Stepper, Typography } from "@mui/material"
 import { Photo, Extension, CheckBox } from "@mui/icons-material"
 import BallotIcon from "@mui/icons-material/Ballot"
+import { useSurveyStore } from "../surveyStore"
 
-export function TaskStepper({
-  currentTask,
-  firstTaskIndex,
-  level,
-  imagesLength,
-}) {
+export function TaskStepper() {
+  const { currentTask, firstTaskImages, firstTaskIndex, level } =
+    useSurveyStore((state) => ({
+      currentTask: state.currentTask,
+      firstTaskImages: state.firstTaskImages,
+      firstTaskIndex: state.firstTaskIndex,
+      level: state.level,
+    }))
   const steps = ["Oglądaj zdjęcia", "Ułóż wyraz", "Opowiedz na pytania"]
   const stepperIcons = [Photo, Extension, BallotIcon]
 
@@ -16,7 +19,9 @@ export function TaskStepper({
       case 0:
         return (
           "Oglądaj zdjęcia " +
-          (currentTask == 0 ? firstTaskIndex + "/" + imagesLength : "")
+          (currentTask == 0
+            ? firstTaskIndex + "/" + firstTaskImages.length
+            : "")
         )
       case 1:
         return "Ułóż wyraz " + (currentTask == 1 ? level + "/5" : "")

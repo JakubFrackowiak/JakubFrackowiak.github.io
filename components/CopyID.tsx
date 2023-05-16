@@ -2,10 +2,14 @@ import { Box, Card, Typography } from "@mui/material"
 import { BeigePaper } from "./BeigePaper"
 import ContentCopy from "@mui/icons-material/ContentCopy"
 import { useEffect, useState } from "react"
+import { useSurveyStore } from "../surveyStore"
 
-export function CopyID({ id }) {
+export function CopyID() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [copied, setCopied] = useState(false)
+  const { id } = useSurveyStore((state) => ({
+    id: state.id,
+  }))
 
   useEffect(() => {
     const handleMouseMove = (e) => {
