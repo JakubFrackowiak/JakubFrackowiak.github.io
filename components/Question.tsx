@@ -1,8 +1,12 @@
 import { Stack, Typography } from "@mui/material"
 import { AnswerCheckbox } from "./AnswerCheckbox"
-import { BeigeButton } from "./BeigeButton"
 
-export function Question() {
+export function Question({
+  questionIndex,
+  setImageAnswers,
+  imageAnswers,
+  question,
+}) {
   const answers = [
     { label: "Zdecydowanie nie" },
     { label: "Nie" },
@@ -16,13 +20,19 @@ export function Question() {
   return (
     <Stack justifyContent="center" alignItems="center" spacing={4} my="6rem">
       <Typography variant="h6" textAlign="center">
-        Czy waliles koniucha do nagich zdiec swojej matki?
+        {question}
       </Typography>
       <Stack direction="row" justifyContent="space-between" width="100%">
-        <AnswerCheckbox answers={answers} />
-      </Stack>
-      <Stack py="2rem">
-        <BeigeButton>Następne zdjęcie</BeigeButton>
+        <Stack direction="row" width="100%" justifyContent="space-between">
+          {answers.map((answer) => (
+            <AnswerCheckbox
+              imageAnswers={imageAnswers}
+              questionIndex={questionIndex}
+              answer={answer}
+              setImageAnswers={setImageAnswers}
+            />
+          ))}
+        </Stack>
       </Stack>
     </Stack>
   )
