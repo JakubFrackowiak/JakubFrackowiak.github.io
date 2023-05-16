@@ -1,7 +1,7 @@
 import { Card, styled, Typography, Snackbar, Alert } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
-import { useSurveyStore } from "../surveyStore"
+import { useSurveyStore } from "../storage/survey-store"
 
 const LetterText = styled(Typography)(({ theme }) => ({
   textAlign: "center",

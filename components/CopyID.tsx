@@ -2,7 +2,7 @@ import { Box, Card, Typography } from "@mui/material"
 import { BeigePaper } from "./BeigePaper"
 import ContentCopy from "@mui/icons-material/ContentCopy"
 import { useEffect, useState } from "react"
-import { useSurveyStore } from "../surveyStore"
+import { useSurveyStore } from "../storage/survey-store"
 
 export function CopyID() {
   const [position, setPosition] = useState({ x: 0, y: 0 })

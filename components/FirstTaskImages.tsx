@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useStorage } from "reactfire"
 import { BeigePaper } from "./BeigePaper"
 import { Img } from "react-image"
-import { useSurveyStore } from "surveyStore"
+import { useSurveyStore } from "storage/survey-store"
 
 export function FirstTaskImages() {
   const {

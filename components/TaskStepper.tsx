@@ -1,7 +1,7 @@
 import { Step, StepLabel, Stepper, Typography } from "@mui/material"
 import { Photo, Extension, CheckBox } from "@mui/icons-material"
 import BallotIcon from "@mui/icons-material/Ballot"
-import { useSurveyStore } from "../surveyStore"
+import { useSurveyStore } from "../storage/survey-store"
 
 export function TaskStepper() {
   const { currentTask, firstTaskImages, firstTaskIndex, level } =

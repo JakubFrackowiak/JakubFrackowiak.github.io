@@ -3,13 +3,13 @@ import { SecondTask } from "components/SecondTask"
 import { ThirdTask } from "components/ThirdTask"
 import { Container, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
-import { getRandomImages } from "images"
+import { getRandomImages } from "storage/images"
 import { useStorage } from "reactfire"
 import axios from "axios"
 import { v4 as uuidv4 } from "uuid"
 import { TaskStepper } from "components/TaskStepper"
 import { BeigeButton } from "components/BeigeButton"
-import { useSurveyStore } from "../surveyStore"
+import { useSurveyStore } from "../storage/survey-store"
 
 export default function Badanie() {
   const {
