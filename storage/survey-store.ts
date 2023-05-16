@@ -14,6 +14,10 @@ interface SurveyStore {
   setThirdTaskImages: (state: string[]) => void
   thirdTaskIndex: number
   setThirdTaskIndex: () => void
+  thirdTaskURLs: string[]
+  setThirdTaskURLs: (state: string[]) => void
+  thirdTaskAnswers: string[]
+  setThirdTaskAnswers: (state: string[]) => void
   level: number
   setLevel: () => void
   id: string
@@ -23,7 +27,7 @@ interface SurveyStore {
 export const useSurveyStore = create(
   persist<SurveyStore>(
     (set, get) => ({
-      currentTask: null,
+      currentTask: 2,
       setCurrentTask: (currentTask: SurveyStore["currentTask"]) =>
         set({ currentTask: currentTask }),
       firstTaskImages: [],
@@ -41,6 +45,13 @@ export const useSurveyStore = create(
       thirdTaskIndex: 0,
       setThirdTaskIndex: () =>
         set({ thirdTaskIndex: get().thirdTaskIndex + 1 }),
+      thirdTaskURLs: [],
+      setThirdTaskURLs: (thirdTaskURLs: SurveyStore["thirdTaskURLs"]) =>
+        set({ thirdTaskURLs: thirdTaskURLs }),
+      thirdTaskAnswers: [],
+      setThirdTaskAnswers: (
+        thirdTaskAnswers: SurveyStore["thirdTaskAnswers"]
+      ) => set({ thirdTaskAnswers: thirdTaskAnswers }),
       level: 1,
       setLevel: () => set({ level: get().level + 1 }),
       id: null,
