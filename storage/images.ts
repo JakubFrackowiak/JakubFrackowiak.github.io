@@ -50,7 +50,7 @@ export const getRandomImages = async (storage) => {
     ...firstAnimalImages.flat(2),
     ...firstFillerImages,
   ].sort(() => Math.random() - 0.5)
-  const secondAnimalImages = firstAnimalImages.map((animalPair) =>
+  const thirdAnimalImages = firstAnimalImages.map((animalPair) =>
     animalPair.map((animal) => {
       const animalName = animal.split(".")[0]
       const lastChar = animalName.slice(-1)
@@ -59,25 +59,25 @@ export const getRandomImages = async (storage) => {
       return newAnimalName
     })
   )
-  const secondNewAnimals = firstNewAnimals.map((animalPairs, index) =>
+  const thirdNewAnimals = firstNewAnimals.map((animalPairs, index) =>
     animalPairs
       .map((animalPair) =>
-        animalPair.filter((a) => !secondAnimalImages[index].includes(a))
+        animalPair.filter((a) => !thirdAnimalImages[index].includes(a))
       )
       .filter((animalPairs) => animalPairs.length > 0)
   )
-  const secondOddImages = secondNewAnimals.map((animal) =>
+  const thirdOddImages = thirdNewAnimals.map((animal) =>
     getRandomAnimals(animal, 6)
   )
-  const secondFillerImages = getRandomFillers(firstNewFillers, 8)
-  const secondTaskImages = [
-    ...secondAnimalImages.flat(2),
-    ...secondOddImages.flat(2),
-    ...secondFillerImages,
+  const thirdFillerImages = getRandomFillers(firstNewFillers, 8)
+  const thirdTaskImages = [
+    ...thirdAnimalImages.flat(2),
+    ...thirdOddImages.flat(2),
+    ...thirdFillerImages,
   ].sort(() => Math.random() - 0.5)
   return {
     firstTaskImages: firstTaskImages,
-    secondTaskImages: secondTaskImages,
+    thirdTaskImages: thirdTaskImages,
   }
 }
 
