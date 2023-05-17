@@ -28,11 +28,11 @@ export function ThirdTask() {
   }))
 
   const questions = [
-    "Czy waliles koniucha do nagich zdiec swojej matki?",
-    "Czy waliles koniucha do nagich zdiec swojej matki?",
-    "Czy waliles koniucha do nagich zdiec swojej matki?",
-    "Czy waliles koniucha do nagich zdiec swojej matki?",
-    "Czy waliles koniucha do nagich zdiec swojej matki?",
+    "Czy widziałeś już to zwierzę?",
+    "Czy widziałeś już to zwierzę?",
+    "Czy widziałeś już to zwierzę?",
+    "Czy widziałeś już to zwierzę?",
+    "Czy widziałeś już to zwierzę?",
   ]
 
   const formatImages = (images, task) => {
