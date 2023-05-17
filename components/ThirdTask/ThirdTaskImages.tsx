@@ -2,9 +2,9 @@ import { CircularProgress, Stack } from "@mui/material"
 import { getDownloadURL, ref } from "firebase/storage"
 import { useEffect } from "react"
 import { useStorage } from "reactfire"
-import { BeigePaper } from "./BeigePaper"
+import { BeigePaper } from "../common/BeigePaper"
 import { Img } from "react-image"
-import { useSurveyStore } from "../storage/survey-store"
+import { useSurveyStore } from "../../storage/survey-store"
 
 export function ThirdTaskImages() {
   const { thirdTaskImages, thirdTaskIndex, thirdTaskURLs, setThirdTaskURLs } =

@@ -1,12 +1,6 @@
-import {
-  Container,
-  Divider,
-  LinearProgress,
-  Stack,
-  Typography,
-} from "@mui/material"
-import { BeigeButton } from "components/BeigeButton"
-import { BeigePaper } from "components/BeigePaper"
+import { Container, Divider, Stack, Typography } from "@mui/material"
+import { BeigeButton } from "components/common/BeigeButton"
+import { BeigePaper } from "components/common/BeigePaper"
 import Link from "next/link"
 import { useEffect } from "react"
 import { getRandomImages } from "storage/images"

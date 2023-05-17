@@ -1,5 +1,5 @@
 import { useSurveyStore } from "storage/survey-store"
-import { BeigeButton } from "./BeigeButton"
+import { BeigeButton } from "../common/BeigeButton"
 
 export function ImReady() {
   const { setCurrentTask } = useSurveyStore((state) => ({

@@ -29,7 +29,7 @@ interface SurveyStore {
 export const useSurveyStore = create(
   persist<SurveyStore>(
     (set, get) => ({
-      currentTask: 0,
+      currentTask: 2,
       setCurrentTask: (currentTask: SurveyStore["currentTask"]) =>
         set({ currentTask: currentTask }),
       firstTaskImages: [],

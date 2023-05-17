@@ -1,25 +1,8 @@
-import { Card, styled, Typography, Snackbar, Alert } from "@mui/material"
+import { Snackbar, Alert } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
-import { useSurveyStore } from "../storage/survey-store"
-
-const LetterText = styled(Typography)(({ theme }) => ({
-  textAlign: "center",
-  userSelect: "none",
-  fontSize: "4rem",
-  [theme.breakpoints.down("lg")]: {
-    fontSize: "4rem",
-  },
-  [theme.breakpoints.down("md")]: {
-    fontSize: "3rem",
-  },
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "2rem",
-  },
-  [theme.breakpoints.down("xs")]: {
-    fontSize: "0.5rem",
-  },
-}))
+import { useSurveyStore } from "../../storage/survey-store"
+import { Slot } from "./Slot"
 
 export const SecondTask = () => {
   const [word, setWord] = useState("")
@@ -33,7 +16,7 @@ export const SecondTask = () => {
     setLevel: state.setLevel,
   }))
 
-  const words = ["hej"]
+  const words = ["krowa"]
 
   const pickAndScrambleWord = () => {
     const randomIndex = Math.floor(Math.random() * words.length)
@@ -110,68 +93,6 @@ export const SecondTask = () => {
     })
   }
 
-  const renderSlots = () => {
-    return (
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        width="100%"
-        spacing={1}
-      >
-        {letters.map((_, index) => (
-          <Card
-            sx={{
-              width: "100%",
-              aspectRatio: "1/1",
-              cursor: droppedLetters[index] ? "pointer" : "default",
-            }}
-            key={index}
-            onClick={() => handleSlotClick(index)}
-          >
-            <Stack justifyContent="center" alignItems="center" height="100%">
-              <LetterText textAlign="center" sx={{ userSelect: "none" }}>
-                {droppedLetters[index] ? droppedLetters[index].letter : null}
-              </LetterText>
-            </Stack>
-          </Card>
-        ))}
-      </Stack>
-    )
-  }
-
-  const renderLetters = () => {
-    return (
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        width="100%"
-        spacing={1}
-      >
-        {letters.map((letter, index) => (
-          <Card
-            sx={{
-              width: "100%",
-              aspectRatio: "1/1",
-              cursor: letters[index] ? "pointer" : "default",
-            }}
-            key={index}
-            onClick={() => handleLetterClick(index)}
-          >
-            <Stack justifyContent="center" alignItems="center" height="100%">
-              <LetterText
-                textAlign="center"
-                variant="h3"
-                sx={{ userSelect: "none" }}
-              >
-                {letter?.letter ? letter.letter : null}
-              </LetterText>
-            </Stack>
-          </Card>
-        ))}
-      </Stack>
-    )
-  }
-
   return (
     <Stack spacing={4} alignItems="center" width="100%">
       <Stack
@@ -180,8 +101,16 @@ export const SecondTask = () => {
         width="100%"
         sx={{ userSelect: "none" }}
       >
-        {renderSlots()}
-        {renderLetters()}
+        <Stack direction="row" width="100%" spacing={1}>
+          {droppedLetters.map((letter, index) => (
+            <Slot letter={letter} index={index} onClick={handleSlotClick} />
+          ))}
+        </Stack>
+        <Stack direction="row" width="100%" spacing={1}>
+          {letters.map((letter, index) => (
+            <Slot letter={letter} index={index} onClick={handleLetterClick} />
+          ))}
+        </Stack>
       </Stack>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}

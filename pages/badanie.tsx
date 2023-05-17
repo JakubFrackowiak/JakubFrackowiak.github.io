@@ -5,8 +5,8 @@ import { Container, Stack } from "@mui/material"
 import { TaskStepper } from "components/TaskStepper"
 import { useSurveyStore } from "../storage/survey-store"
 import { HydrationProvider, Client } from "react-hydration-provider"
-import { CopyID } from "components/CopyID"
-import { ImReady } from "components/ImReady"
+import { CopyID } from "components/miscellaneous/CopyID"
+import { ImReady } from "components/miscellaneous/ImReady"
 
 export default function Badanie() {
   const { currentTask } = useSurveyStore((state) => ({

@@ -1,10 +1,10 @@
 "use client"
 import { Box, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
-import { BeigePaper } from "./BeigePaper"
+import { BeigePaper } from "../common/BeigePaper"
 import { useSurveyStore } from "storage/survey-store"
 import Image from "next/image"
-import { ProgressBar } from "./ProgressBar"
+import { ProgressBar } from "../common/ProgressBar"
 
 export function FirstTaskImages() {
   const [progress, setProgress] = useState(0)
