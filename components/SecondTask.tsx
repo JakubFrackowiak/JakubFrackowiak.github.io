@@ -69,7 +69,7 @@ export const SecondTask = () => {
       setToastOpen(true)
       const timeout = setTimeout(() => {
         if (level >= 5) {
-          setCurrentTask(2)
+          setCurrentTask(3)
           return
         }
         setIsSolved(false)

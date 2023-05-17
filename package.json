@@ -19,6 +19,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-google-sheets": "^0.4.0",
+    "react-hydration-provider": "^1.0.2",
     "react-image": "^4.1.0",
     "react-is": "^17.0.2",
     "reactfire": "^4.2.2",

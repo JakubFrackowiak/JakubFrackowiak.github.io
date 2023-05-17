@@ -1,80 +1,85 @@
-import { CircularProgress, Stack } from "@mui/material"
-import { getDownloadURL, ref } from "firebase/storage"
-import { useEffect } from "react"
-import { useStorage } from "reactfire"
+"use client"
+import { Box, Stack } from "@mui/material"
+import { useEffect, useState } from "react"
 import { BeigePaper } from "./BeigePaper"
-import { Img } from "react-image"
 import { useSurveyStore } from "storage/survey-store"
+import Image from "next/image"
+import { ProgressBar } from "./ProgressBar"
 
 export function FirstTaskImages() {
+  const [progress, setProgress] = useState(0)
   const {
     setCurrentTask,
-    firstTaskImages,
     firstTaskIndex,
     setFirstTaskIndex,
     firstTaskURLs,
-    setFirstTaskURLs,
+    isFirstTaskLoaded,
+    setIsFirstTaskLoaded,
   } = useSurveyStore((state) => ({
     setCurrentTask: state.setCurrentTask,
-    firstTaskImages: state.firstTaskImages,
     firstTaskIndex: state.firstTaskIndex,
     setFirstTaskIndex: state.setFirstTaskIndex,
     firstTaskURLs: state.firstTaskURLs,
-    setFirstTaskURLs: state.setFirstTaskURLs,
-    setId: state.setId,
+    isFirstTaskLoaded: state.isFirstTaskLoaded,
+    setIsFirstTaskLoaded: state.setIsFirstTaskLoaded,
   }))
 
-  const storage = useStorage()
-
   useEffect(() => {
-    if (firstTaskURLs.length > 0) {
+    if (isFirstTaskLoaded) {
       const interval = setInterval(() => {
         setFirstTaskIndex()
       }, 3000)
       return () => clearInterval(interval)
     }
-  }, [firstTaskURLs])
+  }, [isFirstTaskLoaded, firstTaskIndex])
 
   useEffect(() => {
-    if (firstTaskImages.length > 0) {
-      const promises = firstTaskImages.map((imageName) => {
-        const imageRef = ref(storage, imageName)
-        return getDownloadURL(imageRef)
-      })
-
-      Promise.all(promises).then((urls) => setFirstTaskURLs(urls))
-      firstTaskURLs.map((url) => console.log(url))
-    }
-  }, [firstTaskImages])
-
-  useEffect(() => {
-    if (firstTaskIndex === firstTaskURLs.length && firstTaskURLs.length > 0) {
-      setCurrentTask(1)
+    if (firstTaskIndex === firstTaskURLs.length - 1 && isFirstTaskLoaded) {
+      setCurrentTask(2)
     }
   }, [firstTaskIndex])
 
-  console.log("firstTaskURLs", firstTaskURLs)
+  useEffect(() => {
+    if (progress === 100) {
+      setIsFirstTaskLoaded(true)
+    }
+  }, [progress])
 
-  return firstTaskURLs && firstTaskURLs.length > 0 ? (
+  const handleImageLoad = () => {
+    setProgress((prev) => prev + (1 / firstTaskURLs.length) * 100)
+  }
+
+  const handleImageError = () => {
+    setIsFirstTaskLoaded(false)
+  }
+
+  return (
     <Stack>
-      <BeigePaper width="fit-content" height="60vh" p="0">
-        {firstTaskURLs.map((url, index) => (
-          <Img
-            key={index}
-            src={url}
-            style={{
-              height: "60vh",
-              width: "100%",
-              objectFit: "contain",
-              borderRadius: "0.5rem",
-              display: index === firstTaskIndex ? "block" : "none",
-            }}
-            alt="animal image"
-          />
-        ))}
-      </BeigePaper>
+      {!isFirstTaskLoaded ? <ProgressBar progress={progress} /> : null}
+      {firstTaskURLs.map((url, index) => (
+        <Box
+          sx={{
+            display:
+              index === firstTaskIndex && isFirstTaskLoaded ? "block" : "none",
+          }}
+        >
+          <BeigePaper width="fit-content" height="60vh" p="0">
+            <Image
+              key={index}
+              src={url}
+              width="100%"
+              height="60vh"
+              objectFit="contain"
+              style={{
+                borderRadius: "0.5rem",
+              }}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              alt="animal image"
+            />
+          </BeigePaper>
+        </Box>
+      ))}
     </Stack>
-  ) : (
-    <CircularProgress variant="indeterminate" />
   )
 }
