@@ -5,6 +5,7 @@ import { BeigePaper } from "../common/BeigePaper"
 import { useSurveyStore } from "storage/survey-store"
 import Image from "next/image"
 import { ProgressBar } from "../common/ProgressBar"
+import { Img } from "react-image"
 
 export function FirstTaskImages() {
   const [progress, setProgress] = useState(0)
@@ -40,7 +41,7 @@ export function FirstTaskImages() {
   }, [firstTaskIndex])
 
   useEffect(() => {
-    if (progress === 100) {
+    if (progress >= 100) {
       setIsFirstTaskLoaded(true)
     }
   }, [progress])
@@ -61,16 +62,17 @@ export function FirstTaskImages() {
           sx={{
             display:
               index === firstTaskIndex && isFirstTaskLoaded ? "block" : "none",
+            height: "60vh",
           }}
         >
           <BeigePaper width="fit-content" height="60vh" p="0">
-            <Image
+            <Img
               key={index}
               src={url}
-              width="100%"
-              height="60vh"
-              objectFit="contain"
               style={{
+                width: "100%",
+                height: "60vh",
+                objectFit: "cover",
                 borderRadius: "0.5rem",
               }}
               onLoad={handleImageLoad}

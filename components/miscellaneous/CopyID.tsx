@@ -37,7 +37,7 @@ export function CopyID() {
     }
   }
   return (
-    <BeigePaper width="fit-content" height="fit-content" p="0">
+    <BeigePaper width="fit-content" height="100%" p="0">
       <Box position="relative" py="1.5rem" px="2.5rem">
         <Typography variant="h5">ID: {id}</Typography>
         <Box sx={{ position: "absolute", top: "0.4rem", right: "0.4rem" }}>

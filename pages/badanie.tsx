@@ -32,7 +32,7 @@ export default function Badanie() {
     <Container maxWidth="md">
       <HydrationProvider>
         <Client>
-          <Stack height="100vh" alignItems="center" spacing={6} py="15vh">
+          <Stack alignItems="center" spacing={6} py="10vh">
             <TaskStepper />
             <Stack
               alignItems="center"
