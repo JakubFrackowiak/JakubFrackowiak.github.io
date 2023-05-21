@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 interface SurveyStore {
+  reset: () => void
   currentTask: number
   setCurrentTask: (state: number) => void
   firstTaskImages: string[]
@@ -18,6 +19,8 @@ interface SurveyStore {
   setThirdTaskIndex: () => void
   thirdTaskURLs: string[]
   setThirdTaskURLs: (state: string[]) => void
+  isThirdTaskLoaded: boolean
+  setIsThirdTaskLoaded: (state: boolean) => void
   thirdTaskAnswers: string[]
   setThirdTaskAnswers: (state: string[]) => void
   level: number
@@ -26,41 +29,50 @@ interface SurveyStore {
   setId: (state: string) => void
 }
 
+const initialState = {
+  currentTask: 3,
+  firstTaskImages: [],
+  firstTaskIndex: 0,
+  firstTaskURLs: [],
+  isFirstTaskLoaded: false,
+  thirdTaskImages: [],
+  thirdTaskIndex: 0,
+  thirdTaskURLs: [],
+  isThirdTaskLoaded: false,
+  thirdTaskAnswers: [],
+  level: 1,
+  id: null,
+}
+
 export const useSurveyStore = create(
   persist<SurveyStore>(
     (set, get) => ({
-      currentTask: 2,
+      ...initialState,
+      reset: () => set(initialState),
       setCurrentTask: (currentTask: SurveyStore["currentTask"]) =>
         set({ currentTask: currentTask }),
-      firstTaskImages: [],
       setFirstTaskImages: (firstTaskImages: SurveyStore["firstTaskImages"]) =>
         set({ firstTaskImages: firstTaskImages }),
-      firstTaskIndex: 0,
       setFirstTaskIndex: () =>
         set({ firstTaskIndex: get().firstTaskIndex + 1 }),
-      firstTaskURLs: [],
       setFirstTaskURLs: (firstTaskURLs: SurveyStore["firstTaskURLs"]) =>
         set({ firstTaskURLs: firstTaskURLs }),
-      isFirstTaskLoaded: false,
       setIsFirstTaskLoaded: (
         isFirstTaskLoaded: SurveyStore["isFirstTaskLoaded"]
       ) => set({ isFirstTaskLoaded: isFirstTaskLoaded }),
-      thirdTaskImages: [],
       setThirdTaskImages: (thirdTaskImages: SurveyStore["thirdTaskImages"]) =>
         set({ thirdTaskImages: thirdTaskImages }),
-      thirdTaskIndex: 0,
       setThirdTaskIndex: () =>
         set({ thirdTaskIndex: get().thirdTaskIndex + 1 }),
-      thirdTaskURLs: [],
       setThirdTaskURLs: (thirdTaskURLs: SurveyStore["thirdTaskURLs"]) =>
         set({ thirdTaskURLs: thirdTaskURLs }),
-      thirdTaskAnswers: [],
+      setIsThirdTaskLoaded: (
+        isThirdTaskLoaded: SurveyStore["isThirdTaskLoaded"]
+      ) => set({ isThirdTaskLoaded: isThirdTaskLoaded }),
       setThirdTaskAnswers: (
         thirdTaskAnswers: SurveyStore["thirdTaskAnswers"]
       ) => set({ thirdTaskAnswers: thirdTaskAnswers }),
-      level: 1,
       setLevel: () => set({ level: get().level + 1 }),
-      id: null,
       setId: (id: SurveyStore["id"]) => set({ id: id }),
     }),
     {

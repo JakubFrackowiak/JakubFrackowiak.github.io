@@ -11,6 +11,7 @@ export function ThirdTask() {
   const [imageAnswers, setImageAnswers] = useState([])
   const {
     id,
+    setCurrentTask,
     firstTaskImages,
     setThirdTaskIndex,
     thirdTaskImages,
@@ -19,6 +20,7 @@ export function ThirdTask() {
     thirdTaskAnswers,
   } = useSurveyStore((state) => ({
     id: state.id,
+    setCurrentTask: state.setCurrentTask,
     firstTaskImages: state.firstTaskImages,
     thirdTaskAnswers: state.thirdTaskAnswers,
     thirdTaskImages: state.thirdTaskImages,
@@ -27,18 +29,23 @@ export function ThirdTask() {
     setThirdTaskAnswers: state.setThirdTaskAnswers,
   }))
 
-  const questions = [
-    "Czy widziałeś już to zwierzę?",
-    "Czy widziałeś już to zwierzę?",
-    "Czy widziałeś już to zwierzę?",
-    "Czy widziałeś już to zwierzę?",
-    "Czy widziałeś już to zwierzę?",
-  ]
+  const questions = ["Czy widziałeś już to zwierzę?"]
 
   const formatImages = (images, task) => {
     const imageData = images.reduce((obj, name, index) => {
       const newName = name.replace(".jpg", "").split("/")[1]
-      obj[`zad${task + 1}_zdj${index + 1}`] = newName
+      obj[`zad${task}_zdj${index + 1}`] = newName
+      return obj
+    }, {})
+    return imageData
+  }
+
+  const formatAnswers = (answers) => {
+    const imageData = answers.reduce((obj, task, index) => {
+      task.forEach((answer, answerIndex) => {
+        const key = `zdj${index + 1}_odp${answerIndex + 1}`
+        obj[key] = answer
+      })
       return obj
     }, {})
     return imageData
@@ -46,12 +53,13 @@ export function ThirdTask() {
 
   const updateSheet = async () => {
     const firstTaskImageData = formatImages(firstTaskImages, 1)
-    const thirdTaskImageData = formatImages(thirdTaskImages, 2)
+    const thirdTaskImageData = formatImages(thirdTaskImages, 3)
+    const thirdTaskAnswersData = formatAnswers(thirdTaskAnswers)
     const data = {
       id: id,
       ...firstTaskImageData,
       ...thirdTaskImageData,
-      ...thirdTaskAnswers,
+      ...thirdTaskAnswersData,
     }
     axios.post(
       "https://script.google.com/macros/s/AKfycbzzFQSoOLTJqApJciDfIDJoHVO6Br3c9Q42hFDR7g_d1zo9DSphAyieFQXSrBW9LXrCcg/exec",
@@ -62,36 +70,27 @@ export function ThirdTask() {
   const handleClick = () => {
     if (thirdTaskImages[thirdTaskIndex + 1]) {
       setThirdTaskIndex()
-      setThirdTaskAnswers(imageAnswers.flat(1))
+      setThirdTaskAnswers(imageAnswers)
     } else {
       updateSheet()
+      setCurrentTask(4)
     }
   }
 
-  console.log(thirdTaskAnswers)
-  console.log("thirdTaskIndex", thirdTaskIndex)
-
   return (
     <Stack width="100%" alignItems="center">
-      {thirdTaskImages[thirdTaskIndex] ? (
-        <Box>
-          <ThirdTaskImages />
-          {questions.map((question, questionIndex) => (
-            <Question
-              question={question}
-              imageAnswers={imageAnswers}
-              questionIndex={questionIndex}
-              setImageAnswers={setImageAnswers}
-            />
-          ))}
-          <Stack py="2rem">
-            {thirdTaskIndex}
-            <BeigeButton onClick={() => handleClick()}>
-              Następne zdjęcie
-            </BeigeButton>
-          </Stack>
-        </Box>
-      ) : null}
+      <Stack direction="row" spacing={4}>
+        <ThirdTaskImages />
+        {questions.map((question, questionIndex) => (
+          <Question
+            question={question}
+            imageAnswers={imageAnswers}
+            questionIndex={questionIndex}
+            setImageAnswers={setImageAnswers}
+          />
+        ))}
+      </Stack>
+      <BeigeButton onClick={() => handleClick()}>Następne zdjęcie</BeigeButton>
     </Stack>
   )
 }

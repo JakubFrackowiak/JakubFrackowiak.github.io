@@ -1,51 +1,68 @@
-import { CircularProgress, Stack } from "@mui/material"
+import { Box, CircularProgress, Stack } from "@mui/material"
 import { getDownloadURL, ref } from "firebase/storage"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useStorage } from "reactfire"
 import { BeigePaper } from "../common/BeigePaper"
 import { Img } from "react-image"
 import { useSurveyStore } from "../../storage/survey-store"
+import { ProgressBar } from "components/common/ProgressBar"
 
 export function ThirdTaskImages() {
-  const { thirdTaskImages, thirdTaskIndex, thirdTaskURLs, setThirdTaskURLs } =
-    useSurveyStore((state) => ({
-      thirdTaskImages: state.thirdTaskImages,
-      thirdTaskIndex: state.thirdTaskIndex,
-      thirdTaskURLs: state.thirdTaskURLs,
-      setThirdTaskURLs: state.setThirdTaskURLs,
-    }))
-
-  const storage = useStorage()
+  const [progress, setProgress] = useState(0)
+  const {
+    thirdTaskIndex,
+    thirdTaskURLs,
+    isThirdTaskLoaded,
+    setIsThirdTaskLoaded,
+  } = useSurveyStore((state) => ({
+    thirdTaskIndex: state.thirdTaskIndex,
+    thirdTaskURLs: state.thirdTaskURLs,
+    isThirdTaskLoaded: state.isThirdTaskLoaded,
+    setIsThirdTaskLoaded: state.setIsThirdTaskLoaded,
+  }))
 
   useEffect(() => {
-    const promises = thirdTaskImages.map((imageName) => {
-      const imageRef = ref(storage, imageName)
-      return getDownloadURL(imageRef)
-    })
+    if (progress >= 100) {
+      setIsThirdTaskLoaded(true)
+    }
+  }, [progress])
 
-    Promise.all(promises).then((urls) => setThirdTaskURLs(urls))
-  }, [thirdTaskImages])
+  const handleImageLoad = () => {
+    setProgress((prev) => prev + (1 / thirdTaskURLs.length) * 100)
+  }
 
-  return thirdTaskURLs && thirdTaskURLs.length > 0 ? (
+  const handleImageError = () => {
+    setIsThirdTaskLoaded(false)
+  }
+
+  return (
     <Stack>
-      <BeigePaper width="fit-content" height="60vh" p="0">
-        {thirdTaskURLs.map((url, index) => (
-          <Img
-            key={index}
-            src={url}
-            style={{
-              height: "60vh",
-              width: "100%",
-              objectFit: "contain",
-              borderRadius: "0.8rem",
-              display: index === thirdTaskIndex ? "block" : "none",
-            }}
-            alt="animal image"
-          />
-        ))}
-      </BeigePaper>
+      {!isThirdTaskLoaded ? <ProgressBar progress={progress} /> : null}
+      {thirdTaskURLs.map((url, index) => (
+        <Box
+          sx={{
+            display:
+              index === thirdTaskIndex && thirdTaskIndex ? "block" : "none",
+            height: "60vh",
+          }}
+        >
+          <BeigePaper width="fit-content" height="60vh" p="0">
+            <Img
+              key={index}
+              src={url}
+              style={{
+                width: "100%",
+                height: "60vh",
+                objectFit: "cover",
+                borderRadius: "0.5rem",
+              }}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              alt="animal image"
+            />
+          </BeigePaper>
+        </Box>
+      ))}
     </Stack>
-  ) : (
-    <CircularProgress variant="indeterminate" />
   )
 }

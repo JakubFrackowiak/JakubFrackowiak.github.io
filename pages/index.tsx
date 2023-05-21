@@ -11,6 +11,7 @@ import { getDownloadURL, ref } from "firebase/storage"
 
 export default function index() {
   const {
+    reset: resetStore,
     firstTaskImages,
     setFirstTaskImages,
     setFirstTaskURLs,
@@ -19,6 +20,7 @@ export default function index() {
     setThirdTaskURLs,
     setId,
   } = useSurveyStore((state) => ({
+    reset: state.reset,
     firstTaskImages: state.firstTaskImages,
     setFirstTaskURLs: state.setFirstTaskURLs,
     setFirstTaskImages: state.setFirstTaskImages,
@@ -51,7 +53,7 @@ export default function index() {
           return getDownloadURL(imageRef)
         })
         const urls = await Promise.all(promises)
-        if (task === 0) {
+        if (task === 1) {
           setFirstTaskURLs(urls)
         } else {
           setThirdTaskURLs(urls)
@@ -63,13 +65,14 @@ export default function index() {
   }
 
   useEffect(() => {
+    resetStore()
     setImages()
     setSurveyId()
   }, [])
 
   useEffect(() => {
-    setImageURLs(firstTaskImages, 0)
-    setImageURLs(thirdTaskImages, 2)
+    setImageURLs(firstTaskImages, 1)
+    setImageURLs(thirdTaskImages, 3)
   }, [firstTaskImages, thirdTaskImages])
 
   return (
