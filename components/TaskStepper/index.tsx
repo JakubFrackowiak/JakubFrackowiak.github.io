@@ -6,20 +6,8 @@ import { useEffect, useState } from "react"
 
 export function TaskStepper() {
   const [activeStep, setActiveStep] = useState(0)
-  const {
-    currentTask,
-    firstTaskImages,
-    firstTaskIndex,
-    thirdTaskIndex,
-    thirdTaskImages,
-    level,
-  } = useSurveyStore((state) => ({
+  const { currentTask } = useSurveyStore((state) => ({
     currentTask: state.currentTask,
-    firstTaskImages: state.firstTaskImages,
-    firstTaskIndex: state.firstTaskIndex,
-    thirdTaskIndex: state.thirdTaskIndex,
-    thirdTaskImages: state.thirdTaskImages,
-    level: state.level,
   }))
   const steps = ["Oglądaj zdjęcia", "Ułóż wyraz", "Opowiedz na pytania"]
   const stepperIcons = [Photo, Extension, BallotIcon]
@@ -31,21 +19,11 @@ export function TaskStepper() {
   const getLabel = (index) => {
     switch (index) {
       case 0:
-        return (
-          "Oglądaj zdjęcia " +
-          (currentTask == 1
-            ? firstTaskIndex + 1 + "/" + firstTaskImages.length
-            : "")
-        )
+        return "Oglądaj zdjęcia"
       case 1:
-        return "Ułóż wyraz " + (currentTask == 2 ? level + "/5" : "")
+        return "Ułóż wyraz"
       case 2:
-        return (
-          "Opowiedz na pytania " +
-          (currentTask == 3
-            ? thirdTaskIndex + 1 + "/" + thirdTaskImages.length
-            : "")
-        )
+        return "Opowiedz na pytania "
     }
   }
 
