@@ -1,8 +1,9 @@
-import { Snackbar, Alert } from "@mui/material"
+import { Snackbar, Alert, Typography } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
 import { useSurveyStore } from "../../storage/survey-store"
 import { Slot } from "./Slot"
+import { BeigePaper } from "components/common/BeigePaper"
 
 export const SecondTask = () => {
   const [word, setWord] = useState("")
@@ -94,22 +95,31 @@ export const SecondTask = () => {
   }
 
   return (
-    <Stack spacing={4} alignItems="center" width="100%">
-      <Stack
-        spacing={2}
-        alignItems="center"
-        width="100%"
-        sx={{ userSelect: "none" }}
-      >
-        <Stack direction="row" width="100%" spacing={1}>
-          {droppedLetters.map((letter, index) => (
-            <Slot letter={letter} index={index} onClick={handleSlotClick} />
-          ))}
+    <Stack alignItems="center" width="100%" pt="5vh">
+      <Stack spacing={10} alignItems="center" width="100%">
+        <Stack my="3vh">
+          <BeigePaper>
+            <Typography variant="h5" noWrap>
+              Ułóż słowo ze wszystkich liter przedstawionych poniżej.
+            </Typography>
+          </BeigePaper>
         </Stack>
-        <Stack direction="row" width="100%" spacing={1}>
-          {letters.map((letter, index) => (
-            <Slot letter={letter} index={index} onClick={handleLetterClick} />
-          ))}
+        <Stack
+          spacing={2}
+          alignItems="center"
+          width="100%"
+          sx={{ userSelect: "none" }}
+        >
+          <Stack direction="row" width="100%" spacing={1}>
+            {droppedLetters.map((letter, index) => (
+              <Slot letter={letter} index={index} onClick={handleSlotClick} />
+            ))}
+          </Stack>
+          <Stack direction="row" width="100%" spacing={1}>
+            {letters.map((letter, index) => (
+              <Slot letter={letter} index={index} onClick={handleLetterClick} />
+            ))}
+          </Stack>
         </Stack>
       </Stack>
       <Snackbar
