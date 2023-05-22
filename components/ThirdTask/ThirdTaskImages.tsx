@@ -6,59 +6,53 @@ import { BeigePaper } from "../common/BeigePaper"
 import { Img } from "react-image"
 import { useSurveyStore } from "../../storage/survey-store"
 import { ProgressBar } from "components/common/ProgressBar"
+import Image from "next/image"
 
 export function ThirdTaskImages() {
-  const [progress, setProgress] = useState(0)
   const {
+    firstTaskURLs,
     thirdTaskIndex,
     thirdTaskURLs,
-    isThirdTaskLoaded,
-    setIsThirdTaskLoaded,
+    progress,
+    setProgress,
   } = useSurveyStore((state) => ({
+    firstTaskURLs: state.firstTaskURLs,
     thirdTaskIndex: state.thirdTaskIndex,
     thirdTaskURLs: state.thirdTaskURLs,
-    isThirdTaskLoaded: state.isThirdTaskLoaded,
-    setIsThirdTaskLoaded: state.setIsThirdTaskLoaded,
+    progress: state.progress,
+    setProgress: state.setProgress,
   }))
 
-  useEffect(() => {
-    if (progress >= 100) {
-      setIsThirdTaskLoaded(true)
-    }
-  }, [progress])
-
   const handleImageLoad = () => {
-    setProgress((prev) => prev + (1 / thirdTaskURLs.length) * 100)
-  }
-
-  const handleImageError = () => {
-    setIsThirdTaskLoaded(false)
+    setProgress((1 / (firstTaskURLs.length + thirdTaskURLs.length)) * 100)
+    console.log("task 3: ", progress)
   }
 
   return (
     <Stack>
-      {!isThirdTaskLoaded ? <ProgressBar progress={progress} /> : null}
       {thirdTaskURLs.map((url, index) => (
         <Box
           sx={{
-            display:
-              index === thirdTaskIndex && thirdTaskIndex ? "block" : "none",
-            height: "60vh",
+            display: index === thirdTaskIndex ? "block" : "none",
           }}
         >
-          <BeigePaper width="fit-content" height="60vh" p="0">
-            <Img
+          <BeigePaper width="30rem" height="40rem" p="0">
+            <Image
               key={index}
               src={url}
+              layout="fill"
+              objectFit="contain"
               style={{
-                width: "100%",
-                height: "60vh",
-                objectFit: "cover",
                 borderRadius: "0.5rem",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
               }}
-              onLoad={handleImageLoad}
-              onError={handleImageError}
+              onLoad={() => handleImageLoad()}
               alt="animal image"
+              priority
             />
           </BeigePaper>
         </Box>

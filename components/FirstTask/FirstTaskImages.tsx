@@ -6,77 +6,67 @@ import { useSurveyStore } from "storage/survey-store"
 import Image from "next/image"
 import { ProgressBar } from "../common/ProgressBar"
 import { Img } from "react-image"
+import { grey } from "@mui/material/colors"
 
 export function FirstTaskImages() {
-  const [progress, setProgress] = useState(0)
   const {
     setCurrentTask,
     firstTaskIndex,
     setFirstTaskIndex,
     firstTaskURLs,
-    isFirstTaskLoaded,
-    setIsFirstTaskLoaded,
+    thirdTaskURLs,
+    progress,
+    setProgress,
   } = useSurveyStore((state) => ({
     setCurrentTask: state.setCurrentTask,
     firstTaskIndex: state.firstTaskIndex,
     setFirstTaskIndex: state.setFirstTaskIndex,
     firstTaskURLs: state.firstTaskURLs,
-    isFirstTaskLoaded: state.isFirstTaskLoaded,
-    setIsFirstTaskLoaded: state.setIsFirstTaskLoaded,
+    thirdTaskURLs: state.thirdTaskURLs,
+    progress: state.progress,
+    setProgress: state.setProgress,
   }))
 
   useEffect(() => {
-    if (isFirstTaskLoaded) {
-      const interval = setInterval(() => {
-        setFirstTaskIndex()
-      }, 3000)
-      return () => clearInterval(interval)
-    }
-  }, [isFirstTaskLoaded, firstTaskIndex])
+    const interval = setInterval(() => {
+      setFirstTaskIndex()
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [firstTaskIndex])
 
   useEffect(() => {
-    if (firstTaskIndex === firstTaskURLs.length - 1 && isFirstTaskLoaded) {
+    if (firstTaskIndex === firstTaskURLs.length - 1 && progress == 100) {
       setCurrentTask(2)
     }
   }, [firstTaskIndex])
 
-  useEffect(() => {
-    if (progress >= 100) {
-      setIsFirstTaskLoaded(true)
-    }
-  }, [progress])
-
   const handleImageLoad = () => {
-    setProgress((prev) => prev + (1 / firstTaskURLs.length) * 100)
-  }
-
-  const handleImageError = () => {
-    setIsFirstTaskLoaded(false)
+    setProgress((1 / (firstTaskURLs.length + thirdTaskURLs.length)) * 100)
+    console.log("task 1: ", progress)
   }
 
   return (
     <Stack>
-      {!isFirstTaskLoaded ? <ProgressBar progress={progress} /> : null}
       {firstTaskURLs.map((url, index) => (
         <Box
           sx={{
-            display:
-              index === firstTaskIndex && isFirstTaskLoaded ? "block" : "none",
-            height: "60vh",
+            display: index === firstTaskIndex ? "block" : "none",
           }}
+          height="30rem"
+          width="30rem"
         >
-          <BeigePaper width="fit-content" height="60vh" p="0">
-            <Img
+          <BeigePaper>
+            <Image
               key={index}
               src={url}
+              layout="fill"
+              objectFit="contain"
               style={{
-                width: "100%",
-                height: "60vh",
-                objectFit: "cover",
                 borderRadius: "0.5rem",
+                transform: "scale(0.9)",
               }}
-              onLoad={handleImageLoad}
-              onError={handleImageError}
+              priority
+              onLoad={() => handleImageLoad()}
               alt="animal image"
             />
           </BeigePaper>

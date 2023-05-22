@@ -24,7 +24,7 @@ export function AnswerCheckbox({
   useEffect(() => {
     setImageAnswers((prev) => {
       const newAnswers = [...prev]
-      newAnswers[thirdTaskIndex] = Array(4).fill(null)
+      newAnswers[thirdTaskIndex] = Array(1).fill(null)
       return newAnswers
     })
   }, [thirdTaskIndex])

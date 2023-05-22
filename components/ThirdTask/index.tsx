@@ -14,6 +14,7 @@ export function ThirdTask() {
   const [isReady, setIsReady] = useState(false)
   const {
     id,
+    currentTask,
     setCurrentTask,
     firstTaskImages,
     setThirdTaskIndex,
@@ -23,6 +24,7 @@ export function ThirdTask() {
     thirdTaskAnswers,
   } = useSurveyStore((state) => ({
     id: state.id,
+    currentTask: state.currentTask,
     setCurrentTask: state.setCurrentTask,
     firstTaskImages: state.firstTaskImages,
     thirdTaskAnswers: state.thirdTaskAnswers,

@@ -1,7 +1,7 @@
 import { FirstTask } from "components/FirstTask"
 import { SecondTask } from "components/SecondTask"
 import { ThirdTask } from "components/ThirdTask"
-import { Container, Stack } from "@mui/material"
+import { Box, Container, Stack } from "@mui/material"
 import { TaskStepper } from "components/TaskStepper"
 import { useSurveyStore } from "../storage/survey-store"
 import { HydrationProvider, Client } from "react-hydration-provider"
@@ -17,22 +17,18 @@ export default function Badanie() {
     switch (currentTask) {
       case 0:
         return <ImReady />
-      case 1:
-        return <FirstTask />
       case 2:
         return <SecondTask />
-      case 3:
-        return <ThirdTask />
       case 4:
         return <CopyID />
     }
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ height: "100vh" }}>
       <HydrationProvider>
         <Client>
-          <Stack alignItems="center" spacing={6} py="10vh">
+          <Stack alignItems="center" spacing={6} py="10vh" height="100%">
             <TaskStepper />
             <Stack
               alignItems="center"
@@ -41,6 +37,12 @@ export default function Badanie() {
               height="100%"
             >
               {renderTask()}
+              <Box sx={{ display: currentTask == 1 ? "block" : "none" }}>
+                <FirstTask />
+              </Box>
+              <Box sx={{ display: currentTask == 3 ? "block" : "none" }}>
+                <ThirdTask />
+              </Box>
             </Stack>
           </Stack>
         </Client>

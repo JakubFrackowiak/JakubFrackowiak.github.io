@@ -85,7 +85,6 @@ export default function index() {
       <Stack alignItems="center" spacing={10}>
         <BeigePaper height="20rem">
           <Divider orientation="horizontal" />
-
           <Stack height="100%" justifyContent="space-around">
             <Typography variant="h6" textAlign="justify" color="grey.800">
               To zadanie dotyczy procesów poznawczych zaangażowanych w
@@ -104,8 +103,8 @@ export default function index() {
             >
               Jeśli jesteś gotowy/a, aby obejrzeć zdjęcia kliknij „Dalej”.
             </Typography>
+            <Divider orientation="horizontal" />
           </Stack>
-          <Divider orientation="horizontal" />
         </BeigePaper>
         <BeigePaper width="fit-content" p="0">
           <Link href="/badanie">

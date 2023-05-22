@@ -3,7 +3,7 @@ import { FirstTaskImages } from "./FirstTaskImages"
 
 export function FirstTask() {
   return (
-    <Stack height="60vh" justifyContent="center">
+    <Stack justifyContent="center">
       <FirstTaskImages />
     </Stack>
   )
