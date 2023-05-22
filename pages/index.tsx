@@ -85,7 +85,6 @@ export default function index() {
       <Stack alignItems="center" spacing={10}>
         <BeigePaper height="20rem">
           <Stack height="100%" justifyContent="space-around">
-            <Divider orientation="horizontal" />
             <Typography variant="h6" textAlign="justify" color="grey.800">
               To zadanie dotyczy procesów poznawczych zaangażowanych w
               postrzeganie obiektów. Za chwilę zobaczysz 32 fotografie
