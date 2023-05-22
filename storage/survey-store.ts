@@ -27,10 +27,12 @@ interface SurveyStore {
   setLevel: () => void
   id: string
   setId: (state: string) => void
+  progress: number
+  setProgress: (state: number) => void
 }
 
 const initialState = {
-  currentTask: 3,
+  currentTask: 0,
   firstTaskImages: [],
   firstTaskIndex: 0,
   firstTaskURLs: [],
@@ -42,6 +44,7 @@ const initialState = {
   thirdTaskAnswers: [],
   level: 1,
   id: null,
+  progress: 0,
 }
 
 export const useSurveyStore = create(
@@ -74,6 +77,10 @@ export const useSurveyStore = create(
       ) => set({ thirdTaskAnswers: thirdTaskAnswers }),
       setLevel: () => set({ level: get().level + 1 }),
       setId: (id: SurveyStore["id"]) => set({ id: id }),
+      setProgress: (progress: SurveyStore["progress"]) =>
+        set({
+          progress: get().progress >= 100 ? 100 : get().progress + progress,
+        }),
     }),
     {
       name: "survey-storage",
