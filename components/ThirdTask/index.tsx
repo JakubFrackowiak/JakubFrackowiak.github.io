@@ -2,13 +2,16 @@ import { Box, Stack } from "@mui/material"
 import { CopyID } from "../miscellaneous/CopyID"
 import { Question } from "./Question"
 import { ThirdTaskImages } from "./ThirdTaskImages"
+import { BeigePaper } from "components/common/BeigePaper"
 import { BeigeButton } from "../common/BeigeButton"
 import { useSurveyStore } from "storage/survey-store"
 import { useState } from "react"
 import axios from "axios"
+import { ThirdTaskQuestion } from "./ThirdTaskQuestion"
 
 export function ThirdTask() {
   const [imageAnswers, setImageAnswers] = useState([])
+  const [isReady, setIsReady] = useState(false)
   const {
     id,
     setCurrentTask,
@@ -76,21 +79,39 @@ export function ThirdTask() {
       setCurrentTask(4)
     }
   }
+  const handleReady = () => {
+    setIsReady(true)
+  }
 
   return (
     <Stack width="100%" alignItems="center">
-      <Stack direction="row" spacing={4}>
-        <ThirdTaskImages />
-        {questions.map((question, questionIndex) => (
-          <Question
-            question={question}
-            imageAnswers={imageAnswers}
-            questionIndex={questionIndex}
-            setImageAnswers={setImageAnswers}
-          />
-        ))}
-      </Stack>
-      <BeigeButton onClick={() => handleClick()}>Następne zdjęcie</BeigeButton>
+      {isReady ? (
+        <Stack>
+          <Stack direction="row" spacing={4}>
+            <ThirdTaskImages />
+            {questions.map((question, questionIndex) => (
+              <Question
+                question={question}
+                imageAnswers={imageAnswers}
+                questionIndex={questionIndex}
+                setImageAnswers={setImageAnswers}
+              />
+            ))}
+          </Stack>
+          <BeigeButton onClick={() => handleClick()}>
+            Następne zdjęcie
+          </BeigeButton>
+        </Stack>
+      ) : (
+        <Stack alignItems="center">
+          <ThirdTaskQuestion />
+          <BeigePaper width="fit-content" p="0">
+            <BeigeButton onClick={() => handleReady()}>
+              Rozpocznij zadanie
+            </BeigeButton>
+          </BeigePaper>
+        </Stack>
+      )}
     </Stack>
   )
 }
