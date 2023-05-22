@@ -87,17 +87,27 @@ export default function index() {
           <Stack height="100%" justifyContent="space-around">
             <Divider orientation="horizontal" />
             <Typography variant="h6" textAlign="justify" color="grey.800">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              sed, dolorem doloribus consequuntur libero nemo nam expedita
-              impedit obcaecati eos perspiciatis doloremque magni iure
-              reiciendis laudantium ipsum quae, voluptate distinctio!
+              To zadanie dotyczy procesów poznawczych zaangażowanych w
+              postrzeganie obiektów. Za chwilę zobaczysz 32 fotografie
+              przedstawiające różne zwierzęta. Fotografie będą zmieniały się
+              same w równym tempie. Przyglądaj się prezentowanym zwierzętom
+              najlepiej jak potrafisz, ponieważ po prezentacji nastąpią zadania
+              sprawdzające Twoją spostrzegawczość.
             </Typography>
             <Divider orientation="horizontal" />
+            <Typography
+              variant="h6"
+              textAlign="justify"
+              color="grey.800"
+              alignSelf="center"
+            >
+              Jeśli jesteś gotowy/a, aby obejrzeć zdjęcia kliknij „Dalej”.
+            </Typography>
           </Stack>
         </BeigePaper>
         <BeigePaper width="fit-content" p="0">
           <Link href="/badanie">
-            <BeigeButton>Rozpocznij badanie</BeigeButton>
+            <BeigeButton>Dalej</BeigeButton>
           </Link>
         </BeigePaper>
       </Stack>
