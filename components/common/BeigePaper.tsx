@@ -18,6 +18,8 @@ export function BeigePaper({
         width: width,
         p: p,
         borderRadius: borderRadius,
+        position: "relative",
+        display: "inline-block",
       }}
     >
       {children}

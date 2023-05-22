@@ -7,12 +7,14 @@ export function BeigeButton({
   borderRadius = "0.5rem",
   width = "fit-content",
   height = "fit-content",
+  disabled = false,
 }) {
   return (
     <BeigePaper borderRadius={borderRadius} width={width} height={height} p={0}>
       <Button
         variant="contained"
         onClick={onClick}
+        disabled={disabled}
         disableElevation
         sx={{
           py: "1rem",
