@@ -79,10 +79,15 @@ export default function index() {
     <Container
       maxWidth="md"
       sx={{
-        my: "10rem",
+        height: "100vh",
       }}
     >
-      <Stack alignItems="center" spacing={10}>
+      <Stack
+        alignItems="center"
+        spacing={10}
+        height="100%"
+        justifyContent="center"
+      >
         <BeigePaper height="20rem">
           <Divider orientation="horizontal" />
           <Stack height="100%" justifyContent="space-around">
@@ -106,11 +111,9 @@ export default function index() {
             <Divider orientation="horizontal" />
           </Stack>
         </BeigePaper>
-        <BeigePaper width="fit-content" p="0">
-          <Link href="/badanie">
-            <BeigeButton>Dalej</BeigeButton>
-          </Link>
-        </BeigePaper>
+        <Link href="/badanie">
+          <BeigeButton>Dalej</BeigeButton>
+        </Link>
       </Stack>
     </Container>
   )

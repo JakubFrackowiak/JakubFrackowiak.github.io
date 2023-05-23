@@ -11,39 +11,26 @@ import { grey } from "@mui/material/colors"
 import { useEffect } from "react"
 import { useSurveyStore } from "storage/survey-store"
 
-export function AnswerCheckbox({
-  setImageAnswers,
-  questionIndex,
-  answer,
-  imageAnswers,
-}) {
-  const { thirdTaskIndex } = useSurveyStore((state) => ({
-    thirdTaskIndex: state.thirdTaskIndex,
-  }))
-
-  useEffect(() => {
-    setImageAnswers((prev) => {
-      const newAnswers = [...prev]
-      newAnswers[thirdTaskIndex] = Array(1).fill(null)
-      return newAnswers
-    })
-  }, [thirdTaskIndex])
+export function AnswerCheckbox({ questionIndex, answer }) {
+  const { thirdTaskIndex, thirdTaskAnswers, setThirdTaskAnswers } =
+    useSurveyStore((state) => ({
+      thirdTaskIndex: state.thirdTaskIndex,
+      thirdTaskAnswers: state.thirdTaskAnswers,
+      setThirdTaskAnswers: state.setThirdTaskAnswers,
+    }))
 
   const handleChange = (event) => {
-    setImageAnswers((prev) => {
-      const newAnswers = [...prev]
-      newAnswers[thirdTaskIndex][questionIndex] = answer.label
-      return newAnswers
-    })
+    setThirdTaskAnswers(answer.label, thirdTaskIndex, questionIndex)
   }
+
   return (
     <FormControlLabel
       sx={{
         position: "relative",
       }}
       checked={
-        imageAnswers.length > 0 && imageAnswers[thirdTaskIndex] != null
-          ? imageAnswers[thirdTaskIndex][questionIndex] == answer.label
+        thirdTaskAnswers.length > 0 && thirdTaskAnswers[thirdTaskIndex] != null
+          ? thirdTaskAnswers[thirdTaskIndex][questionIndex] == answer.label
           : false
       }
       onChange={handleChange}

@@ -28,14 +28,16 @@ export function FirstTaskImages() {
   }))
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setFirstTaskIndex()
-    }, 3000)
-    return () => clearInterval(interval)
+    if (firstTaskURLs[firstTaskIndex] && progress >= 100) {
+      const interval = setInterval(() => {
+        setFirstTaskIndex()
+      }, 3000)
+      return () => clearInterval(interval)
+    }
   }, [firstTaskIndex])
 
   useEffect(() => {
-    if (firstTaskIndex === firstTaskURLs.length - 1 && progress == 100) {
+    if (firstTaskIndex === firstTaskURLs.length - 1 && progress >= 100) {
       setCurrentTask(2)
     }
   }, [firstTaskIndex])

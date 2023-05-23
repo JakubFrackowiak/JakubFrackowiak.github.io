@@ -95,29 +95,45 @@ export const SecondTask = () => {
   }
 
   return (
-    <Stack alignItems="center" width="100%" pt="5vh">
-      <Stack spacing={10} alignItems="center" width="100%">
-        <Stack my="3vh">
-          <BeigePaper>
-            <Typography variant="h5" noWrap>
-              Ułóż słowo ze wszystkich liter przedstawionych poniżej.
-            </Typography>
-          </BeigePaper>
-        </Stack>
+    <Stack alignItems="center" width="100%">
+      <Stack spacing={10} alignItems="center" width="fit-content">
+        <BeigePaper p="1rem">
+          <Typography variant="h6" noWrap>
+            Ułóż słowo ze wszystkich liter przedstawionych poniżej.
+          </Typography>
+        </BeigePaper>
         <Stack
           spacing={2}
           alignItems="center"
           width="100%"
           sx={{ userSelect: "none" }}
         >
-          <Stack direction="row" width="100%" spacing={1}>
+          <Stack
+            direction="row"
+            width="100%"
+            spacing={1}
+            justifyContent="center"
+          >
             {droppedLetters.map((letter, index) => (
-              <Slot letter={letter} index={index} onClick={handleSlotClick} />
+              <BeigePaper p="0">
+                <Slot letter={letter} index={index} onClick={handleSlotClick} />
+              </BeigePaper>
             ))}
           </Stack>
-          <Stack direction="row" width="100%" spacing={1}>
+          <Stack
+            direction="row"
+            width="100%"
+            spacing={1}
+            justifyContent="center"
+          >
             {letters.map((letter, index) => (
-              <Slot letter={letter} index={index} onClick={handleLetterClick} />
+              <BeigePaper p="0">
+                <Slot
+                  letter={letter}
+                  index={index}
+                  onClick={handleLetterClick}
+                />
+              </BeigePaper>
             ))}
           </Stack>
         </Stack>

@@ -2,12 +2,7 @@ import { Box, Stack, Typography } from "@mui/material"
 import { grey } from "@mui/material/colors"
 import { AnswerCheckbox } from "./AnswerCheckbox"
 
-export function Question({
-  questionIndex,
-  setImageAnswers,
-  imageAnswers,
-  question,
-}) {
+export function Question({ questionIndex, question }) {
   const answers = [{ label: "Nie" }, { label: "Tak" }]
 
   return (
@@ -30,12 +25,7 @@ export function Question({
           }}
         />
         {answers.map((answer) => (
-          <AnswerCheckbox
-            imageAnswers={imageAnswers}
-            questionIndex={questionIndex}
-            answer={answer}
-            setImageAnswers={setImageAnswers}
-          />
+          <AnswerCheckbox questionIndex={questionIndex} answer={answer} />
         ))}
       </Stack>
     </Stack>

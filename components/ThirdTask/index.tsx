@@ -10,7 +10,6 @@ import axios from "axios"
 import { ThirdTaskQuestion } from "./ThirdTaskQuestion"
 
 export function ThirdTask() {
-  const [imageAnswers, setImageAnswers] = useState([])
   const [isReady, setIsReady] = useState(false)
   const {
     id,
@@ -22,6 +21,7 @@ export function ThirdTask() {
     thirdTaskIndex,
     setThirdTaskAnswers,
     thirdTaskAnswers,
+    fillThirdTaskAnswers,
   } = useSurveyStore((state) => ({
     id: state.id,
     currentTask: state.currentTask,
@@ -32,6 +32,7 @@ export function ThirdTask() {
     thirdTaskIndex: state.thirdTaskIndex,
     setThirdTaskIndex: state.setThirdTaskIndex,
     setThirdTaskAnswers: state.setThirdTaskAnswers,
+    fillThirdTaskAnswers: state.fillThirdTaskAnswers,
   }))
 
   const questions = ["Czy widziałeś już to zwierzę?"]
@@ -73,47 +74,37 @@ export function ThirdTask() {
   }
 
   const handleClick = () => {
-    if (thirdTaskImages[thirdTaskIndex + 1]) {
-      setThirdTaskIndex()
-      setThirdTaskAnswers(imageAnswers)
-    } else {
-      updateSheet()
-      setCurrentTask(4)
-    }
+    fillThirdTaskAnswers(1)
   }
   const handleReady = () => {
     setIsReady(true)
   }
+  console.log("thirdTaskAnswers: ", thirdTaskAnswers)
 
   return (
-    <Stack width="100%" alignItems="center">
-      {isReady ? (
-        <Stack>
-          <Stack direction="row" spacing={4}>
-            <ThirdTaskImages />
-            {questions.map((question, questionIndex) => (
-              <Question
-                question={question}
-                imageAnswers={imageAnswers}
-                questionIndex={questionIndex}
-                setImageAnswers={setImageAnswers}
-              />
-            ))}
-          </Stack>
-          <BeigeButton onClick={() => handleClick()}>
-            Następne zdjęcie
-          </BeigeButton>
+    <Stack width="100%">
+      <Stack display={isReady ? "inline-flex" : "none"} width="100%">
+        <Stack direction="row" spacing={4}>
+          <ThirdTaskImages />
+          {questions.map((question, questionIndex) => (
+            <Question question={question} questionIndex={questionIndex} />
+          ))}
         </Stack>
-      ) : (
-        <Stack alignItems="center">
-          <ThirdTaskQuestion />
-          <BeigePaper width="fit-content" p="0">
-            <BeigeButton onClick={() => handleReady()}>
-              Rozpocznij zadanie
-            </BeigeButton>
-          </BeigePaper>
-        </Stack>
-      )}
+        <BeigeButton onClick={() => handleClick()}>
+          Następne zdjęcie
+        </BeigeButton>
+      </Stack>
+      <Stack
+        alignItems="center"
+        spacing={4}
+        display={isReady ? "none" : "inline-flex"}
+        width="100%"
+      >
+        <ThirdTaskQuestion />
+        <BeigeButton onClick={() => handleReady()}>
+          Rozpocznij zadanie
+        </BeigeButton>
+      </Stack>
     </Stack>
   )
 }
