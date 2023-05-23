@@ -3,13 +3,27 @@ import { FirstTabPanel } from "./FirstTabPanel"
 import { SecondTabPanel } from "./SecondTabPanel"
 import { ThirdTabPanel } from "./ThirdTabPanel"
 import { useState } from "react"
+import { useFirestore, useFirestoreCollectionData } from "reactfire"
+import { collection } from "firebase/firestore"
+
+export interface SecondTaskSettings {
+  levels: number
+  words: string[]
+}
 
 export function AdminPanel() {
   const [value, setValue] = useState(0)
 
+  const firestore = useFirestore()
+  const settingsRef = collection(firestore, "admin")
+  const { data: settings } = useFirestoreCollectionData(settingsRef)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+
+  const secondTaskSettings = settings.find(
+    (obj) => obj.NO_ID_FIELD === "SecondTask"
+  )
 
   return (
     <Stack>
@@ -31,7 +45,11 @@ export function AdminPanel() {
         <Tab label="Item Three" />
       </Tabs>
       <FirstTabPanel value={value} index={0} />
-      <SecondTabPanel value={value} index={1} />
+      <SecondTabPanel
+        value={value}
+        index={1}
+        secondTaskSettings={secondTaskSettings as SecondTaskSettings}
+      />
       <ThirdTabPanel value={value} index={2} />
     </Stack>
   )
