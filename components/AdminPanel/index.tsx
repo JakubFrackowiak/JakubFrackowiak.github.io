@@ -21,9 +21,12 @@ export function AdminPanel() {
     setValue(newValue)
   }
 
-  const secondTaskSettings = settings.find(
-    (obj) => obj.NO_ID_FIELD === "SecondTask"
-  )
+  let secondTaskSettings
+  if (Array.isArray(settings)) {
+    secondTaskSettings = settings.find(
+      (obj) => obj.NO_ID_FIELD === "SecondTask"
+    )
+  }
 
   return (
     <Stack>
