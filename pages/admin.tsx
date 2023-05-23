@@ -1,6 +1,7 @@
 import { Container, Stack, OutlinedInput, Alert, Snackbar } from "@mui/material"
 import { useState } from "react"
 import { BeigeButton } from "components/common/BeigeButton"
+import { AdminPanel } from "components/AdminPanel"
 
 export default function admin() {
   const [adminKey, setAdminKey] = useState("")
@@ -22,32 +23,41 @@ export default function admin() {
         height: "100vh",
       }}
     >
-      <Stack
-        spacing={4}
-        height="100%"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <OutlinedInput
-          type="password"
-          onChange={(e) => setAdminKey(e.target.value)}
-        />
-        <BeigeButton onClick={() => handleClick()}>Zaloguj</BeigeButton>
-      </Stack>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        autoHideDuration={2000}
-      >
-        <Alert
-          onClose={() => setToastOpen(false)}
-          severity="error"
-          sx={{ width: "100%" }}
+      {isLoggedIn ? (
+        <AdminPanel></AdminPanel>
+      ) : (
+        <Stack
+          spacing={4}
+          height="100%"
+          alignItems="center"
+          justifyContent="center"
         >
-          Błędne hasło!
-        </Alert>
-      </Snackbar>
+          <OutlinedInput
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleClick()
+              }
+            }}
+            type="password"
+            onChange={(e) => setAdminKey(e.target.value)}
+          />
+          <BeigeButton onClick={() => handleClick()}>Zaloguj</BeigeButton>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={toastOpen}
+            onClose={() => setToastOpen(false)}
+            autoHideDuration={2000}
+          >
+            <Alert
+              onClose={() => setToastOpen(false)}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Błędne hasło!
+            </Alert>
+          </Snackbar>
+        </Stack>
+      )}
     </Container>
   )
 }
