@@ -2,7 +2,7 @@ import { Stack, Tab, Tabs, Typography } from "@mui/material"
 import { FirstTabPanel } from "./FirstTabPanel"
 import { SecondTabPanel } from "./SecondTabPanel"
 import { ThirdTabPanel } from "./ThirdTabPanel"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useFirestore, useFirestoreCollectionData } from "reactfire"
 import { collection } from "firebase/firestore"
 
@@ -13,6 +13,7 @@ export interface SecondTaskSettings {
 
 export function AdminPanel() {
   const [value, setValue] = useState(0)
+  const [secondTaskSettings, setSecondTaskSettings] = useState(null)
 
   const firestore = useFirestore()
   const settingsRef = collection(firestore, "admin")
@@ -21,15 +22,14 @@ export function AdminPanel() {
     setValue(newValue)
   }
 
-  let secondTaskSettings
-  if (Array.isArray(settings)) {
-    secondTaskSettings = settings.find(
-      (obj) => obj.NO_ID_FIELD === "SecondTask"
-    )
-  }
+  useEffect(() => {
+    if (settings) {
+      setSecondTaskSettings(settings[0].secondTaskSettings)
+    }
+  }, [settings])
 
   return (
-    <Stack>
+    <Stack height="100%" pt="5rem" spacing={4}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -43,9 +43,10 @@ export function AdminPanel() {
           },
         }}
       >
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        <Tab label="Zdjęcia" />
+        <Tab label="Zadanie 1" />
+        <Tab label="Zadanie 2" />
+        <Tab label="Zadanie 3" />
       </Tabs>
       <FirstTabPanel value={value} index={0} />
       <SecondTabPanel
