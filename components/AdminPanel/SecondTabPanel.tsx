@@ -1,11 +1,13 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 
 import {
+  Alert,
   Chip,
   Divider,
   Grid,
   IconButton,
   OutlinedInput,
+  Snackbar,
   Stack,
   Typography,
 } from "@mui/material"
@@ -30,6 +32,7 @@ export function SecondTabPanel({
   const [levels, setLevels] = useState(0)
   const [words, setWords] = useState([])
   const [newWord, setNewWord] = useState("")
+  const [toastOpen, setToastOpen] = useState(false)
   const firestore = useFirestore()
 
   useEffect(() => {
@@ -47,10 +50,14 @@ export function SecondTabPanel({
       words: words,
     })
   }
+  const handleReset = () => {
+    setLevels(secondTaskSettings.levels)
+    setWords(secondTaskSettings.words)
+  }
 
   const handleAddWord = () => {
     if (newWord === "" || words.includes(newWord)) {
-      alert("Słowo nie może być puste ani się powtarzać")
+      setToastOpen(true)
       return
     }
     setWords((prevWords) => [...prevWords, newWord])
@@ -129,11 +136,27 @@ export function SecondTabPanel({
                 Zapisz
               </BeigeButton>
               <Divider orientation="vertical" flexItem />
-              <BeigeButton width="18rem">Przywróć domyślne</BeigeButton>
+              <BeigeButton width="18rem" onClick={() => handleReset()}>
+                Przywróć domyślne
+              </BeigeButton>
             </Stack>
           </BeigePaper>
         </Stack>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        autoHideDuration={2000}
+      >
+        <Alert
+          onClose={() => setToastOpen(false)}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Słowo nie może się powtarzać!
+        </Alert>
+      </Snackbar>
     </div>
   )
 }
