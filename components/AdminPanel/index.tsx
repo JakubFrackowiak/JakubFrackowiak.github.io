@@ -24,10 +24,9 @@ export function AdminPanel() {
 
   useEffect(() => {
     if (settings) {
-      setSecondTaskSettings(settings[0].secondTaskSettings)
+      setSecondTaskSettings(settings[0])
     }
   }, [settings])
-
   return (
     <Stack height="100%" pt="5rem" spacing={4}>
       <Tabs
@@ -44,9 +43,7 @@ export function AdminPanel() {
         }}
       >
         <Tab label="Zdjęcia" />
-        <Tab label="Zadanie 1" />
-        <Tab label="Zadanie 2" />
-        <Tab label="Zadanie 3" />
+        <Tab label="Słowa" />
       </Tabs>
       <FirstTabPanel value={value} index={0} />
       <SecondTabPanel
