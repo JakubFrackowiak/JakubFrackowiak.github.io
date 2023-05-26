@@ -22,12 +22,7 @@ interface SurveyStore {
   isThirdTaskLoaded: boolean
   setIsThirdTaskLoaded: (isThirdTaskLoaded: boolean) => void
   thirdTaskAnswers: string[]
-  setThirdTaskAnswers: (
-    thirdTaskAnswers: string,
-    imageIndex: number,
-    questionIndex
-  ) => void
-  fillThirdTaskAnswers: (thirdTaskAnswers: string[]) => void
+  setThirdTaskAnswers: (indexes: number[], answer: string) => void
   level: number
   setLevel: () => void
   id: string
@@ -37,7 +32,7 @@ interface SurveyStore {
 }
 
 const initialState = {
-  currentTask: 0,
+  currentTask: 3,
   firstTaskImages: [],
   firstTaskIndex: 0,
   firstTaskURLs: [],
@@ -74,18 +69,9 @@ export const useSurveyStore = create(
         set({ thirdTaskURLs: thirdTaskURLs }),
       setIsThirdTaskLoaded: (isThirdTaskLoaded) =>
         set({ isThirdTaskLoaded: isThirdTaskLoaded }),
-      setThirdTaskAnswers: (thirdTaskAnswer, imageIndex, questionIndex) =>
+      setThirdTaskAnswers: (indexes, answer) =>
         set({
-          thirdTaskAnswers: setThirdTaskAnswers(
-            thirdTaskAnswer,
-            imageIndex,
-            questionIndex,
-            get
-          ),
-        }),
-      fillThirdTaskAnswers: (nbQuestions) =>
-        set({
-          thirdTaskAnswers: fillThirdTaskAnswers(nbQuestions, get),
+          thirdTaskAnswers: setThirdTaskAnswers(indexes, answer, get),
         }),
       setLevel: () => set({ level: get().level + 1 }),
       setId: (id) => set({ id: id }),
@@ -100,21 +86,17 @@ export const useSurveyStore = create(
   )
 )
 
-const setThirdTaskAnswers = (
-  thirdTaskAnswer,
-  imageIndex,
-  questionIndex,
-  get
-) => {
+function setThirdTaskAnswers(indexes, answer, get) {
   const thirdTaskAnswers = get().thirdTaskAnswers
-  thirdTaskAnswers[imageIndex][questionIndex] = thirdTaskAnswer
-  return thirdTaskAnswers
-}
-
-const fillThirdTaskAnswers = (nbQuestions, get) => {
-  const thirdTaskAnswers = get().thirdTaskAnswers
-  for (let i = 0; i < thirdTaskAnswers; i++) {
-    thirdTaskAnswers[i] = new Array(nbQuestions).fill(null)
+  let nestedArray = thirdTaskAnswers
+  for (let i = 0; i < indexes.length - 1; i++) {
+    const index = indexes[i]
+    if (nestedArray[index] === undefined) {
+      nestedArray[index] = []
+    }
+    nestedArray = nestedArray[index]
   }
+  const lastCoordinate = indexes[indexes.length - 1]
+  nestedArray[lastCoordinate] = answer
   return thirdTaskAnswers
 }

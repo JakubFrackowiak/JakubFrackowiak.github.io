@@ -20,7 +20,7 @@ export function AnswerCheckbox({ questionIndex, answer }) {
     }))
 
   const handleChange = (event) => {
-    setThirdTaskAnswers(answer.label, thirdTaskIndex, questionIndex)
+    setThirdTaskAnswers([thirdTaskIndex, questionIndex], event.target.value)
   }
 
   return (

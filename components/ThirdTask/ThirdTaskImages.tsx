@@ -33,7 +33,7 @@ export function ThirdTaskImages() {
       {thirdTaskURLs.map((url, index) => (
         <Box
           sx={{
-            display: index === thirdTaskIndex ? "block" : "none",
+            display: index === thirdTaskIndex ? "inline-flex" : "none",
           }}
         >
           <BeigePaper width="30rem" height="40rem" p="0">

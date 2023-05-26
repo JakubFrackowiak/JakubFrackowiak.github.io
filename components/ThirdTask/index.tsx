@@ -5,7 +5,7 @@ import { ThirdTaskImages } from "./ThirdTaskImages"
 import { BeigePaper } from "components/common/BeigePaper"
 import { BeigeButton } from "../common/BeigeButton"
 import { useSurveyStore } from "storage/survey-store"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { ThirdTaskQuestion } from "./ThirdTaskQuestion"
 
@@ -21,7 +21,6 @@ export function ThirdTask() {
     thirdTaskIndex,
     setThirdTaskAnswers,
     thirdTaskAnswers,
-    fillThirdTaskAnswers,
   } = useSurveyStore((state) => ({
     id: state.id,
     currentTask: state.currentTask,
@@ -32,7 +31,6 @@ export function ThirdTask() {
     thirdTaskIndex: state.thirdTaskIndex,
     setThirdTaskIndex: state.setThirdTaskIndex,
     setThirdTaskAnswers: state.setThirdTaskAnswers,
-    fillThirdTaskAnswers: state.fillThirdTaskAnswers,
   }))
 
   const questions = ["Czy widziałeś już to zwierzę?"]
@@ -74,25 +72,45 @@ export function ThirdTask() {
   }
 
   const handleClick = () => {
-    fillThirdTaskAnswers(1)
+    if (thirdTaskIndex < thirdTaskImages.length - 1) {
+      setThirdTaskIndex()
+    } else {
+      updateSheet()
+      setCurrentTask(4)
+    }
   }
+
   const handleReady = () => {
     setIsReady(true)
   }
-  console.log("thirdTaskAnswers: ", thirdTaskAnswers)
 
   return (
-    <Stack width="100%">
-      <Stack display={isReady ? "inline-flex" : "none"} width="100%">
-        <Stack direction="row" spacing={4}>
-          <ThirdTaskImages />
-          {questions.map((question, questionIndex) => (
-            <Question question={question} questionIndex={questionIndex} />
-          ))}
-        </Stack>
-        <BeigeButton onClick={() => handleClick()}>
-          Następne zdjęcie
-        </BeigeButton>
+    <Stack width="100%" height="100%">
+      <Stack
+        display={isReady ? "inline-flex" : "none"}
+        width="100%"
+        direction="row"
+        spacing={4}
+        height="100%"
+      >
+        <ThirdTaskImages />
+        <BeigePaper height="100%">
+          <Stack justifyContent="space-between" height="100%">
+            {questions.map((question, questionIndex) => (
+              <Question question={question} questionIndex={questionIndex} />
+            ))}
+
+            <BeigeButton
+              onClick={() => handleClick()}
+              disabled={
+                thirdTaskAnswers[thirdTaskIndex] == null ||
+                thirdTaskAnswers[thirdTaskIndex].includes(null)
+              }
+            >
+              Następne zdjęcie
+            </BeigeButton>
+          </Stack>
+        </BeigePaper>
       </Stack>
       <Stack
         alignItems="center"

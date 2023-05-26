@@ -10,6 +10,7 @@ import { grey } from "@mui/material/colors"
 
 export function FirstTaskImages() {
   const {
+    currentTask,
     setCurrentTask,
     firstTaskIndex,
     setFirstTaskIndex,
@@ -18,6 +19,7 @@ export function FirstTaskImages() {
     progress,
     setProgress,
   } = useSurveyStore((state) => ({
+    currentTask: state.currentTask,
     setCurrentTask: state.setCurrentTask,
     firstTaskIndex: state.firstTaskIndex,
     setFirstTaskIndex: state.setFirstTaskIndex,
@@ -28,13 +30,13 @@ export function FirstTaskImages() {
   }))
 
   useEffect(() => {
-    if (firstTaskURLs[firstTaskIndex] && progress >= 100) {
+    if (currentTask === 1) {
       const interval = setInterval(() => {
         setFirstTaskIndex()
       }, 3000)
       return () => clearInterval(interval)
     }
-  }, [firstTaskIndex])
+  }, [currentTask])
 
   useEffect(() => {
     if (firstTaskIndex === firstTaskURLs.length - 1 && progress >= 100) {
