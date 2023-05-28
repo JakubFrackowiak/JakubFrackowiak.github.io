@@ -39,7 +39,7 @@ export function AdminPanel() {
             backgroundColor: "#c4a484",
           },
           "& .MuiTab-root": {
-            color: "grey.800",
+            color: "grey.700",
           },
         }}
       >
