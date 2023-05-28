@@ -17,7 +17,7 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useStorage } from "reactfire"
 import DeleteIcon from "@mui/icons-material/Delete"
 import Image from "next/image"
@@ -112,6 +112,7 @@ export function FirstTabPanel({ value, index }: TabPanelProps) {
     const filesNames = Object.keys(files).map((key) => files[key].name)
     try {
       await Promise.all(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Array.from(files).map(async (file: any) => {
           const imageRef = ref(storage, `${folder}/${file.name}`)
           uploadBytes(imageRef, file)
