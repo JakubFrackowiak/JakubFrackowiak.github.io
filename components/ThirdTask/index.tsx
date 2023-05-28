@@ -88,7 +88,12 @@ export function ThirdTask() {
         alignItems="center"
       >
         <ThirdTaskImages />
-        <Stack justifyContent="space-between" alignItems="center" spacing={4}>
+        <Stack
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={4}
+          pb="1rem"
+        >
           <BeigePaper height="fit-content">
             {questions.map((question, questionIndex) => (
               <Question question={question} questionIndex={questionIndex} />
