@@ -68,7 +68,7 @@ export function SecondTabPanel({
   }
 
   return (
-    <div role="tabpanel" hidden={value !== index}>
+    <Stack role="tabpanel" hidden={value !== index}>
       {value === index && (
         <Stack alignItems="flex-start" justifyContent="center" spacing={2}>
           <BeigePaper p="2rem" width="100%">
@@ -79,7 +79,7 @@ export function SecondTabPanel({
               alignItems="center"
               justifyContent="space-between"
             >
-              <Typography align="center">
+              <Typography alignSelf="center">
                 Zmień poziom trudności (liczba słów do odgadnięcia)
               </Typography>
               <Divider orientation="vertical" flexItem />
@@ -107,6 +107,11 @@ export function SecondTabPanel({
                   value={newWord}
                   onChange={(e) => setNewWord(e.target.value)}
                   placeholder="np. Krzesło, Drzewo..."
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleAddWord()
+                    }
+                  }}
                   endAdornment={
                     <IconButton onClick={() => handleAddWord()}>
                       <AddCircleOutlineIcon />
@@ -156,6 +161,6 @@ export function SecondTabPanel({
           Słowo nie może się powtarzać!
         </Alert>
       </Snackbar>
-    </div>
+    </Stack>
   )
 }
