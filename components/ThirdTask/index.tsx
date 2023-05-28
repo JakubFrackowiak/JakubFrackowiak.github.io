@@ -84,11 +84,11 @@ export function ThirdTask() {
       <Stack
         display={isReady ? "inline-flex" : "none"}
         width="100%"
-        direction="row"
         spacing={4}
+        alignItems="center"
       >
         <ThirdTaskImages />
-        <Stack justifyContent="space-between" alignItems="center">
+        <Stack justifyContent="space-between" alignItems="center" spacing={4}>
           <BeigePaper height="fit-content">
             {questions.map((question, questionIndex) => (
               <Question question={question} questionIndex={questionIndex} />

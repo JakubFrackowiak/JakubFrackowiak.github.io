@@ -7,7 +7,17 @@ export function Question({ questionIndex, question }) {
 
   return (
     <Stack justifyContent="center" alignItems="center" spacing={4} width="100%">
-      <Typography variant="h6">{question}</Typography>
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{
+          overflowWrap: "break-word",
+          wordWrap: "break-word",
+          maxWidth: "80%",
+        }}
+      >
+        {question}
+      </Typography>
       <Stack
         direction="row"
         width="100%"
