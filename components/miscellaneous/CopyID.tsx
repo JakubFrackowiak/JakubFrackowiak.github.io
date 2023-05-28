@@ -1,5 +1,5 @@
 import ContentCopy from "@mui/icons-material/ContentCopy"
-import { Box, Card, Typography } from "@mui/material"
+import { Box, Card, Divider, Stack, Typography } from "@mui/material"
 import { BeigePaper } from "../common/BeigePaper"
 import { useEffect, useState } from "react"
 import { useSurveyStore } from "../../storage/survey-store"
@@ -36,17 +36,28 @@ export function CopyID() {
       console.error("Failed to copy:", error)
     }
   }
+
+  console.log("copied: ", copied)
   return (
-    <BeigePaper width="fit-content" height="100%" p="0">
-      <Box position="relative" py="1.5rem" px="2.5rem">
-        <Typography variant="h5">ID: {id}</Typography>
-        <Box sx={{ position: "absolute", top: "0.4rem", right: "0.4rem" }}>
-          <ContentCopy
-            onClick={() => handleClick()}
-            sx={{ cursor: "pointer" }}
-          />
-        </Box>
-      </Box>
+    <Box>
+      <BeigePaper width="fit-content" height="fit-content">
+        <Stack alignItems="center" spacing={3}>
+          <Typography variant="h5">Dziękujemy za udział w badaniu</Typography>
+          <Divider orientation="horizontal" sx={{ width: "100%" }} />
+          <Box>
+            <Typography variant="h5">ID: {id}</Typography>
+            <ContentCopy
+              onClick={() => handleClick()}
+              sx={{
+                cursor: "pointer",
+                position: "absolute",
+                bottom: "0.4rem",
+                right: "0.3rem",
+              }}
+            />
+          </Box>
+        </Stack>
+      </BeigePaper>
       {copied ? (
         <Card
           sx={{
@@ -65,6 +76,6 @@ export function CopyID() {
           </Typography>
         </Card>
       ) : null}
-    </BeigePaper>
+    </Box>
   )
 }
