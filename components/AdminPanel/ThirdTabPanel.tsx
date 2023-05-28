@@ -13,34 +13,30 @@ import {
 import { BeigePaper } from "components/common/BeigePaper"
 import { useEffect, useState } from "react"
 import { useFirestore } from "reactfire"
-import { ThirdTaskSettings } from "./index"
+import { Settings } from "./index"
 import { doc, updateDoc } from "firebase/firestore"
 import { BeigeButton } from "components/common/BeigeButton"
 
 interface TabPanelProps {
   index: number
   value: number
-  thirdTaskSettings: ThirdTaskSettings
+  settings: Settings
 }
 
-export function ThirdTabPanel({
-  value,
-  index,
-  thirdTaskSettings,
-}: TabPanelProps) {
+export function ThirdTabPanel({ value, index, settings }: TabPanelProps) {
   const [questions, setQuestions] = useState([])
   const [newQuestion, setNewQuestion] = useState("")
   const [toastOpen, setToastOpen] = useState(false)
   const firestore = useFirestore()
 
   const handleSave = async () => {
-    const settingsRef = doc(firestore, "admin", "ThirdTask")
+    const settingsRef = doc(firestore, "admin", "Settings")
     await updateDoc(settingsRef, {
       questions: questions,
     })
   }
   const handleReset = () => {
-    setQuestions(thirdTaskSettings.questions)
+    setQuestions(settings.questions)
   }
 
   const handleAddQuestion = () => {
@@ -57,8 +53,8 @@ export function ThirdTabPanel({
   }
 
   useEffect(() => {
-    setQuestions(thirdTaskSettings?.questions)
-  }, [thirdTaskSettings])
+    setQuestions(settings?.questions)
+  }, [settings])
 
   return (
     <Stack role="tabpanel" hidden={value !== index}>

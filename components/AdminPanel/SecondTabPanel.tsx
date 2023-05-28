@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material"
-import { SecondTaskSettings } from "./index"
+import { Settings } from "./index"
 import { BeigeButton } from "components/common/BeigeButton"
 import { useEffect, useState } from "react"
 import { useFirestore } from "reactfire"
@@ -20,14 +20,10 @@ import { BeigePaper } from "components/common/BeigePaper"
 interface TabPanelProps {
   index: number
   value: number
-  secondTaskSettings: SecondTaskSettings
+  settings: Settings
 }
 
-export function SecondTabPanel({
-  value,
-  index,
-  secondTaskSettings,
-}: TabPanelProps) {
+export function SecondTabPanel({ value, index, settings }: TabPanelProps) {
   const [levels, setLevels] = useState(0)
   const [words, setWords] = useState([])
   const [newWord, setNewWord] = useState("")
@@ -35,23 +31,23 @@ export function SecondTabPanel({
   const firestore = useFirestore()
 
   useEffect(() => {
-    setLevels(secondTaskSettings?.levels)
-  }, [secondTaskSettings])
+    setLevels(settings?.levels)
+  }, [settings])
 
   useEffect(() => {
-    setWords(secondTaskSettings?.words)
-  }, [secondTaskSettings])
+    setWords(settings?.words)
+  }, [settings])
 
   const handleSave = async () => {
-    const settingsRef = doc(firestore, "admin", "SecondTask")
+    const settingsRef = doc(firestore, "admin", "Settings")
     await updateDoc(settingsRef, {
       levels: levels,
       words: words,
     })
   }
   const handleReset = () => {
-    setLevels(secondTaskSettings.levels)
-    setWords(secondTaskSettings.words)
+    setLevels(settings.levels)
+    setWords(settings.words)
   }
 
   const handleAddWord = () => {

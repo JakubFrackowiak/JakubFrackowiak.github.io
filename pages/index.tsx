@@ -21,7 +21,7 @@ export default function index() {
     setThirdTaskURLs,
     setId,
     setWords,
-    words,
+    setQuestions,
   } = useSurveyStore((state) => ({
     reset: state.reset,
     firstTaskImages: state.firstTaskImages,
@@ -33,13 +33,15 @@ export default function index() {
     id: state.id,
     setId: state.setId,
     setWords: state.setWords,
-    words: state.words,
+    setQuestions: state.setQuestions,
   }))
   const storage = useStorage()
   const firestore = useFirestore()
   const secondTaskSettingsRef = doc(firestore, "admin/SecondTask")
   const { data: secondTaskSettings, status: secondTaskSettingsStatus } =
     useFirestoreDocData(secondTaskSettingsRef)
+
+  const thirdTaskQuestionsRef = doc(firestore, "admin/ThirdTask")
 
   const setImages = async () => {
     const { firstTaskImages: firstImages, thirdTaskImages: thirdImages } =
@@ -96,8 +98,6 @@ export default function index() {
     }
     setWords(selectedWords)
   }, [secondTaskSettingsStatus])
-
-  console.log("secondtask settings", secondTaskSettings)
 
   return (
     <Container

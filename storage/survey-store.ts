@@ -27,6 +27,8 @@ interface SurveyStore {
   setProgress: (progress: number) => void
   words: string[]
   setWords: (words: string[]) => void
+  questions: string[]
+  setQuestions: (questions: string[]) => void
 }
 
 const initialState = {
@@ -42,6 +44,7 @@ const initialState = {
   id: null,
   progress: 0,
   words: [],
+  questions: [],
 }
 
 export const useSurveyStore = create(
@@ -73,6 +76,7 @@ export const useSurveyStore = create(
           progress: get().progress + progress,
         }),
       setWords: (words) => set({ words: words }),
+      setQuestions: (questions) => set({ questions: questions }),
     }),
     {
       name: "survey-storage",

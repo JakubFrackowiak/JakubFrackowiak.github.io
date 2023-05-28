@@ -6,37 +6,27 @@ import { useEffect, useState } from "react"
 import { useFirestore, useFirestoreCollectionData } from "reactfire"
 import { collection } from "firebase/firestore"
 
-export interface SecondTaskSettings {
+export interface Settings {
   levels: number
   words: string[]
-}
-export interface ThirdTaskSettings {
   questions: string[]
 }
 
 export function AdminPanel() {
   const [value, setValue] = useState(0)
-  const [secondTaskSettings, setSecondTaskSettings] = useState(null)
-  const [thirdTaskSettings, setThirdTaskSettings] = useState(null)
-
+  const [settings, setSettings] = useState(null)
   const firestore = useFirestore()
   const settingsRef = collection(firestore, "admin")
-  const { data: settings } = useFirestoreCollectionData(settingsRef)
+  const { data: settingsFields } = useFirestoreCollectionData(settingsRef)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
 
   useEffect(() => {
-    if (settings) {
-      setSecondTaskSettings(settings[0])
+    if (settingsFields) {
+      setSettings(settingsFields[0])
     }
-  }, [settings])
-
-  useEffect(() => {
-    if (settings) {
-      setThirdTaskSettings(settings[1])
-    }
-  }, [settings])
+  }, [settingsFields])
 
   return (
     <Stack height="100%" pt="5rem" spacing={4}>
@@ -58,16 +48,8 @@ export function AdminPanel() {
         <Tab label="Pytania" />
       </Tabs>
       <FirstTabPanel value={value} index={0} />
-      <SecondTabPanel
-        value={value}
-        index={1}
-        secondTaskSettings={secondTaskSettings as SecondTaskSettings}
-      />
-      <ThirdTabPanel
-        value={value}
-        index={2}
-        thirdTaskSettings={thirdTaskSettings as ThirdTaskSettings}
-      />
+      <SecondTabPanel value={value} index={1} settings={settings as Settings} />
+      <ThirdTabPanel value={value} index={2} settings={settings as Settings} />
     </Stack>
   )
 }
