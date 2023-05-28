@@ -37,11 +37,9 @@ export default function index() {
   }))
   const storage = useStorage()
   const firestore = useFirestore()
-  const secondTaskSettingsRef = doc(firestore, "admin/SecondTask")
-  const { data: secondTaskSettings, status: secondTaskSettingsStatus } =
-    useFirestoreDocData(secondTaskSettingsRef)
-
-  const thirdTaskQuestionsRef = doc(firestore, "admin/ThirdTask")
+  const settingsRef = doc(firestore, "admin/Settings")
+  const { data: settings, status: settingsStatus } =
+    useFirestoreDocData(settingsRef)
 
   const setImages = async () => {
     const { firstTaskImages: firstImages, thirdTaskImages: thirdImages } =
@@ -87,17 +85,16 @@ export default function index() {
 
   useEffect(() => {
     const selectedWords = []
-    while (selectedWords.length < secondTaskSettings?.levels) {
-      const randomIndex = Math.floor(
-        Math.random() * secondTaskSettings?.words.length
-      )
-      const randomWord = secondTaskSettings?.words[randomIndex]
+    while (selectedWords.length < settings?.levels) {
+      const randomIndex = Math.floor(Math.random() * settings?.words.length)
+      const randomWord = settings?.words[randomIndex]
       if (!selectedWords.includes(randomWord)) {
         selectedWords.push(randomWord)
       }
     }
     setWords(selectedWords)
-  }, [secondTaskSettingsStatus])
+    setQuestions(settings?.questions)
+  }, [settingsStatus])
 
   return (
     <Container

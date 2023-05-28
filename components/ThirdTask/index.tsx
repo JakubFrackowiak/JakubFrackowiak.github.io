@@ -18,6 +18,7 @@ export function ThirdTask() {
     thirdTaskImages,
     thirdTaskIndex,
     thirdTaskAnswers,
+    questions,
   } = useSurveyStore((state) => ({
     id: state.id,
     setCurrentTask: state.setCurrentTask,
@@ -26,9 +27,8 @@ export function ThirdTask() {
     thirdTaskImages: state.thirdTaskImages,
     thirdTaskIndex: state.thirdTaskIndex,
     setThirdTaskIndex: state.setThirdTaskIndex,
+    questions: state.questions,
   }))
-
-  const questions = ["Czy widziałeś już to zwierzę?"]
 
   const formatImages = (images, task) => {
     const imageData = images.reduce((obj, name, index) => {
