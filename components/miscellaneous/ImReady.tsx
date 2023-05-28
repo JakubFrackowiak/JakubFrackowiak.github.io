@@ -1,13 +1,21 @@
 import { Stack } from "@mui/material"
+import { useEffect } from "react"
 import { useSurveyStore } from "storage/survey-store"
 import { BeigeButton } from "../common/BeigeButton"
 import { ProgressBar } from "../common/ProgressBar"
 
 export function ImReady() {
-  const { setCurrentTask, progress } = useSurveyStore((state) => ({
+  const { setCurrentTask, progress, setProgress } = useSurveyStore((state) => ({
     setCurrentTask: state.setCurrentTask,
     progress: state.progress,
+    setProgress: state.setProgress,
   }))
+
+  useEffect(() => {
+    setProgress(-progress)
+  }, [])
+
+  console.log("Current task: ", progress)
 
   return (
     <Stack alignItems="center" spacing={6}>

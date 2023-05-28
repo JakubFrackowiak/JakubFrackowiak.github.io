@@ -11,17 +11,16 @@ export const SecondTask = () => {
   const [droppedLetters, setDroppedLetters] = useState([])
   const [toastOpen, setToastOpen] = useState(false)
   const [isSolved, setIsSolved] = useState(false)
-  const { setCurrentTask, level, setLevel } = useSurveyStore((state) => ({
-    setCurrentTask: state.setCurrentTask,
-    level: state.level,
-    setLevel: state.setLevel,
-  }))
-
-  const words = ["krowa"]
+  const { setCurrentTask, currentLevel, setCurrentLevel, words } =
+    useSurveyStore((state) => ({
+      setCurrentTask: state.setCurrentTask,
+      currentLevel: state.currentLevel,
+      setCurrentLevel: state.setCurrentLevel,
+      words: state.words,
+    }))
 
   const pickAndScrambleWord = () => {
-    const randomIndex = Math.floor(Math.random() * words.length)
-    const randomWord = words[randomIndex]
+    const randomWord = words[currentLevel - 1]
     const scrambled = randomWord.split("").sort(() => Math.random() - 0.5)
     if (scrambled.join("") === randomWord) {
       pickAndScrambleWord()
@@ -39,7 +38,7 @@ export const SecondTask = () => {
 
   useEffect(() => {
     pickAndScrambleWord()
-  }, [level])
+  }, [currentLevel])
 
   useEffect(() => {
     const droppedWord = droppedLetters.map((l) => l?.letter).join("")
@@ -52,12 +51,12 @@ export const SecondTask = () => {
     if (isSolved) {
       setToastOpen(true)
       const timeout = setTimeout(() => {
-        if (level >= 5) {
+        if (currentLevel >= words.length) {
           setCurrentTask(3)
           return
         }
         setIsSolved(false)
-        setLevel()
+        setCurrentLevel()
       }, 2000)
       return () => clearTimeout(timeout)
     }
@@ -94,6 +93,7 @@ export const SecondTask = () => {
     })
   }
 
+  console.log("selectedWords", words)
   return (
     <Stack alignItems="center" width="100%">
       <Stack spacing={10} alignItems="center" width="fit-content">

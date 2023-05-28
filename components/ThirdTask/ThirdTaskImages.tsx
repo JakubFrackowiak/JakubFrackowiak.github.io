@@ -1,31 +1,19 @@
-import { Box, CircularProgress, Stack } from "@mui/material"
-import { getDownloadURL, ref } from "firebase/storage"
-import { useEffect, useState } from "react"
-import { useStorage } from "reactfire"
-import { BeigePaper } from "../common/BeigePaper"
-import { Img } from "react-image"
-import { useSurveyStore } from "../../storage/survey-store"
-import { ProgressBar } from "components/common/ProgressBar"
 import Image from "next/image"
+import { Box, Stack } from "@mui/material"
+import { BeigePaper } from "../common/BeigePaper"
+import { useSurveyStore } from "../../storage/survey-store"
 
 export function ThirdTaskImages() {
-  const {
-    firstTaskURLs,
-    thirdTaskIndex,
-    thirdTaskURLs,
-    progress,
-    setProgress,
-  } = useSurveyStore((state) => ({
-    firstTaskURLs: state.firstTaskURLs,
-    thirdTaskIndex: state.thirdTaskIndex,
-    thirdTaskURLs: state.thirdTaskURLs,
-    progress: state.progress,
-    setProgress: state.setProgress,
-  }))
+  const { firstTaskURLs, thirdTaskIndex, thirdTaskURLs, setProgress } =
+    useSurveyStore((state) => ({
+      firstTaskURLs: state.firstTaskURLs,
+      thirdTaskIndex: state.thirdTaskIndex,
+      thirdTaskURLs: state.thirdTaskURLs,
+      setProgress: state.setProgress,
+    }))
 
   const handleImageLoad = () => {
     setProgress((1 / (firstTaskURLs.length + thirdTaskURLs.length)) * 100)
-    console.log("task 3: ", progress)
   }
 
   return (
@@ -35,6 +23,7 @@ export function ThirdTaskImages() {
           sx={{
             display: index === thirdTaskIndex ? "inline-flex" : "none",
           }}
+          key={index}
         >
           <BeigePaper width="30rem" height="40rem" p="0">
             <Image
@@ -49,6 +38,7 @@ export function ThirdTaskImages() {
                 left: 0,
                 right: 0,
                 bottom: 0,
+                transform: "scale(0.9)",
               }}
               onLoad={() => handleImageLoad()}
               alt="animal image"

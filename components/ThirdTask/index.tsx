@@ -1,36 +1,31 @@
-import { Box, Stack } from "@mui/material"
-import { CopyID } from "../miscellaneous/CopyID"
+import axios from "axios"
+import { Stack } from "@mui/material"
 import { Question } from "./Question"
 import { ThirdTaskImages } from "./ThirdTaskImages"
 import { BeigePaper } from "components/common/BeigePaper"
 import { BeigeButton } from "../common/BeigeButton"
 import { useSurveyStore } from "storage/survey-store"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useState } from "react"
 import { ThirdTaskQuestion } from "./ThirdTaskQuestion"
 
 export function ThirdTask() {
   const [isReady, setIsReady] = useState(false)
   const {
     id,
-    currentTask,
     setCurrentTask,
     firstTaskImages,
     setThirdTaskIndex,
     thirdTaskImages,
     thirdTaskIndex,
-    setThirdTaskAnswers,
     thirdTaskAnswers,
   } = useSurveyStore((state) => ({
     id: state.id,
-    currentTask: state.currentTask,
     setCurrentTask: state.setCurrentTask,
     firstTaskImages: state.firstTaskImages,
     thirdTaskAnswers: state.thirdTaskAnswers,
     thirdTaskImages: state.thirdTaskImages,
     thirdTaskIndex: state.thirdTaskIndex,
     setThirdTaskIndex: state.setThirdTaskIndex,
-    setThirdTaskAnswers: state.setThirdTaskAnswers,
   }))
 
   const questions = ["Czy widziałeś już to zwierzę?"]
@@ -85,38 +80,36 @@ export function ThirdTask() {
   }
 
   return (
-    <Stack width="100%" height="100%">
+    <Stack width="100%" height="100%" justifyContent="space-between">
       <Stack
         display={isReady ? "inline-flex" : "none"}
         width="100%"
         direction="row"
         spacing={4}
-        height="100%"
       >
         <ThirdTaskImages />
-        <BeigePaper height="100%">
-          <Stack justifyContent="space-between" height="100%">
+        <Stack justifyContent="space-between" alignItems="center">
+          <BeigePaper height="fit-content">
             {questions.map((question, questionIndex) => (
               <Question question={question} questionIndex={questionIndex} />
             ))}
-
-            <BeigeButton
-              onClick={() => handleClick()}
-              disabled={
-                thirdTaskAnswers[thirdTaskIndex] == null ||
-                thirdTaskAnswers[thirdTaskIndex].includes(null)
-              }
-            >
-              Następne zdjęcie
-            </BeigeButton>
-          </Stack>
-        </BeigePaper>
+          </BeigePaper>
+          <BeigeButton
+            onClick={() => handleClick()}
+            disabled={
+              thirdTaskAnswers[thirdTaskIndex] == null ||
+              thirdTaskAnswers[thirdTaskIndex].includes(null)
+            }
+          >
+            Następne zdjęcie
+          </BeigeButton>
+        </Stack>
       </Stack>
       <Stack
         alignItems="center"
-        spacing={4}
+        justifyContent="space-evenly"
         display={isReady ? "none" : "inline-flex"}
-        width="100%"
+        height="100%"
       >
         <ThirdTaskQuestion />
         <BeigeButton onClick={() => handleReady()}>

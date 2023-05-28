@@ -1,12 +1,9 @@
 "use client"
+import Image from "next/image"
 import { Box, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { BeigePaper } from "../common/BeigePaper"
 import { useSurveyStore } from "storage/survey-store"
-import Image from "next/image"
-import { ProgressBar } from "../common/ProgressBar"
-import { Img } from "react-image"
-import { grey } from "@mui/material/colors"
 
 export function FirstTaskImages() {
   const {
@@ -46,7 +43,6 @@ export function FirstTaskImages() {
 
   const handleImageLoad = () => {
     setProgress((1 / (firstTaskURLs.length + thirdTaskURLs.length)) * 100)
-    console.log("task 1: ", progress)
   }
 
   return (

@@ -1,6 +1,6 @@
+import BallotIcon from "@mui/icons-material/Ballot"
 import { Step, StepLabel, Stepper, Typography } from "@mui/material"
 import { Photo, Extension, CheckBox } from "@mui/icons-material"
-import BallotIcon from "@mui/icons-material/Ballot"
 import { useSurveyStore } from "../../storage/survey-store"
 import { useEffect, useState } from "react"
 

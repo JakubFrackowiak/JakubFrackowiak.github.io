@@ -4,10 +4,11 @@ import { BeigePaper } from "components/common/BeigePaper"
 import Link from "next/link"
 import { useEffect } from "react"
 import { getRandomImages } from "storage/images"
-import { useStorage } from "reactfire"
+import { useFirestore, useFirestoreDocData, useStorage } from "reactfire"
 import { v4 as uuidv4 } from "uuid"
 import { useSurveyStore } from "storage/survey-store"
 import { getDownloadURL, ref } from "firebase/storage"
+import { doc } from "firebase/firestore"
 
 export default function index() {
   const {
@@ -19,6 +20,8 @@ export default function index() {
     setThirdTaskImages,
     setThirdTaskURLs,
     setId,
+    setWords,
+    words,
   } = useSurveyStore((state) => ({
     reset: state.reset,
     firstTaskImages: state.firstTaskImages,
@@ -29,9 +32,14 @@ export default function index() {
     setThirdTaskImages: state.setThirdTaskImages,
     id: state.id,
     setId: state.setId,
+    setWords: state.setWords,
+    words: state.words,
   }))
-
   const storage = useStorage()
+  const firestore = useFirestore()
+  const secondTaskSettingsRef = doc(firestore, "admin/SecondTask")
+  const { data: secondTaskSettings, status: secondTaskSettingsStatus } =
+    useFirestoreDocData(secondTaskSettingsRef)
 
   const setImages = async () => {
     const { firstTaskImages: firstImages, thirdTaskImages: thirdImages } =
@@ -74,6 +82,22 @@ export default function index() {
     setImageURLs(firstTaskImages, 1)
     setImageURLs(thirdTaskImages, 3)
   }, [firstTaskImages, thirdTaskImages])
+
+  useEffect(() => {
+    const selectedWords = []
+    while (selectedWords.length < secondTaskSettings?.levels) {
+      const randomIndex = Math.floor(
+        Math.random() * secondTaskSettings?.words.length
+      )
+      const randomWord = secondTaskSettings?.words[randomIndex]
+      if (!selectedWords.includes(randomWord)) {
+        selectedWords.push(randomWord)
+      }
+    }
+    setWords(selectedWords)
+  }, [secondTaskSettingsStatus])
+
+  console.log("secondtask settings", secondTaskSettings)
 
   return (
     <Container

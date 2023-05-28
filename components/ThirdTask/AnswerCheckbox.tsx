@@ -1,14 +1,7 @@
 import CircleIcon from "@mui/icons-material/Circle"
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material"
 import { grey } from "@mui/material/colors"
-import { useEffect } from "react"
 import { useSurveyStore } from "storage/survey-store"
 
 export function AnswerCheckbox({ questionIndex, answer }) {

@@ -23,7 +23,6 @@ export default function Badanie() {
         return <CopyID />
     }
   }
-
   return (
     <Container maxWidth="md" sx={{ height: "100vh" }}>
       <HydrationProvider>
@@ -37,10 +36,16 @@ export default function Badanie() {
               height="100%"
             >
               {renderTask()}
-              <Box sx={{ display: currentTask == 1 ? "block" : "none" }}>
+              <Box
+                sx={{ display: currentTask == 1 ? "inline-flex" : "none" }}
+                height="100%"
+              >
                 <FirstTask />
               </Box>
-              <Box sx={{ display: currentTask == 3 ? "block" : "none" }}>
+              <Box
+                sx={{ display: currentTask == 3 ? "inline-flex" : "none" }}
+                height="100%"
+              >
                 <ThirdTask />
               </Box>
             </Stack>

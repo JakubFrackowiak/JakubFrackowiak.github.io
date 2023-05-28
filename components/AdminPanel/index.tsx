@@ -1,4 +1,4 @@
-import { Stack, Tab, Tabs, Typography } from "@mui/material"
+import { Stack, Tab, Tabs } from "@mui/material"
 import { FirstTabPanel } from "./FirstTabPanel"
 import { SecondTabPanel } from "./SecondTabPanel"
 import { ThirdTabPanel } from "./ThirdTabPanel"

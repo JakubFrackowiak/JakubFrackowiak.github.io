@@ -11,40 +11,37 @@ interface SurveyStore {
   setFirstTaskIndex: () => void
   firstTaskURLs: string[]
   setFirstTaskURLs: (firstTaskURLs: string[]) => void
-  isFirstTaskLoaded: boolean
-  setIsFirstTaskLoaded: (isFirstTaskLoaded: boolean) => void
   thirdTaskImages: string[]
   setThirdTaskImages: (thirdTaskImages: string[]) => void
   thirdTaskIndex: number
   setThirdTaskIndex: () => void
   thirdTaskURLs: string[]
   setThirdTaskURLs: (thirdTaskURLs: string[]) => void
-  isThirdTaskLoaded: boolean
-  setIsThirdTaskLoaded: (isThirdTaskLoaded: boolean) => void
   thirdTaskAnswers: string[]
   setThirdTaskAnswers: (indexes: number[], answer: string) => void
-  level: number
-  setLevel: () => void
+  currentLevel: number
+  setCurrentLevel: () => void
   id: string
   setId: (id: string) => void
   progress: number
   setProgress: (progress: number) => void
+  words: string[]
+  setWords: (words: string[]) => void
 }
 
 const initialState = {
-  currentTask: 3,
+  currentTask: 0,
   firstTaskImages: [],
   firstTaskIndex: 0,
   firstTaskURLs: [],
-  isFirstTaskLoaded: false,
   thirdTaskImages: [],
   thirdTaskIndex: 0,
   thirdTaskURLs: [],
-  isThirdTaskLoaded: false,
   thirdTaskAnswers: [],
-  level: 1,
+  currentLevel: 1,
   id: null,
   progress: 0,
+  words: [],
 }
 
 export const useSurveyStore = create(
@@ -59,26 +56,23 @@ export const useSurveyStore = create(
         set({ firstTaskIndex: get().firstTaskIndex + 1 }),
       setFirstTaskURLs: (firstTaskURLs) =>
         set({ firstTaskURLs: firstTaskURLs }),
-      setIsFirstTaskLoaded: (isFirstTaskLoaded) =>
-        set({ isFirstTaskLoaded: isFirstTaskLoaded }),
       setThirdTaskImages: (thirdTaskImages) =>
         set({ thirdTaskImages: thirdTaskImages }),
       setThirdTaskIndex: () =>
         set({ thirdTaskIndex: get().thirdTaskIndex + 1 }),
       setThirdTaskURLs: (thirdTaskURLs) =>
         set({ thirdTaskURLs: thirdTaskURLs }),
-      setIsThirdTaskLoaded: (isThirdTaskLoaded) =>
-        set({ isThirdTaskLoaded: isThirdTaskLoaded }),
       setThirdTaskAnswers: (indexes, answer) =>
         set({
           thirdTaskAnswers: setThirdTaskAnswers(indexes, answer, get),
         }),
-      setLevel: () => set({ level: get().level + 1 }),
+      setCurrentLevel: () => set({ currentLevel: get().currentLevel + 1 }),
       setId: (id) => set({ id: id }),
       setProgress: (progress) =>
         set({
-          progress: get().progress >= 100 ? 100 : get().progress + progress,
+          progress: get().progress + progress,
         }),
+      setWords: (words) => set({ words: words }),
     }),
     {
       name: "survey-storage",

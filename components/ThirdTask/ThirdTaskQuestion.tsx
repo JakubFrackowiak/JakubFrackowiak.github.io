@@ -1,4 +1,4 @@
-import { Container, Divider, Stack, Typography } from "@mui/material"
+import { Divider, Stack, Typography } from "@mui/material"
 import { BeigePaper } from "components/common/BeigePaper"
 
 export function ThirdTaskQuestion() {
