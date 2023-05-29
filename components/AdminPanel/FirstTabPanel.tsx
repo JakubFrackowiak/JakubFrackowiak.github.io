@@ -1,3 +1,6 @@
+import DeleteIcon from "@mui/icons-material/Delete"
+import Image from "next/image"
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import {
   Box,
   Collapse,
@@ -19,9 +22,6 @@ import {
 } from "firebase/storage"
 import { useEffect, useState } from "react"
 import { useStorage } from "reactfire"
-import DeleteIcon from "@mui/icons-material/Delete"
-import Image from "next/image"
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 
 interface TabPanelProps {
   index: number
