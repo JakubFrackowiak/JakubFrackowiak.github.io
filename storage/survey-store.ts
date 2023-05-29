@@ -19,6 +19,8 @@ interface SurveyStore {
   setThirdTaskURLs: (thirdTaskURLs: string[]) => void
   thirdTaskAnswers: string[]
   setThirdTaskAnswers: (indexes: number[], answer: string) => void
+  thirdTaskAnswerTimes: number[]
+  setThirdTaskAnswerTimes: (indexes: number[], time: number) => void
   currentLevel: number
   setCurrentLevel: () => void
   id: string
@@ -40,6 +42,7 @@ const initialState = {
   thirdTaskIndex: 0,
   thirdTaskURLs: [],
   thirdTaskAnswers: [],
+  thirdTaskAnswerTimes: [],
   currentLevel: 1,
   id: null,
   progress: 0,
@@ -69,6 +72,10 @@ export const useSurveyStore = create(
         set({
           thirdTaskAnswers: setThirdTaskAnswers(indexes, answer, get),
         }),
+      setThirdTaskAnswerTimes: (indexes, time) =>
+        set({
+          thirdTaskAnswerTimes: setThirdTaskAnswerTimes(indexes, time, get),
+        }),
       setCurrentLevel: () => set({ currentLevel: get().currentLevel + 1 }),
       setId: (id) => set({ id: id }),
       setProgress: (progress) =>
@@ -97,4 +104,19 @@ function setThirdTaskAnswers(indexes, answer, get) {
   const lastCoordinate = indexes[indexes.length - 1]
   nestedArray[lastCoordinate] = answer
   return thirdTaskAnswers
+}
+
+function setThirdTaskAnswerTimes(indexes, time, get) {
+  const thirdTaskAnswerTimes = get().thirdTaskAnswerTimes
+  let nestedArray = thirdTaskAnswerTimes
+  for (let i = 0; i < indexes.length - 1; i++) {
+    const index = indexes[i]
+    if (nestedArray[index] === undefined) {
+      nestedArray[index] = []
+    }
+    nestedArray = nestedArray[index]
+  }
+  const lastCoordinate = indexes[indexes.length - 1]
+  nestedArray[lastCoordinate] = time
+  return thirdTaskAnswerTimes
 }

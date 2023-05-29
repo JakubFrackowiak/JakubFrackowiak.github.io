@@ -2,19 +2,40 @@ import CircleIcon from "@mui/icons-material/Circle"
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"
 import { Checkbox, FormControlLabel, Stack, Typography } from "@mui/material"
 import { grey } from "@mui/material/colors"
+import { useEffect, useState } from "react"
 import { useSurveyStore } from "storage/survey-store"
 
 export function AnswerCheckbox({ questionIndex, answer }) {
-  const { thirdTaskIndex, thirdTaskAnswers, setThirdTaskAnswers } =
-    useSurveyStore((state) => ({
-      thirdTaskIndex: state.thirdTaskIndex,
-      thirdTaskAnswers: state.thirdTaskAnswers,
-      setThirdTaskAnswers: state.setThirdTaskAnswers,
-    }))
+  const [displayTime, setDisplayTime] = useState(null)
+  const {
+    thirdTaskIndex,
+    thirdTaskAnswers,
+    setThirdTaskAnswers,
+    setThirdTaskAnswerTimes,
+  } = useSurveyStore((state) => ({
+    thirdTaskIndex: state.thirdTaskIndex,
+    thirdTaskAnswers: state.thirdTaskAnswers,
+    setThirdTaskAnswers: state.setThirdTaskAnswers,
+    setThirdTaskAnswerTimes: state.setThirdTaskAnswerTimes,
+  }))
+
+  const getDisplayTime = () => {
+    const time = new Date().getTime()
+    setDisplayTime(time)
+  }
+
+  useEffect(() => {
+    getDisplayTime()
+  }, [thirdTaskIndex])
 
   const handleChange = (event) => {
+    const time = new Date().getTime()
+    const answerTime = time - displayTime
     setThirdTaskAnswers([thirdTaskIndex, questionIndex], event.target.value)
+    setThirdTaskAnswerTimes([thirdTaskIndex, questionIndex], answerTime / 1000)
   }
+
+  console.log("thirdTaskAnswers", thirdTaskAnswers)
 
   return (
     <FormControlLabel
