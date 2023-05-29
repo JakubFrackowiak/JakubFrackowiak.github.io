@@ -21,7 +21,6 @@ export default function index() {
     setThirdTaskURLs,
     setId,
     setWords,
-    setQuestions,
   } = useSurveyStore((state) => ({
     reset: state.reset,
     firstTaskImages: state.firstTaskImages,
@@ -33,13 +32,12 @@ export default function index() {
     id: state.id,
     setId: state.setId,
     setWords: state.setWords,
-    setQuestions: state.setQuestions,
   }))
   const storage = useStorage()
   const firestore = useFirestore()
-  const settingsRef = doc(firestore, "admin/Settings")
-  const { data: settings, status: settingsStatus } =
-    useFirestoreDocData(settingsRef)
+  const secondTaskSettingsRef = doc(firestore, "admin/SecondTask")
+  const { data: secondTaskSettings, status: secondTaskSettingsStatus } =
+    useFirestoreDocData(secondTaskSettingsRef)
 
   const setImages = async () => {
     const { firstTaskImages: firstImages, thirdTaskImages: thirdImages } =
@@ -85,16 +83,19 @@ export default function index() {
 
   useEffect(() => {
     const selectedWords = []
-    while (selectedWords.length < settings?.levels) {
-      const randomIndex = Math.floor(Math.random() * settings?.words.length)
-      const randomWord = settings?.words[randomIndex]
+    while (selectedWords.length < secondTaskSettings?.levels) {
+      const randomIndex = Math.floor(
+        Math.random() * secondTaskSettings?.words.length
+      )
+      const randomWord = secondTaskSettings?.words[randomIndex]
       if (!selectedWords.includes(randomWord)) {
         selectedWords.push(randomWord)
       }
     }
     setWords(selectedWords)
-    setQuestions(settings?.questions)
-  }, [settingsStatus])
+  }, [secondTaskSettingsStatus])
+
+  console.log("secondtask settings", secondTaskSettings)
 
   return (
     <Container
@@ -132,8 +133,10 @@ export default function index() {
             <Divider orientation="horizontal" />
           </Stack>
         </BeigePaper>
-        <Link href="/badanie">
-          <BeigeButton>Dalej</BeigeButton>
+        <Link href="/badanie" passHref>
+          <a>
+            <BeigeButton>Dalej</BeigeButton>
+          </a>
         </Link>
       </Stack>
     </Container>
