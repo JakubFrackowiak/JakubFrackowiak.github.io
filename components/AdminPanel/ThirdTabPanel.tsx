@@ -59,17 +59,12 @@ export function ThirdTabPanel({ value, index, settings }: TabPanelProps) {
   return (
     <Stack role="tabpanel" hidden={value !== index}>
       {value === index && (
-        <Stack alignItems="flex-start" justifySelf="center" spacing={2}>
+        <Stack alignItems="flex-start" spacing={2}>
           <BeigePaper>
             <Stack spacing={4}>
-              <Stack
-                spacing={4}
-                width="100%"
-                alignItems="flex-start"
-                justifyContent="space-between"
-              >
-                <Typography alignSelf="center" noWrap>
-                  Dodaj pytania do zadania trzeciego(po jednym)
+              <Stack spacing={4} width="100%">
+                <Typography alignSelf="start" noWrap>
+                  Dodaj pytania do zadania trzeciego (po jednym)
                 </Typography>
                 <Divider orientation="horizontal" flexItem />
                 <OutlinedInput

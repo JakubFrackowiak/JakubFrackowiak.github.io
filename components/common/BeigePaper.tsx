@@ -7,6 +7,7 @@ export function BeigePaper({
   p = "2rem",
   borderRadius = "0.5rem",
   bgcolor = "#f7faf2",
+  maxHeight = "60vh",
 }) {
   return (
     <Paper
@@ -15,7 +16,7 @@ export function BeigePaper({
       sx={{
         bgcolor: bgcolor,
         height: height,
-        maxHeight: "60vh",
+        maxHeight: maxHeight,
         width: width,
         p: p,
         borderRadius: borderRadius,

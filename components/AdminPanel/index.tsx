@@ -47,9 +47,19 @@ export function AdminPanel() {
         <Tab label="Słowa" />
         <Tab label="Pytania" />
       </Tabs>
-      <FirstTabPanel value={value} index={0} />
-      <SecondTabPanel value={value} index={1} settings={settings as Settings} />
-      <ThirdTabPanel value={value} index={2} settings={settings as Settings} />
+      <Stack>
+        <FirstTabPanel value={value} index={0} />
+        <SecondTabPanel
+          value={value}
+          index={1}
+          settings={settings as Settings}
+        />
+        <ThirdTabPanel
+          value={value}
+          index={2}
+          settings={settings as Settings}
+        />
+      </Stack>
     </Stack>
   )
 }

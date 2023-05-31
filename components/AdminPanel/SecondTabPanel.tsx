@@ -66,12 +66,10 @@ export function SecondTabPanel({ value, index, settings }: TabPanelProps) {
   return (
     <Stack role="tabpanel" hidden={value !== index}>
       {value === index && (
-        <Stack alignItems="flex-start" justifyContent="center" spacing={2}>
-          <BeigePaper p="2rem" width="100%">
+        <Stack justifyContent="center" spacing={2}>
+          <BeigePaper>
             <Stack
               direction="row"
-              spacing={3}
-              width="100%"
               alignItems="center"
               justifyContent="space-between"
             >
@@ -86,11 +84,10 @@ export function SecondTabPanel({ value, index, settings }: TabPanelProps) {
               />
             </Stack>
           </BeigePaper>
-          <BeigePaper p="2rem" width="100%">
+          <BeigePaper>
             <Stack spacing={2}>
               <Stack
                 direction="row"
-                spacing={3}
                 width="100%"
                 alignItems="center"
                 justifyContent="space-between"

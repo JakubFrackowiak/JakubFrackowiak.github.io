@@ -24,7 +24,7 @@ export default function admin() {
       }}
     >
       {isLoggedIn ? (
-        <AdminPanel></AdminPanel>
+        <AdminPanel />
       ) : (
         <Stack
           spacing={4}

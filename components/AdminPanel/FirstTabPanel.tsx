@@ -151,112 +151,117 @@ export function FirstTabPanel({ value, index }: TabPanelProps) {
     <Stack role="tabpanel">
       {value === index && (
         <Stack direction="row" height="100%" spacing={8} alignItems="center">
-          <Stack height="100%">
-            <List component="div" disablePadding sx={{ bgcolor: "#f7faf2" }}>
-              <ListItem
-                sx={{ py: 3 }}
-                secondaryAction={
-                  <Stack direction="row" alignItems="center">
-                    <ListItemText primary="Dodaj folder" />
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() => setFolderName("nowy folder")}
-                      />
-                    </IconButton>
-                  </Stack>
-                }
-              />
-            </List>
-            <List sx={{ width: "20rem", bgcolor: "#f7faf2" }} component="nav">
-              {folderName != null ? (
-                <ListItem>
-                  <Input
-                    placeholder={folderName}
-                    onChange={(e) => setFolderName(e.target.value)}
-                  />
-                </ListItem>
-              ) : null}
-              {Object.keys(storageContent)
-                .sort()
-                .map((folder, folderIndex) => (
-                  <Stack>
-                    <ListItemButton
-                      onClick={() => handleFolderClick(folderIndex)}
-                    >
-                      <ListItemText primary={folder} />
-                    </ListItemButton>
-                    <Collapse
-                      in={folderIndex == folderOpen}
-                      timeout="auto"
-                      unmountOnExit
-                    >
-                      <List component="div" disablePadding>
-                        <ListItem
-                          sx={{ py: 2 }}
-                          secondaryAction={
-                            <Stack direction="row" alignItems="center">
-                              <ListItemText primary="Dodaj zdjęcia" />
-                              <input
-                                accept="image/*"
-                                style={{ display: "none" }}
-                                id="add-file-button"
-                                type="file"
-                                onChange={(e) => addImage(e, folder)}
-                                multiple
-                              />
-                              <label htmlFor="add-file-button">
-                                <IconButton component="span">
-                                  <AddCircleOutlineIcon />
-                                </IconButton>
-                              </label>
-                            </Stack>
-                          }
+          <Stack height="100%" pb="5rem">
+            <BeigePaper p="0" maxHeight="100%">
+              <List component="div" disablePadding sx={{ bgcolor: "#f7faf2" }}>
+                <ListItem
+                  sx={{ py: 3 }}
+                  secondaryAction={
+                    <Stack direction="row" alignItems="center">
+                      <ListItemText primary="Dodaj folder" />
+                      <IconButton>
+                        <AddCircleOutlineIcon
+                          onClick={() => setFolderName("nowy folder")}
                         />
-                      </List>
-                    </Collapse>
-                    {storageContent[folder].map((file, fileIndex) => (
+                      </IconButton>
+                    </Stack>
+                  }
+                />
+              </List>
+              <List sx={{ width: "20rem", bgcolor: "#f7faf2" }} component="nav">
+                {folderName != null ? (
+                  <ListItem>
+                    <Input
+                      placeholder={folderName}
+                      onChange={(e) => setFolderName(e.target.value)}
+                    />
+                  </ListItem>
+                ) : null}
+                {Object.keys(storageContent)
+                  .sort()
+                  .map((folder, folderIndex) => (
+                    <Stack>
+                      <ListItemButton
+                        onClick={() => handleFolderClick(folderIndex)}
+                      >
+                        <ListItemText primary={folder} />
+                      </ListItemButton>
                       <Collapse
                         in={folderIndex == folderOpen}
                         timeout="auto"
                         unmountOnExit
-                        key={fileIndex}
-                        sx={{ overflowY: "scroll" }}
                       >
                         <List component="div" disablePadding>
                           <ListItem
-                            sx={{
-                              borderBottom:
-                                `/${folder}/${file}` == fileOpen
-                                  ? "1px solid #cbcaab"
-                                  : null,
-                              borderTop:
-                                `/${folder}/${file}` == fileOpen
-                                  ? "1px solid #cbcaab"
-                                  : null,
-                            }}
+                            sx={{ py: 2 }}
                             secondaryAction={
-                              <IconButton>
-                                <DeleteIcon
-                                  onClick={() => deleteImage(folder, file)}
+                              <Stack direction="row" alignItems="center">
+                                <ListItemText primary="Dodaj zdjęcia" />
+                                <input
+                                  accept="image/*"
+                                  style={{ display: "none" }}
+                                  id="add-file-button"
+                                  type="file"
+                                  onChange={(e) => addImage(e, folder)}
+                                  multiple
                                 />
-                              </IconButton>
+                                <label htmlFor="add-file-button">
+                                  <IconButton component="span">
+                                    <AddCircleOutlineIcon />
+                                  </IconButton>
+                                </label>
+                              </Stack>
                             }
-                          >
-                            <ListItemButton
-                              sx={{ pl: 4 }}
-                              onClick={() =>
-                                handleFileClick(`/${folder}/${file}`, fileIndex)
-                              }
-                            >
-                              <ListItemText primary={file} />
-                            </ListItemButton>
-                          </ListItem>
+                          />
                         </List>
                       </Collapse>
-                    ))}
-                  </Stack>
-                ))}
-            </List>
+                      {storageContent[folder].map((file, fileIndex) => (
+                        <Collapse
+                          in={folderIndex == folderOpen}
+                          timeout="auto"
+                          unmountOnExit
+                          key={fileIndex}
+                          sx={{ overflowY: "scroll" }}
+                        >
+                          <List component="div" disablePadding>
+                            <ListItem
+                              sx={{
+                                borderBottom:
+                                  `/${folder}/${file}` == fileOpen
+                                    ? "1px solid #cbcaab"
+                                    : null,
+                                borderTop:
+                                  `/${folder}/${file}` == fileOpen
+                                    ? "1px solid #cbcaab"
+                                    : null,
+                              }}
+                              secondaryAction={
+                                <IconButton>
+                                  <DeleteIcon
+                                    onClick={() => deleteImage(folder, file)}
+                                  />
+                                </IconButton>
+                              }
+                            >
+                              <ListItemButton
+                                sx={{ pl: 4 }}
+                                onClick={() =>
+                                  handleFileClick(
+                                    `/${folder}/${file}`,
+                                    fileIndex
+                                  )
+                                }
+                              >
+                                <ListItemText primary={file} />
+                              </ListItemButton>
+                            </ListItem>
+                          </List>
+                        </Collapse>
+                      ))}
+                    </Stack>
+                  ))}
+              </List>
+            </BeigePaper>
           </Stack>
           {fileOpen != null ? (
             <Box position="relative" height="100%">
