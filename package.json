@@ -25,7 +25,7 @@
     "reactfire": "^4.2.2",
     "styled-components": "^5.3.5",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.8",
+    "zustand": "^4.3.1",
     "zustand-persist": "^0.4.0"
   },
   "devDependencies": {

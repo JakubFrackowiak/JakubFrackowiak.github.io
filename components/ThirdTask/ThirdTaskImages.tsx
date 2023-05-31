@@ -4,21 +4,27 @@ import { BeigePaper } from "../common/BeigePaper"
 import { useSurveyStore } from "../../storage/survey-store"
 
 export function ThirdTaskImages() {
-  const { firstTaskURLs, thirdTaskIndex, thirdTaskURLs, setProgress } =
-    useSurveyStore((state) => ({
-      firstTaskURLs: state.firstTaskURLs,
-      thirdTaskIndex: state.thirdTaskIndex,
-      thirdTaskURLs: state.thirdTaskURLs,
-      setProgress: state.setProgress,
-    }))
+  const {
+    firstTaskDownloadURLs,
+    thirdTaskIndex,
+    thirdTaskDownloadURLs,
+    setProgress,
+  } = useSurveyStore((state) => ({
+    firstTaskDownloadURLs: state.firstTaskDownloadURLs,
+    thirdTaskIndex: state.thirdTaskIndex,
+    thirdTaskDownloadURLs: state.thirdTaskDownloadURLs,
+    setProgress: state.setProgress,
+  }))
 
   const handleImageLoad = () => {
-    setProgress((1 / (firstTaskURLs.length + thirdTaskURLs.length)) * 100)
+    setProgress(
+      (1 / (firstTaskDownloadURLs.length + thirdTaskDownloadURLs.length)) * 100
+    )
   }
 
   return (
     <Stack>
-      {thirdTaskURLs.map((url, index) => (
+      {thirdTaskDownloadURLs.map((url, index) => (
         <Box
           sx={{
             display: index === thirdTaskIndex ? "inline-flex" : "none",

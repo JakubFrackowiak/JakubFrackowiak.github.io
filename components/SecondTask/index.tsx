@@ -93,7 +93,6 @@ export const SecondTask = () => {
     })
   }
 
-  console.log("selectedWords", words)
   return (
     <Stack alignItems="center" width="100%">
       <Stack spacing={10} alignItems="center" width="fit-content">

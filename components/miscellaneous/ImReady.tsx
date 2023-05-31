@@ -15,8 +15,6 @@ export function ImReady() {
     setProgress(-progress)
   }, [])
 
-  console.log("Current task: ", progress)
-
   return (
     <Stack alignItems="center" spacing={6}>
       <ProgressBar progress={progress} />

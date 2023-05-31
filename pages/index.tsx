@@ -2,7 +2,7 @@ import { Container, Divider, Stack, Typography } from "@mui/material"
 import { BeigeButton } from "components/common/BeigeButton"
 import { BeigePaper } from "components/common/BeigePaper"
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { getRandomImages } from "storage/images"
 import { useFirestore, useFirestoreDocData, useStorage } from "reactfire"
 import { v4 as uuidv4 } from "uuid"
@@ -14,28 +14,25 @@ import { Client, HydrationProvider } from "react-hydration-provider"
 export default function index() {
   const {
     reset: resetStore,
-    firstTaskImages,
     setFirstTaskImages,
-    setFirstTaskURLs,
-    thirdTaskImages,
+    setFirstTaskDownloadURLs,
     setThirdTaskImages,
-    setThirdTaskURLs,
+    setThirdTaskDownloadURLs,
     setId,
     setWords,
     setQuestions,
   } = useSurveyStore((state) => ({
     reset: state.reset,
-    firstTaskImages: state.firstTaskImages,
-    setFirstTaskURLs: state.setFirstTaskURLs,
+    setFirstTaskDownloadURLs: state.setFirstTaskDownloadURLs,
     setFirstTaskImages: state.setFirstTaskImages,
-    thirdTaskImages: state.thirdTaskImages,
-    setThirdTaskURLs: state.setThirdTaskURLs,
+    setThirdTaskDownloadURLs: state.setThirdTaskDownloadURLs,
     setThirdTaskImages: state.setThirdTaskImages,
-    id: state.id,
     setId: state.setId,
     setWords: state.setWords,
     setQuestions: state.setQuestions,
   }))
+  const [tempFirstImages, setTempFirstImages] = useState([])
+  const [tempThirdImages, setTempThirdImages] = useState([])
   const storage = useStorage()
   const firestore = useFirestore()
   const settingsRef = doc(firestore, "admin/Settings")
@@ -45,27 +42,22 @@ export default function index() {
   const setImages = async () => {
     const { firstTaskImages: firstImages, thirdTaskImages: thirdImages } =
       await getRandomImages(storage)
-    setFirstTaskImages(firstImages)
-    setThirdTaskImages(thirdImages)
-  }
-
-  const setSurveyId = () => {
-    const surveyId = uuidv4()
-    setId(surveyId)
+    setTempFirstImages(firstImages)
+    setTempThirdImages(thirdImages)
   }
 
   const setImageURLs = async (images, task) => {
     try {
       if (images.length > 0) {
-        const promises = images.map(async (imageName) => {
+        const promises = images.map((imageName) => {
           const imageRef = ref(storage, imageName)
           return getDownloadURL(imageRef)
         })
         const urls = await Promise.all(promises)
         if (task === 1) {
-          setFirstTaskURLs(urls)
+          setFirstTaskDownloadURLs(urls)
         } else {
-          setThirdTaskURLs(urls)
+          setThirdTaskDownloadURLs(urls)
         }
       }
     } catch (error) {
@@ -74,15 +66,22 @@ export default function index() {
   }
 
   useEffect(() => {
+    setFirstTaskImages(tempFirstImages)
+    setThirdTaskImages(tempThirdImages)
+    setImageURLs(tempFirstImages, 1)
+    setImageURLs(tempThirdImages, 3)
+  }, [tempFirstImages, tempThirdImages])
+
+  const setSurveyId = () => {
+    const surveyId = uuidv4()
+    setId(surveyId)
+  }
+
+  useEffect(() => {
     resetStore()
     setImages()
     setSurveyId()
   }, [])
-
-  useEffect(() => {
-    setImageURLs(firstTaskImages, 1)
-    setImageURLs(thirdTaskImages, 3)
-  }, [firstTaskImages, thirdTaskImages])
 
   useEffect(() => {
     const selectedWords = []
@@ -96,8 +95,6 @@ export default function index() {
     setWords(selectedWords)
     setQuestions(settings?.questions)
   }, [settings])
-
-  console.log("secondtask settings", settings)
 
   return (
     <Container

@@ -18,6 +18,7 @@ export function ThirdTask() {
     thirdTaskImages,
     thirdTaskIndex,
     thirdTaskAnswers,
+    thirdTaskAnswerTimes,
     questions,
   } = useSurveyStore((state) => ({
     id: state.id,
@@ -27,6 +28,7 @@ export function ThirdTask() {
     thirdTaskImages: state.thirdTaskImages,
     thirdTaskIndex: state.thirdTaskIndex,
     setThirdTaskIndex: state.setThirdTaskIndex,
+    thirdTaskAnswerTimes: state.thirdTaskAnswerTimes,
     questions: state.questions,
   }))
 
@@ -51,14 +53,12 @@ export function ThirdTask() {
   }
 
   const updateSheet = async () => {
-    const firstTaskImageData = formatImages(firstTaskImages, 1)
-    const thirdTaskImageData = formatImages(thirdTaskImages, 3)
-    const thirdTaskAnswersData = formatAnswers(thirdTaskAnswers)
     const data = {
       id: id,
-      ...firstTaskImageData,
-      ...thirdTaskImageData,
-      ...thirdTaskAnswersData,
+      ...firstTaskImages,
+      ...thirdTaskImages,
+      ...thirdTaskAnswers,
+      ...thirdTaskAnswerTimes,
     }
     axios.post(
       "https://script.google.com/macros/s/AKfycbzzFQSoOLTJqApJciDfIDJoHVO6Br3c9Q42hFDR7g_d1zo9DSphAyieFQXSrBW9LXrCcg/exec",
@@ -67,7 +67,7 @@ export function ThirdTask() {
   }
 
   const handleClick = () => {
-    if (thirdTaskIndex < thirdTaskImages.length - 1) {
+    if (thirdTaskIndex < Object.values(thirdTaskImages).length - 1) {
       setThirdTaskIndex()
     } else {
       updateSheet()
@@ -101,10 +101,15 @@ export function ThirdTask() {
           </BeigePaper>
           <BeigeButton
             onClick={() => handleClick()}
-            disabled={
-              thirdTaskAnswers[thirdTaskIndex] == null ||
-              thirdTaskAnswers[thirdTaskIndex].includes(null)
-            }
+            disabled={questions
+              .map((question, questionIndex) => {
+                return (
+                  thirdTaskAnswers[
+                    `zad3_zdj${thirdTaskIndex + 1}_odp${questionIndex + 1}`
+                  ] === undefined
+                )
+              })
+              .some((answer) => answer === true)}
           >
             Następne zdjęcie
           </BeigeButton>

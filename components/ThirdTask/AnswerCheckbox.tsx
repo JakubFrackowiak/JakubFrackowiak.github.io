@@ -17,6 +17,7 @@ export function AnswerCheckbox({ questionIndex, answer }) {
     thirdTaskAnswers: state.thirdTaskAnswers,
     setThirdTaskAnswers: state.setThirdTaskAnswers,
     setThirdTaskAnswerTimes: state.setThirdTaskAnswerTimes,
+    thirdTaskAnswerTimes: state.thirdTaskAnswerTimes,
   }))
 
   const getDisplayTime = () => {
@@ -35,17 +36,15 @@ export function AnswerCheckbox({ questionIndex, answer }) {
     setThirdTaskAnswerTimes([thirdTaskIndex, questionIndex], answerTime / 1000)
   }
 
-  console.log("thirdTaskAnswers", thirdTaskAnswers)
-
   return (
     <FormControlLabel
       sx={{
         position: "relative",
       }}
       checked={
-        thirdTaskAnswers.length > 0 && thirdTaskAnswers[thirdTaskIndex] != null
-          ? thirdTaskAnswers[thirdTaskIndex][questionIndex] == answer.label
-          : false
+        thirdTaskAnswers[
+          `zad3_zdj${thirdTaskIndex + 1}_odp${questionIndex + 1}`
+        ] === answer.label
       }
       onChange={handleChange}
       key={answer.label}

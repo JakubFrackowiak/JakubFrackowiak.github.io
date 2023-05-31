@@ -1,3 +1,4 @@
+import { FirebaseStorage, getDownloadURL, ref } from "firebase/storage"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
@@ -5,18 +6,18 @@ interface SurveyStore {
   reset: () => void
   currentTask: number
   setCurrentTask: (currentTask: number) => void
-  firstTaskImages: string[]
+  firstTaskImages: object
   setFirstTaskImages: (firstTaskImages: string[]) => void
   firstTaskIndex: number
   setFirstTaskIndex: () => void
-  firstTaskURLs: string[]
-  setFirstTaskURLs: (firstTaskURLs: string[]) => void
-  thirdTaskImages: string[]
+  firstTaskDownloadURLs: string[]
+  setFirstTaskDownloadURLs: (urls: string[]) => void
+  thirdTaskImages: object
   setThirdTaskImages: (thirdTaskImages: string[]) => void
   thirdTaskIndex: number
   setThirdTaskIndex: () => void
-  thirdTaskURLs: string[]
-  setThirdTaskURLs: (thirdTaskURLs: string[]) => void
+  thirdTaskDownloadURLs: string[]
+  setThirdTaskDownloadURLs: (urls: string[]) => void
   thirdTaskAnswers: string[]
   setThirdTaskAnswers: (indexes: number[], answer: string) => void
   thirdTaskAnswerTimes: number[]
@@ -35,12 +36,12 @@ interface SurveyStore {
 
 const initialState = {
   currentTask: 0,
-  firstTaskImages: [],
+  firstTaskImages: {},
   firstTaskIndex: 0,
-  firstTaskURLs: [],
-  thirdTaskImages: [],
+  firstTaskDownloadURLs: [],
+  thirdTaskImages: {},
   thirdTaskIndex: 0,
-  thirdTaskURLs: [],
+  thirdTaskDownloadURLs: [],
   thirdTaskAnswers: [],
   thirdTaskAnswerTimes: [],
   currentLevel: 1,
@@ -57,17 +58,19 @@ export const useSurveyStore = create(
       reset: () => set(initialState),
       setCurrentTask: (currentTask) => set({ currentTask: currentTask }),
       setFirstTaskImages: (firstTaskImages) =>
-        set({ firstTaskImages: firstTaskImages }),
+        set({
+          firstTaskImages: setFirstTaskImages(firstTaskImages, get),
+        }),
       setFirstTaskIndex: () =>
         set({ firstTaskIndex: get().firstTaskIndex + 1 }),
-      setFirstTaskURLs: (firstTaskURLs) =>
-        set({ firstTaskURLs: firstTaskURLs }),
+      setFirstTaskDownloadURLs: (urls) => set({ firstTaskDownloadURLs: urls }),
       setThirdTaskImages: (thirdTaskImages) =>
-        set({ thirdTaskImages: thirdTaskImages }),
+        set({
+          thirdTaskImages: setThirdTaskImages(thirdTaskImages, get),
+        }),
       setThirdTaskIndex: () =>
         set({ thirdTaskIndex: get().thirdTaskIndex + 1 }),
-      setThirdTaskURLs: (thirdTaskURLs) =>
-        set({ thirdTaskURLs: thirdTaskURLs }),
+      setThirdTaskDownloadURLs: (urls) => set({ thirdTaskDownloadURLs: urls }),
       setThirdTaskAnswers: (indexes, answer) =>
         set({
           thirdTaskAnswers: setThirdTaskAnswers(indexes, answer, get),
@@ -91,32 +94,39 @@ export const useSurveyStore = create(
   )
 )
 
+function setFirstTaskImages(images, get) {
+  const firstTaskImages = get().firstTaskImages
+  images.forEach((image, index) => {
+    const propertyName = `zad1_zdj${index + 1}`
+    firstTaskImages[propertyName] = image
+  })
+  return firstTaskImages
+}
+
+function setThirdTaskImages(images, get) {
+  const thirdTaskImages = get().thirdTaskImages
+  images.forEach((image, index) => {
+    const propertyName = `zad3_zdj${index + 1}`
+    thirdTaskImages[propertyName] = image
+  })
+  return thirdTaskImages
+}
+
 function setThirdTaskAnswers(indexes, answer, get) {
   const thirdTaskAnswers = get().thirdTaskAnswers
-  let nestedArray = thirdTaskAnswers
-  for (let i = 0; i < indexes.length - 1; i++) {
-    const index = indexes[i]
-    if (nestedArray[index] === undefined) {
-      nestedArray[index] = []
-    }
-    nestedArray = nestedArray[index]
+  const updatedAnswers = {
+    ...thirdTaskAnswers,
+    [`zad3_zdj${indexes[0] + 1}_odp${indexes[1] + 1}`]: answer,
   }
-  const lastCoordinate = indexes[indexes.length - 1]
-  nestedArray[lastCoordinate] = answer
-  return thirdTaskAnswers
+  return updatedAnswers
 }
 
 function setThirdTaskAnswerTimes(indexes, time, get) {
   const thirdTaskAnswerTimes = get().thirdTaskAnswerTimes
-  let nestedArray = thirdTaskAnswerTimes
-  for (let i = 0; i < indexes.length - 1; i++) {
-    const index = indexes[i]
-    if (nestedArray[index] === undefined) {
-      nestedArray[index] = []
-    }
-    nestedArray = nestedArray[index]
+
+  const updatedTimes = {
+    ...thirdTaskAnswerTimes,
+    [`zad3_zdj${indexes[0] + 1}_czas${indexes[1] + 1}`]: time,
   }
-  const lastCoordinate = indexes[indexes.length - 1]
-  nestedArray[lastCoordinate] = time
-  return thirdTaskAnswerTimes
+  return updatedTimes
 }

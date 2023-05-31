@@ -11,8 +11,8 @@ export function FirstTaskImages() {
     setCurrentTask,
     firstTaskIndex,
     setFirstTaskIndex,
-    firstTaskURLs,
-    thirdTaskURLs,
+    firstTaskDownloadURLs,
+    thirdTaskDownloadURLs,
     progress,
     setProgress,
   } = useSurveyStore((state) => ({
@@ -20,8 +20,8 @@ export function FirstTaskImages() {
     setCurrentTask: state.setCurrentTask,
     firstTaskIndex: state.firstTaskIndex,
     setFirstTaskIndex: state.setFirstTaskIndex,
-    firstTaskURLs: state.firstTaskURLs,
-    thirdTaskURLs: state.thirdTaskURLs,
+    firstTaskDownloadURLs: state.firstTaskDownloadURLs,
+    thirdTaskDownloadURLs: state.thirdTaskDownloadURLs,
     progress: state.progress,
     setProgress: state.setProgress,
   }))
@@ -36,18 +36,23 @@ export function FirstTaskImages() {
   }, [currentTask])
 
   useEffect(() => {
-    if (firstTaskIndex === firstTaskURLs.length - 1 && progress >= 100) {
+    if (
+      firstTaskIndex === firstTaskDownloadURLs.length - 1 &&
+      progress >= 100
+    ) {
       setCurrentTask(2)
     }
   }, [firstTaskIndex])
 
   const handleImageLoad = () => {
-    setProgress((1 / (firstTaskURLs.length + thirdTaskURLs.length)) * 100)
+    setProgress(
+      (1 / (firstTaskDownloadURLs.length + thirdTaskDownloadURLs.length)) * 100
+    )
   }
 
   return (
     <Stack>
-      {firstTaskURLs.map((url, index) => (
+      {firstTaskDownloadURLs.map((url, index) => (
         <Box
           sx={{
             display: index === firstTaskIndex ? "block" : "none",

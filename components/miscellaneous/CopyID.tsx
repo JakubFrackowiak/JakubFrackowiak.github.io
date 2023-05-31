@@ -37,7 +37,6 @@ export function CopyID() {
     }
   }
 
-  console.log("copied: ", copied)
   return (
     <Box>
       <BeigePaper width="fit-content" height="fit-content">
