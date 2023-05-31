@@ -136,7 +136,7 @@ export default function index() {
             </BeigePaper>
             <Link href="/badanie" passHref>
               <a>
-                <BeigeButton>DDalej</BeigeButton>
+                <BeigeButton>Dalej</BeigeButton>
               </a>
             </Link>
           </Stack>
