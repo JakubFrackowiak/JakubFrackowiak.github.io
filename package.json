@@ -1,7 +1,12 @@
 {
   "name": "frontend",
   "version": "0.0.57",
+  "homepage": "https://JakubFrackowiak.github.io/animals",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "prettier": "prettier --write '**/*.{ts,tsx}'",
     "prettier-check": "prettier --check '**/*.{ts,tsx}'"
   },
@@ -39,7 +44,8 @@
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
     "react-refresh": "0.10.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "gh-pages": "^6.0.0"
   },
   "module": "index.js"
 }
