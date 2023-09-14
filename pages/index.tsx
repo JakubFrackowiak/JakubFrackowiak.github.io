@@ -113,9 +113,14 @@ export default function index() {
             <BeigePaper height="20rem">
               <Divider orientation="horizontal" />
               <Stack height="100%" justifyContent="space-around">
-                <Typography variant="h6" textAlign="justify" color="grey.800">
+                <Typography
+                  variant="h6"
+                  textAlign="justify"
+                  color="grey.800"
+                  fontSize={{ xs: "13px", sm: "18px", md: "20px" }}
+                >
                   To zadanie dotyczy procesów poznawczych zaangażowanych w
-                  postrzeganie obiektów. Za chwilę zobaczysz 30 fotografii
+                  postrzeganie obiektów. Za chwilę zobaczysz 30 fotografi
                   przedstawiające różne zwierzęta. Fotografie będą zmieniały się
                   same w równym tempie. Przyglądaj się prezentowanym zwierzętom
                   najlepiej jak potrafisz, ponieważ po prezentacji nastąpią
@@ -127,6 +132,7 @@ export default function index() {
                   textAlign="justify"
                   color="grey.800"
                   alignSelf="center"
+                  fontSize={{ xs: "13px", sm: "18px", md: "20px" }}
                 >
                   Jeśli jesteś gotowy/a, aby obejrzeć zdjęcia kliknij „Dalej”.
                 </Typography>

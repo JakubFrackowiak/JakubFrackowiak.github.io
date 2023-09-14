@@ -8,7 +8,12 @@ export function ThirdTaskQuestion() {
         <Stack height="100%" justifyContent="space-around">
           <Divider orientation="horizontal" />
           <Stack alignItems="center" spacing={1}>
-            <Typography variant="h6" textAlign="justify" color="grey.800">
+            <Typography
+              variant="h6"
+              fontSize={{ xs: "12px", sm: "16px", md: "20px" }}
+              textAlign="justify"
+              color="grey.800"
+            >
               To już ostatnia część tego zadania. Spróbuj przypomnieć sobie,
               jakie zwierzęta widziałeś/łaś na początku. Za chwilę ponownie
               zobaczysz zdjęcia przedstawiające różne zwierzęta. Przy każdym
@@ -34,7 +39,12 @@ export function ThirdTaskQuestion() {
               </span>{" "}
               rodzaj zwierzęcia (np. jakąkolwiek krowę).
             </Typography>
-            <Typography variant="h6" textAlign="justify" color="grey.800">
+            <Typography
+              variant="h6"
+              fontSize={{ xs: "12px", sm: "16px", md: "20px" }}
+              textAlign="justify"
+              color="grey.800"
+            >
               Uwaga! Aby nieco utrudnić rozpoznanie, niektóre zwierzęta
               przedstawiono w trochę innym ujęciu (innej pozie) niż w
               poprzedniej serii zdjęć.

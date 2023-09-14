@@ -118,7 +118,11 @@ export const SecondTask = () => {
         <Stack>
           <Stack spacing={10} alignItems="center" width="fit-content">
             <BeigePaper p="1rem">
-              <Typography variant="h6" noWrap>
+              <Typography
+                variant="h6"
+                fontSize={{ xs: "13px", sm: "18px", md: "20px" }}
+                noWrap
+              >
                 Ułóż słowo ze wszystkich liter przedstawionych poniżej.
               </Typography>
             </BeigePaper>
@@ -135,13 +139,11 @@ export const SecondTask = () => {
                 justifyContent="center"
               >
                 {droppedLetters.map((letter, index) => (
-                  <BeigePaper p="0">
-                    <Slot
-                      letter={letter}
-                      index={index}
-                      onClick={handleSlotClick}
-                    />
-                  </BeigePaper>
+                  <Slot
+                    letter={letter}
+                    index={index}
+                    onClick={handleSlotClick}
+                  />
                 ))}
               </Stack>
               <Stack
@@ -151,13 +153,11 @@ export const SecondTask = () => {
                 justifyContent="center"
               >
                 {letters.map((letter, index) => (
-                  <BeigePaper p="0">
-                    <Slot
-                      letter={letter}
-                      index={index}
-                      onClick={handleLetterClick}
-                    />
-                  </BeigePaper>
+                  <Slot
+                    letter={letter}
+                    index={index}
+                    onClick={handleLetterClick}
+                  />
                 ))}
               </Stack>
             </Stack>

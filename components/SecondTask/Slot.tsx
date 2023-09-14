@@ -25,7 +25,7 @@ export function Slot({ letter, index, onClick }) {
         width: "100%",
         aspectRatio: "1/1",
         cursor: letter ? "pointer" : "default",
-        maxWidth: "7rem",
+        maxWidth: "4rem",
       }}
       key={index}
       onClick={() => onClick(index)}

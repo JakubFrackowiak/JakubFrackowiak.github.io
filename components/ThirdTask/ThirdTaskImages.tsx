@@ -30,8 +30,10 @@ export function ThirdTaskImages() {
             display: index === thirdTaskIndex ? "inline-flex" : "none",
           }}
           key={index}
+          height={{ xs: "20rem", sm: "30rem" }}
+          width={{ xs: "20rem", sm: "30rem" }}
         >
-          <BeigePaper width="30rem" height="30rem" p="0">
+          <BeigePaper>
             <Image
               key={index}
               src={url}

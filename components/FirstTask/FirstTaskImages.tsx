@@ -57,8 +57,8 @@ export function FirstTaskImages() {
           sx={{
             display: index === firstTaskIndex ? "block" : "none",
           }}
-          height="30rem"
-          width="30rem"
+          height={{ xs: "20rem", sm: "30rem" }}
+          width={{ xs: "20rem", sm: "30rem" }}
         >
           <BeigePaper>
             <Image

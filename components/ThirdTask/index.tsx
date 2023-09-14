@@ -93,6 +93,7 @@ export function ThirdTask() {
           alignItems="center"
           spacing={2}
           width="100%"
+          pb="1rem"
         >
           <BeigePaper>
             <Stack pb="2rem" width="100%">
