@@ -36,8 +36,7 @@ export default function index() {
   const storage = useStorage()
   const firestore = useFirestore()
   const settingsRef = doc(firestore, "admin/Settings")
-  const { data: settings, status: settingsStatus } =
-    useFirestoreDocData(settingsRef)
+  const { data: settings } = useFirestoreDocData(settingsRef)
 
   const setImages = async () => {
     const { firstTaskImages: firstImages, thirdTaskImages: thirdImages } =

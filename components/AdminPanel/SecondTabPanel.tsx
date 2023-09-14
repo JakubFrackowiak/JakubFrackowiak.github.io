@@ -68,6 +68,17 @@ export function SecondTabPanel({ value, index, settings }: TabPanelProps) {
       {value === index && (
         <Stack justifyContent="center" spacing={2}>
           <BeigePaper>
+            <Stack justifyContent="space-evenly" direction="row" spacing={2}>
+              <BeigeButton width="18rem" onClick={() => handleSave()}>
+                Zapisz
+              </BeigeButton>
+              <Divider orientation="vertical" flexItem />
+              <BeigeButton width="18rem" onClick={() => handleReset()}>
+                Przywróć domyślne
+              </BeigeButton>
+            </Stack>
+          </BeigePaper>
+          <BeigePaper>
             <Stack
               direction="row"
               alignItems="center"
@@ -125,17 +136,6 @@ export function SecondTabPanel({ value, index, settings }: TabPanelProps) {
                 ))}
               </Grid>
               <Divider />
-            </Stack>
-          </BeigePaper>
-          <BeigePaper>
-            <Stack justifyContent="space-evenly" direction="row" spacing={2}>
-              <BeigeButton width="18rem" onClick={() => handleSave()}>
-                Zapisz
-              </BeigeButton>
-              <Divider orientation="vertical" flexItem />
-              <BeigeButton width="18rem" onClick={() => handleReset()}>
-                Przywróć domyślne
-              </BeigeButton>
             </Stack>
           </BeigePaper>
         </Stack>

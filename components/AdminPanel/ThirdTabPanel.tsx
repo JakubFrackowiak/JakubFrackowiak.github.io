@@ -61,6 +61,17 @@ export function ThirdTabPanel({ value, index, settings }: TabPanelProps) {
       {value === index && (
         <Stack alignItems="flex-start" spacing={2}>
           <BeigePaper>
+            <Stack justifyContent="space-evenly" direction="row" spacing={2}>
+              <BeigeButton width="18rem" onClick={() => handleSave()}>
+                Zapisz
+              </BeigeButton>
+              <Divider orientation="vertical" flexItem />
+              <BeigeButton width="18rem" onClick={() => handleReset()}>
+                Przywróć domyślne
+              </BeigeButton>
+            </Stack>
+          </BeigePaper>
+          <BeigePaper>
             <Stack spacing={4}>
               <Stack spacing={4} width="100%">
                 <Typography alignSelf="start" noWrap>
@@ -96,17 +107,6 @@ export function ThirdTabPanel({ value, index, settings }: TabPanelProps) {
                   </Grid>
                 ))}
               </Grid>
-            </Stack>
-          </BeigePaper>
-          <BeigePaper>
-            <Stack justifyContent="space-evenly" direction="row" spacing={2}>
-              <BeigeButton width="18rem" onClick={() => handleSave()}>
-                Zapisz
-              </BeigeButton>
-              <Divider orientation="vertical" flexItem />
-              <BeigeButton width="18rem" onClick={() => handleReset()}>
-                Przywróć domyślne
-              </BeigeButton>
             </Stack>
           </BeigePaper>
         </Stack>

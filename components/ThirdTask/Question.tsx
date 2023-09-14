@@ -10,10 +10,9 @@ export function Question({ questionIndex, question }) {
       <Typography
         variant="h6"
         align="center"
+        noWrap
         sx={{
           overflowWrap: "break-word",
-          wordWrap: "break-word",
-          maxWidth: "80%",
         }}
       >
         {question}

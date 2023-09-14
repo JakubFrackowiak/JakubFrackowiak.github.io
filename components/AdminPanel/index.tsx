@@ -10,6 +10,8 @@ export interface Settings {
   levels: number
   words: string[]
   questions: string[]
+  randomAnimals: number
+  randomFillers: number
 }
 
 export function AdminPanel() {
@@ -48,7 +50,11 @@ export function AdminPanel() {
         <Tab label="Pytania" />
       </Tabs>
       <Stack>
-        <FirstTabPanel value={value} index={0} />
+        <FirstTabPanel
+          value={value}
+          index={0}
+          settings={settings as Settings}
+        />
         <SecondTabPanel
           value={value}
           index={1}

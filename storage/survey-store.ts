@@ -22,6 +22,8 @@ interface SurveyStore {
   setThirdTaskAnswers: (indexes: number[], answer: string) => void
   thirdTaskAnswerTimes: number[]
   setThirdTaskAnswerTimes: (indexes: number[], time: number) => void
+  thirdTaskCorrect: string[]
+  setThirdTaskCorrect: (indexes: number[], correct: string) => void
   currentLevel: number
   setCurrentLevel: () => void
   id: string
@@ -44,6 +46,7 @@ const initialState = {
   thirdTaskDownloadURLs: [],
   thirdTaskAnswers: [],
   thirdTaskAnswerTimes: [],
+  thirdTaskCorrect: [],
   currentLevel: 1,
   id: null,
   progress: 0,
@@ -78,6 +81,10 @@ export const useSurveyStore = create(
       setThirdTaskAnswerTimes: (indexes, time) =>
         set({
           thirdTaskAnswerTimes: setThirdTaskAnswerTimes(indexes, time, get),
+        }),
+      setThirdTaskCorrect: (indexes, correct) =>
+        set({
+          thirdTaskCorrect: setThirdTaskCorrect(indexes, correct, get),
         }),
       setCurrentLevel: () => set({ currentLevel: get().currentLevel + 1 }),
       setId: (id) => set({ id: id }),
@@ -116,7 +123,7 @@ function setThirdTaskAnswers(indexes, answer, get) {
   const thirdTaskAnswers = get().thirdTaskAnswers
   const updatedAnswers = {
     ...thirdTaskAnswers,
-    [`zad3_zdj${indexes[0] + 1}_odp${indexes[1] + 1}`]: answer,
+    [`zdj${indexes[0] + 1}_odp${indexes[1] + 1}`]: answer,
   }
   return updatedAnswers
 }
@@ -126,7 +133,17 @@ function setThirdTaskAnswerTimes(indexes, time, get) {
 
   const updatedTimes = {
     ...thirdTaskAnswerTimes,
-    [`zad3_zdj${indexes[0] + 1}_czas${indexes[1] + 1}`]: time,
+    [`zdj${indexes[0] + 1}_czas${indexes[1] + 1}`]: time,
   }
   return updatedTimes
+}
+
+function setThirdTaskCorrect(indexes, correct, get) {
+  const thirdTaskAnswerCorrect = get().thirdTaskCorrect
+
+  const updatedCorrect = {
+    ...thirdTaskAnswerCorrect,
+    [`zdj${indexes[0] + 1}_pop${indexes[1] + 1}`]: correct,
+  }
+  return updatedCorrect
 }

@@ -46,7 +46,7 @@ export const SecondTask = () => {
       setIsSolved(true)
     }
   }, [droppedLetters])
-
+  console.log(word)
   useEffect(() => {
     if (isSolved) {
       setToastOpen(true)

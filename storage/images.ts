@@ -6,7 +6,7 @@ export const getImageNames = async (storage) => {
   const categoriesItems = await listAll(categoriesRef)
   const categories = categoriesItems.prefixes
     .map((category) => category.name)
-    .filter((category) => category !== "fillers")
+    .filter((category) => category !== "fillers1" && category !== "fillers2")
   await Promise.all(
     categories.map(async (category) => {
       const categoryRef = ref(storage, category)
@@ -17,78 +17,70 @@ export const getImageNames = async (storage) => {
       animals.push(imageNames)
     })
   )
-  const fillersRef = ref(storage, "fillers")
-  const fillersItems = await listAll(fillersRef)
-  const fillers = fillersItems.items.map((item) => "fillers/" + item.name)
+  console.log(animals)
+  const firstFillersRef = ref(storage, "fillers1")
+  const firstFillersItems = await listAll(firstFillersRef)
+  const firstFillers = firstFillersItems.items.map(
+    (item) => "fillers1/" + item.name
+  )
+  const secondFillersRef = ref(storage, "fillers2")
+  const secondFillersItems = await listAll(secondFillersRef)
+  const secondFillers = secondFillersItems.items.map(
+    (item) => "fillers2/" + item.name
+  )
   const animalsSliced = animals.map((animalArr) =>
     animalArr.map((image) => image.split(".")[0].slice(0, -1))
   )
+
   const animalsSets = animalsSliced.map((animalArr) =>
     animalArr.filter((v, i, a) => a.indexOf(v) === i)
   )
+
   const animalsPaired = animalsSets.map((animalArr) =>
     animalArr.map((image) => [image + "a.jpg", image + "b.jpg"])
   )
 
-  const images = { animals: animalsPaired, fillers }
+  const images = { animals: animalsPaired, firstFillers, secondFillers }
   return images
 }
 
 export const getRandomImages = async (storage) => {
-  const { animals, fillers } = await getImageNames(storage)
-  const firstAnimalImages = animals.map((animal) => getRandomAnimals(animal, 6))
-  const firstFillerImages = getRandomFillers(fillers, 8)
-  const firstNewAnimals = animals.map((animalPairs, index) =>
-    animalPairs.map((animalPair) =>
-      animalPair.filter((a) => !firstAnimalImages[index].includes(a))
-    )
+  const { animals, firstFillers, secondFillers } = await getImageNames(storage)
+  const { firstAnimals, thirdAnimals } = getRandomAnimals(animals)
+  const firstTaskImages = [...firstAnimals, ...firstFillers].sort(
+    () => Math.random() - 0.5
   )
-  const firstNewFillers = fillers.filter(
-    (filler) => !firstFillerImages.includes(filler)
+  const thirdTaskImages = [...thirdAnimals, ...secondFillers].sort(
+    () => Math.random() - 0.5
   )
-  const firstTaskImages = [
-    ...firstAnimalImages.flat(2),
-    ...firstFillerImages,
-  ].sort(() => Math.random() - 0.5)
-  const thirdAnimalImages = firstAnimalImages.map((animalPair) =>
-    animalPair.map((animal) => {
-      const animalName = animal.split(".")[0]
-      const lastChar = animalName.slice(-1)
-      const newLastChar = lastChar === "a" ? "b.jpg" : "a.jpg"
-      const newAnimalName = animalName.slice(0, -1) + newLastChar
-      return newAnimalName
-    })
-  )
-  const thirdNewAnimals = firstNewAnimals.map((animalPairs, index) =>
-    animalPairs
-      .map((animalPair) =>
-        animalPair.filter((a) => !thirdAnimalImages[index].includes(a))
-      )
-      .filter((animalPairs) => animalPairs.length > 0)
-  )
-  const thirdOddImages = thirdNewAnimals.map((animal) =>
-    getRandomAnimals(animal, 6)
-  )
-  const thirdFillerImages = getRandomFillers(firstNewFillers, 8)
-  const thirdTaskImages = [
-    ...thirdAnimalImages.flat(2),
-    ...thirdOddImages.flat(2),
-    ...thirdFillerImages,
-  ].sort(() => Math.random() - 0.5)
+
   return {
     firstTaskImages: firstTaskImages,
     thirdTaskImages: thirdTaskImages,
   }
 }
 
-const getRandomAnimals = (animalArr: string[][], count: number): string[] => {
-  const shuffled = animalArr
-    .map((animal) => animal[Math.floor(Math.random() * 2)])
-    .sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, count)
-}
+type Animal = string
+type AnimalPair = [Animal, Animal]
 
-const getRandomFillers = (fillerArr: string[], count: number): string[] => {
-  const shuffled = fillerArr.sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, count)
+function getRandomAnimals(animals: AnimalPair[][]): [Animal[], AnimalPair[][]] {
+  const firstAnimals: Animal[] = []
+  const remainingAnimals: AnimalPair[] = []
+  console.log("animals", animals)
+  animals.forEach((animalArr) => {
+    animalArr.forEach((animalPair) => {
+      if (Math.random() < 0.5) {
+        firstAnimals.push(animalPair[0])
+        remainingAnimals.push(animalPair[1])
+      } else {
+        firstAnimals.push(animalPair[1])
+        remainingAnimals.push(animalPair[0])
+      }
+    })
+  })
+
+  return {
+    firstAnimals,
+    thirdAnimals: remainingAnimals,
+  }
 }

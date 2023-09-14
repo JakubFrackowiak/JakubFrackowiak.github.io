@@ -8,11 +8,13 @@ import { useSurveyStore } from "storage/survey-store"
 export function AnswerCheckbox({ questionIndex, answer }) {
   const [displayTime, setDisplayTime] = useState(null)
   const {
+    currentTask,
     thirdTaskIndex,
     thirdTaskAnswers,
     setThirdTaskAnswers,
     setThirdTaskAnswerTimes,
   } = useSurveyStore((state) => ({
+    currentTask: state.currentTask,
     thirdTaskIndex: state.thirdTaskIndex,
     thirdTaskAnswers: state.thirdTaskAnswers,
     setThirdTaskAnswers: state.setThirdTaskAnswers,
@@ -27,7 +29,7 @@ export function AnswerCheckbox({ questionIndex, answer }) {
 
   useEffect(() => {
     getDisplayTime()
-  }, [thirdTaskIndex])
+  }, [thirdTaskIndex, currentTask])
 
   const handleChange = (event) => {
     const time = new Date().getTime()
@@ -42,9 +44,8 @@ export function AnswerCheckbox({ questionIndex, answer }) {
         position: "relative",
       }}
       checked={
-        thirdTaskAnswers[
-          `zad3_zdj${thirdTaskIndex + 1}_odp${questionIndex + 1}`
-        ] === answer.label
+        thirdTaskAnswers[`zdj${thirdTaskIndex + 1}_odp${questionIndex + 1}`] ===
+        answer.label
       }
       onChange={handleChange}
       key={answer.label}

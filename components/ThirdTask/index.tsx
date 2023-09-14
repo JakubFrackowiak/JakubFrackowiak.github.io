@@ -19,6 +19,8 @@ export function ThirdTask() {
     thirdTaskIndex,
     thirdTaskAnswers,
     thirdTaskAnswerTimes,
+    thirdTaskCorrect,
+    setThirdTaskCorrect,
     questions,
   } = useSurveyStore((state) => ({
     id: state.id,
@@ -29,28 +31,10 @@ export function ThirdTask() {
     thirdTaskIndex: state.thirdTaskIndex,
     setThirdTaskIndex: state.setThirdTaskIndex,
     thirdTaskAnswerTimes: state.thirdTaskAnswerTimes,
+    thirdTaskCorrect: state.thirdTaskCorrect,
+    setThirdTaskCorrect: state.setThirdTaskCorrect,
     questions: state.questions,
   }))
-
-  const formatImages = (images, task) => {
-    const imageData = images.reduce((obj, name, index) => {
-      const newName = name.replace(".jpg", "").split("/")[1]
-      obj[`zad${task}_zdj${index + 1}`] = newName
-      return obj
-    }, {})
-    return imageData
-  }
-
-  const formatAnswers = (answers) => {
-    const imageData = answers.reduce((obj, task, index) => {
-      task.forEach((answer, answerIndex) => {
-        const key = `zdj${index + 1}_odp${answerIndex + 1}`
-        obj[key] = answer
-      })
-      return obj
-    }, {})
-    return imageData
-  }
 
   const updateSheet = async () => {
     const data = {
@@ -59,6 +43,7 @@ export function ThirdTask() {
       ...thirdTaskImages,
       ...thirdTaskAnswers,
       ...thirdTaskAnswerTimes,
+      ...thirdTaskCorrect,
     }
     axios.post(
       "https://script.google.com/macros/s/AKfycbzzFQSoOLTJqApJciDfIDJoHVO6Br3c9Q42hFDR7g_d1zo9DSphAyieFQXSrBW9LXrCcg/exec",
@@ -66,7 +51,21 @@ export function ThirdTask() {
     )
   }
 
+  const checkAnswer = () => {
+    const currentImage = thirdTaskImages[`zad3_zdj${thirdTaskIndex + 1}`]
+    const currentAnswer = thirdTaskAnswers[`zdj${thirdTaskIndex + 1}_odp1`]
+    if (
+      (currentImage.includes("fillers") && currentAnswer == "Tak") ||
+      (!currentImage.includes("fillers") && currentAnswer == "Nie")
+    ) {
+      setThirdTaskCorrect([thirdTaskIndex, 0], "Nie")
+    } else {
+      setThirdTaskCorrect([thirdTaskIndex, 0], "Tak")
+    }
+  }
+
   const handleClick = () => {
+    checkAnswer()
     if (thirdTaskIndex < Object.values(thirdTaskImages).length - 1) {
       setThirdTaskIndex()
     } else {
@@ -86,18 +85,21 @@ export function ThirdTask() {
         width="100%"
         spacing={4}
         alignItems="center"
+        direction="row"
       >
         <ThirdTaskImages />
         <Stack
           justifyContent="space-between"
           alignItems="center"
           spacing={4}
-          pb="1rem"
+          width="100%"
         >
-          <BeigePaper height="fit-content">
-            {questions.map((question, questionIndex) => (
-              <Question question={question} questionIndex={questionIndex} />
-            ))}
+          <BeigePaper>
+            <Stack pb="2rem" width="100%">
+              {questions.map((question, questionIndex) => (
+                <Question question={question} questionIndex={questionIndex} />
+              ))}
+            </Stack>
           </BeigePaper>
           <BeigeButton
             onClick={() => handleClick()}
@@ -105,7 +107,7 @@ export function ThirdTask() {
               .map((question, questionIndex) => {
                 return (
                   thirdTaskAnswers[
-                    `zad3_zdj${thirdTaskIndex + 1}_odp${questionIndex + 1}`
+                    `zdj${thirdTaskIndex + 1}_odp${questionIndex + 1}`
                   ] === undefined
                 )
               })
