@@ -31,7 +31,7 @@ export function ThirdTaskImages() {
           }}
           key={index}
         >
-          <BeigePaper width="30rem" height="40rem" p="0">
+          <BeigePaper width="30rem" height="30rem" p="0">
             <Image
               key={index}
               src={url}

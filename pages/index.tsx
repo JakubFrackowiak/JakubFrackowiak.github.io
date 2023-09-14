@@ -115,7 +115,7 @@ export default function index() {
               <Stack height="100%" justifyContent="space-around">
                 <Typography variant="h6" textAlign="justify" color="grey.800">
                   To zadanie dotyczy procesów poznawczych zaangażowanych w
-                  postrzeganie obiektów. Za chwilę zobaczysz 32 fotografie
+                  postrzeganie obiektów. Za chwilę zobaczysz 30 fotografii
                   przedstawiające różne zwierzęta. Fotografie będą zmieniały się
                   same w równym tempie. Przyglądaj się prezentowanym zwierzętom
                   najlepiej jak potrafisz, ponieważ po prezentacji nastąpią

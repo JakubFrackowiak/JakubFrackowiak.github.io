@@ -24,15 +24,6 @@ export function Question({ questionIndex, question }) {
         position="relative"
         alignItems="center"
       >
-        <Box
-          sx={{
-            width: "100%",
-            height: "0.1rem",
-            bgcolor: grey[400],
-            position: "absolute",
-            borderRadius: "1rem",
-          }}
-        />
         {answers.map((answer) => (
           <AnswerCheckbox questionIndex={questionIndex} answer={answer} />
         ))}

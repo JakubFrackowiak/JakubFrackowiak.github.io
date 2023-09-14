@@ -83,15 +83,15 @@ export function ThirdTask() {
       <Stack
         display={isReady ? "inline-flex" : "none"}
         width="100%"
-        spacing={4}
+        spacing={2}
         alignItems="center"
-        direction="row"
+        direction="column"
       >
         <ThirdTaskImages />
         <Stack
           justifyContent="space-between"
           alignItems="center"
-          spacing={4}
+          spacing={2}
           width="100%"
         >
           <BeigePaper>

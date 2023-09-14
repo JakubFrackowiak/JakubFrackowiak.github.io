@@ -1,9 +1,10 @@
-import { Snackbar, Alert, Typography } from "@mui/material"
+import { Snackbar, Alert, Typography, Divider } from "@mui/material"
 import { Stack } from "@mui/system"
 import { useEffect, useState } from "react"
 import { useSurveyStore } from "../../storage/survey-store"
 import { Slot } from "./Slot"
 import { BeigePaper } from "components/common/BeigePaper"
+import { BeigeButton } from "components/common/BeigeButton"
 
 export const SecondTask = () => {
   const [word, setWord] = useState("")
@@ -11,6 +12,7 @@ export const SecondTask = () => {
   const [droppedLetters, setDroppedLetters] = useState([])
   const [toastOpen, setToastOpen] = useState(false)
   const [isSolved, setIsSolved] = useState(false)
+  const [isReady, setIsReady] = useState(false)
   const { setCurrentTask, currentLevel, setCurrentLevel, words } =
     useSurveyStore((state) => ({
       setCurrentTask: state.setCurrentTask,
@@ -95,62 +97,87 @@ export const SecondTask = () => {
 
   return (
     <Stack alignItems="center" width="100%">
-      <Stack spacing={10} alignItems="center" width="fit-content">
-        <BeigePaper p="1rem">
-          <Typography variant="h6" noWrap>
-            Ułóż słowo ze wszystkich liter przedstawionych poniżej.
-          </Typography>
+      {!isReady ? (
+        <BeigePaper p="1rem" height="20rem">
+          <Stack height="100%" justifyContent="space-around">
+            <Divider orientation="horizontal" />
+            <Stack alignItems="center" spacing={3}>
+              <Typography variant="h6" textAlign="center" color="grey.800">
+                A teraz poprosimy Cię o ułożenie słów ze wszystkich liter
+                wylosowanych przez system. To zadanie będzie polegało na
+                ułożeniu trzech różnych słów.
+              </Typography>
+              <BeigeButton onClick={() => setIsReady(true)}>
+                Rozpocznij zadanie
+              </BeigeButton>
+            </Stack>
+            <Divider orientation="horizontal" />
+          </Stack>
         </BeigePaper>
-        <Stack
-          spacing={2}
-          alignItems="center"
-          width="100%"
-          sx={{ userSelect: "none" }}
-        >
-          <Stack
-            direction="row"
-            width="100%"
-            spacing={1}
-            justifyContent="center"
-          >
-            {droppedLetters.map((letter, index) => (
-              <BeigePaper p="0">
-                <Slot letter={letter} index={index} onClick={handleSlotClick} />
-              </BeigePaper>
-            ))}
+      ) : (
+        <Stack>
+          <Stack spacing={10} alignItems="center" width="fit-content">
+            <BeigePaper p="1rem">
+              <Typography variant="h6" noWrap>
+                Ułóż słowo ze wszystkich liter przedstawionych poniżej.
+              </Typography>
+            </BeigePaper>
+            <Stack
+              spacing={2}
+              alignItems="center"
+              width="100%"
+              sx={{ userSelect: "none" }}
+            >
+              <Stack
+                direction="row"
+                width="100%"
+                spacing={1}
+                justifyContent="center"
+              >
+                {droppedLetters.map((letter, index) => (
+                  <BeigePaper p="0">
+                    <Slot
+                      letter={letter}
+                      index={index}
+                      onClick={handleSlotClick}
+                    />
+                  </BeigePaper>
+                ))}
+              </Stack>
+              <Stack
+                direction="row"
+                width="100%"
+                spacing={1}
+                justifyContent="center"
+              >
+                {letters.map((letter, index) => (
+                  <BeigePaper p="0">
+                    <Slot
+                      letter={letter}
+                      index={index}
+                      onClick={handleLetterClick}
+                    />
+                  </BeigePaper>
+                ))}
+              </Stack>
+            </Stack>
           </Stack>
-          <Stack
-            direction="row"
-            width="100%"
-            spacing={1}
-            justifyContent="center"
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={toastOpen}
+            onClose={() => setToastOpen(false)}
+            autoHideDuration={2000}
           >
-            {letters.map((letter, index) => (
-              <BeigePaper p="0">
-                <Slot
-                  letter={letter}
-                  index={index}
-                  onClick={handleLetterClick}
-                />
-              </BeigePaper>
-            ))}
-          </Stack>
+            <Alert
+              onClose={() => setToastOpen(false)}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Brawo!
+            </Alert>
+          </Snackbar>
         </Stack>
-      </Stack>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        autoHideDuration={2000}
-      >
-        <Alert
-          onClose={() => setToastOpen(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Brawo!
-        </Alert>
-      </Snackbar>
+      )}
     </Stack>
   )
 }

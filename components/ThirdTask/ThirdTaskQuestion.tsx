@@ -7,14 +7,39 @@ export function ThirdTaskQuestion() {
       <BeigePaper height="20rem">
         <Stack height="100%" justifyContent="space-around">
           <Divider orientation="horizontal" />
-          <Typography variant="h6" textAlign="justify" color="grey.800">
-            To ostatnia część tego zadania. Za chwilę zobaczysz kolejną serię
-            zdjęć przedstawiających zwierzęta. Przy każdym zdjęciu poprosimy Cię
-            o rozpoznanie konkretnego osobnika i zapytamy, czy widziałaś/łeś już
-            to konkretne zwierzę. Uwaga! Zwierzęta mogą być przedstawione w tych
-            samych lub innych ujęciach niż miało to miejsce w poprzedniej serii
-            zdjęć.
-          </Typography>
+          <Stack alignItems="center" spacing={1}>
+            <Typography variant="h6" textAlign="justify" color="grey.800">
+              To już ostatnia część tego zadania. Spróbuj przypomnieć sobie,
+              jakie zwierzęta widziałeś/łaś na początku. Za chwilę ponownie
+              zobaczysz zdjęcia przedstawiające różne zwierzęta. Przy każdym
+              zdjęciu zapytamy Cię o to, czy widziałeś/łaś już to konkretne
+              zwierzę w poprzedniej serii. Zwróć uwagę, że pytamy o to, czy
+              widziałeś/łaś{" "}
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "black",
+                }}
+              >
+                tego konkretnego osobnika
+              </span>{" "}
+              (np. konkretną krowę przedstawioną na fotografii) a{" "}
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "black",
+                }}
+              >
+                nie
+              </span>{" "}
+              rodzaj zwierzęcia (np. jakąkolwiek krowę).
+            </Typography>
+            <Typography variant="h6" textAlign="justify" color="grey.800">
+              Uwaga! Aby nieco utrudnić rozpoznanie, niektóre zwierzęta
+              przedstawiono w trochę innym ujęciu (innej pozie) niż w
+              poprzedniej serii zdjęć.
+            </Typography>
+          </Stack>
           <Divider orientation="horizontal" />
         </Stack>
       </BeigePaper>
