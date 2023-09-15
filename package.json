@@ -5,8 +5,9 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "prettier": "prettier --write '**/*.{ts,tsx}'",
     "prettier-check": "prettier --check '**/*.{ts,tsx}'"
   },
