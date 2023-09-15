@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "vercel-build": "npm run prepare && bun build",
+    "vercel-build": "npm run prepare && next build",
     "prettier": "prettier --write '**/*.{ts,tsx}'",
     "prettier-check": "prettier --check '**/*.{ts,tsx}'"
   },
