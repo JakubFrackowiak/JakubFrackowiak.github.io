@@ -41,7 +41,6 @@
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "bun-framework-next": "^12",
-    "next": "^13.4.19",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
